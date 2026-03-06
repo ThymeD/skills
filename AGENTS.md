@@ -83,13 +83,6 @@
 
 ## 添加新技能
 
-> **推荐**：使用 **skill-creator** 技能创建新技能，可自动生成符合规范的 SKILL.md 和 AGENTS.md
-
-获取 skill-creator（来自 skills.sh）：
-```bash
-npx skills add anthropics/skills@skill-creator -g
-```
-
 1. 创建目录: `mkdir new-skill-name`
 2. 创建 `SKILL.md`，包含 frontmatter 和简要内容
 3. 创建 `AGENTS.md`，包含详细指令
