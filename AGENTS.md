@@ -85,12 +85,9 @@
 
 > **推荐**：使用 **skill-creator** 技能创建新技能，可自动生成符合规范的 SKILL.md 和 AGENTS.md
 
-获取 skill-creator：
+获取 skill-creator（来自 skills.sh）：
 ```bash
-# 远程下载安装
-gh run download -R ThymeD/skills -n skill-creator --dir ~/.config/opencode/skills/skill-creator
-
-# 或手动下载：https://github.com/ThymeD/skills/tree/main/.agents/skill-creator
+npx skills add anthropics/skills@skill-creator -g
 ```
 
 1. 创建目录: `mkdir new-skill-name`
