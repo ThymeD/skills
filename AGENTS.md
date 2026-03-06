@@ -84,6 +84,24 @@
 grep -r "api_key\|password\|secret\|token\|apikey" --include="*.md"
 ```
 
+### 路径规范
+
+**涉及本地路径必须使用跨平台写法**：
+- 使用 `~` 代替用户目录（如 `~/.config/opencode/skills/`）
+- 使用环境变量（如 `${HOME}`、`${USERPROFILE}`）
+- **禁止硬编码**（如 `C:\Users\dzx\`、`/home/username/`）
+
+```bash
+# 正确写法
+~/.config/opencode/skills/
+~/.agents/skills/
+${HOME}/.openclaw/
+
+# 错误写法
+C:\Users\dzx\.config\opencode/skills/
+/home/dzx/.config/opencode/skills/
+```
+
 ### 文档规范
 
 - 语言: 用户面向内容使用中文 (简体中文)

@@ -239,10 +239,13 @@ curl -s -X POST "https://api.minimaxi.com/anthropic/v1/messages" \
 
 ## 本地配置位置
 
-- **配置目录**: `~/.openclaw/`（跨平台通用）
-- **Windows**: `C:\Users\<用户>\.openclaw\`
-- **macOS**: `~/.openclaw/`
-- **Linux**: `~/.openclaw/`
+所有平台统一使用：`~/.openclaw/`（跨平台通用）
+
+| 平台 | 实际路径 |
+|------|----------|
+| Windows | `C:\Users\<用户>\.openclaw\` |
+| macOS | `/Users/<用户>/.openclaw/` |
+| Linux | `/home/<用户>/.openclaw/`
 
 ---
 
