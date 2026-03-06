@@ -83,6 +83,16 @@
 
 ## 添加新技能
 
+> **推荐**：使用 **skill-creator** 技能创建新技能，可自动生成符合规范的 SKILL.md 和 AGENTS.md
+
+获取 skill-creator：
+```bash
+# 远程下载安装
+gh run download -R ThymeD/skills -n skill-creator --dir ~/.config/opencode/skills/skill-creator
+
+# 或手动下载：https://github.com/ThymeD/skills/tree/main/.agents/skill-creator
+```
+
 1. 创建目录: `mkdir new-skill-name`
 2. 创建 `SKILL.md`，包含 frontmatter 和简要内容
 3. 创建 `AGENTS.md`，包含详细指令
