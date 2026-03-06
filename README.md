@@ -11,6 +11,7 @@ OpenCode 自定义技能集合。
 | [skill-creator](./skill-creator/) | 创建和优化 Skills - 创建新 skill、更新优化、测试验证 |
 | [skill-auditor](./skill-auditor/) | 技能审查器 - 分析技能缺陷、提供优化建议 |
 | [skill-finder](./skill-finder/) | 热门 Skills 推荐 - 从 skills.sh 获取榜单、个性化推荐 |
+| [skill-sync-pr](./skill-sync-pr/) | 同步 PR - 检测本地技能优化、自动提交 PR 到 GitHub |
 
 ## 使用方式
 
