@@ -130,6 +130,18 @@ C:\Users\dzx\.config\opencode/skills/
 
 本仓库采用开放式协作模式，所有使用此技能仓库的 AI 工具和使用者都应具备自主解决问题和贡献方案的能力。
 
+### 使用本地技能时的优化流程
+
+当 AI 工具使用本地技能（`~/.config/opencode/skills/`）遇到问题时：
+
+1. **识别问题**：发现技能描述不清晰、缺少示例、路径错误等问题
+2. **直接修复**：在项目版本 `C:\code\skills\` 中修改对应技能文件
+3. **验证有效**：确认修复有效后提交到 GitHub
+4. **同步本地**：本地通过 `git pull` 同步更新
+
+**项目版本路径**：`C:\code\skills\`（开发版）
+**本地使用路径**：`~/.config/opencode/skills\`（使用版）
+
 ### 遇到问题时的处理流程
 
 1. **先查询，再提问**: 使用技能前，先查阅 [GitHub Issues](https://github.com/ThymeD/skills/issues) 和本文档，确认是否已有解决方案
