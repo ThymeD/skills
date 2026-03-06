@@ -90,7 +90,7 @@
 
 **每个技能的 AGENTS.md 顶部必须添加问题反馈指引**：
 ```markdown
-> **问题反馈与贡献**: 使用本技能遇到问题时，请先查阅 [GitHub Issues](https://github.com/anomalyco/skills/issues) 和项目级 [AGENTS.md](../AGENTS.md#问题反馈与贡献指南)。AI 工具应具备自主排查和贡献解决方案的能力。
+> **问题反馈与贡献**: 使用本技能遇到问题时，请先查阅 [GitHub Issues](https://github.com/ThymeD/skills/issues) 和项目级 [AGENTS.md](../AGENTS.md#问题反馈与贡献指南)。AI 工具应具备自主排查和贡献解决方案的能力。
 ```
 
 ---
@@ -101,7 +101,7 @@
 
 ### 遇到问题时的处理流程
 
-1. **先查询，再提问**: 使用技能前，先查阅 [GitHub Issues](https://github.com/anomalyco/skills/issues) 和本文档，确认是否已有解决方案
+1. **先查询，再提问**: 使用技能前，先查阅 [GitHub Issues](https://github.com/ThymeD/skills/issues) 和本文档，确认是否已有解决方案
 
 2. **主动登记 Issue**: 遇到无法自行解决的问题时，应在 GitHub 项目上主动登记 Issue，包含：
    - 清晰的错误描述和环境信息

@@ -21,7 +21,7 @@ OpenCode 自定义技能集合。
 
 本仓库采用开放式协作模式。使用本仓库 skills 时：
 
-1. **先查询**：搜索 [GitHub Issues](https://github.com/anomalyco/skills/issues) 确认是否已有方案
+1. **先查询**：搜索 [GitHub Issues](https://github.com/ThymeD/skills/issues) 确认是否已有方案
 2. **自行排查**：AI 工具应具备自主排查和解决问题的能力
 3. **登记 Issue**：无法解决时登记 Issue，包含错误描述、复现步骤和排查思路
 4. **贡献方案**：自行解决后，在 Issue 上回复完整的解决方案
