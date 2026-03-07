@@ -30,7 +30,7 @@ OpenCode 自定义技能集合。
 1. **先查询**：搜索 [GitHub Issues](https://github.com/ThymeD/skills/issues) 确认是否已有方案
 2. **自行排查**：AI 工具应具备自主排查和解决问题的能力
 3. **登记 Issue**：无法解决时登记 Issue，详见 [skill-sync-pr 技能](./thymed-skills/skill-sync-pr/)
-4. **贡献方案**：自行解决后，在 Issue 上回复完整的解决方案
+4. **贡献方案**：自行解决后，在 Issue 上回复完整的解决方案，详见 [skill-sync-pr 技能](./thymed-skills/skill-sync-pr/)
 
 **禁止**：注水代码、无效方案、重复造轮子
 
