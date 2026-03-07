@@ -91,13 +91,67 @@ git -C "~/.config/opencode/skills" fetch origin
 git -C "~/.config/opencode/skills" log --oneline origin/main ^main
 ```
 
-### 步骤 4: 展示更新内容
+### 步骤 4: 检测破坏性更新
+
+**重要**：检查远程更新是否包含破坏性改动（如目录结构变更、路径变更）。
+
+检测命令：
+```bash
+# 查看是否有目录重命名
+git -C "~/.config/opencode/skills" diff --name-status origin/main ^main | grep "^R"
+
+# 检查是否新增了 thymed-skills 目录（新结构）
+git -C "~/.config/opencode/skills" ls-tree -r --name-only origin/main | grep "^thymed-skills"
+```
+
+如果检测到破坏性更新：
+1. 展示迁移方案（见下方）
+2. **必须用户确认后才能继续**
+3. 提供手动迁移命令
+
+**破坏性更新迁移方案**：
+```markdown
+## ⚠️ 破坏性更新
+
+检测到远程有重大结构变更，需要迁移。
+
+### 迁移步骤：
+
+```bash
+# 1. 创建新目录
+mkdir ~/.config/opencode/skills/thymed-skills
+
+# 2. 移动项目技能
+mv openclaw-ops ~/.config/opencode/skills/thymed-skills/
+mv skill-manager ~/.config/opencode/skills/thymed-skills/
+mv skill-sync-pr ~/.config/opencode/skills/thymed-skills/
+# ... 其他技能
+
+# 3. 保留用户自定义技能在原位置
+```
+
+### 迁移后结构：
+```
+~/.config/opencode/skills/
+├── thymed-skills/   # 项目技能（可拉取更新）
+└── my-skill/       # 用户自定义技能（不受影响）
+```
+
+---
+### 请确认：
+- [ ] 已完成迁移
+- [ ] 确认继续拉取更新
+
+请回复"确认迁移"继续，或"取消"终止。
+```
+
+### 步骤 5: 展示更新内容
 
 向用户展示远程的更新内容：
 - 新增了哪些技能
 - 哪些技能有更新
 
-### 步骤 5: 执行拉取（用户确认后）
+### 步骤 6: 执行拉取（用户确认后）
 
 用户确认后执行拉取：
 
