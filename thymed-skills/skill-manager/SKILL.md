@@ -33,7 +33,7 @@ metadata:
 ### 缓存文件位置
 
 ```
-~/.config/opencode/skills/skill-manager/cache.json
+~/.config/opencode/skills/thymed-skills/skill-manager/cache.json
 ```
 
 ### 缓存数据结构
@@ -74,7 +74,7 @@ metadata:
 
 ```bash
 # 读取缓存
-cat ~/.config/opencode/skills/skill-manager/cache.json
+cat ~/.config/opencode/skills/thymed-skills/skill-manager/cache.json
 ```
 
 输出示例：
@@ -146,7 +146,7 @@ npx skills search <关键词>
 
 ```bash
 # 推荐使用 Python 脚本
-python ~/.config/opencode/skills/skill-manager/update-cache.py
+python ~/.config/opencode/skills/thymed-skills/skill-manager/update-cache.py
 
 ```
 
@@ -154,7 +154,7 @@ python ~/.config/opencode/skills/skill-manager/update-cache.py
 
 1. **优先使用缓存** - 列出技能时必须先尝试读取缓存，响应速度更快
 2. **缓存更新时机** - 只有安装新技能或用户明确要求时才更新缓存
-3. **手动创建的 skills** - 存放在 `~/.config/opencode/skills/`
+3. **手动创建的 skills** - 存放在 `~/.config/opencode/skills/thymed-skills/`
 
 ## 定期维护建议
 

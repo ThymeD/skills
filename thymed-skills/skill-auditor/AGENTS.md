@@ -19,7 +19,7 @@
 
 **关键行为：**
 - **远程技能** (`~/.agents/skills/`)：仅审查，不修改
-- **本地技能** (`~/.config/opencode/skills/`)：完整审查 + 优化建议 + 用户确认后应用更改
+- **本地技能** (`~/.config/opencode/skills/thymed-skills/`)：完整审查 + 优化建议 + 用户确认后应用更改
 
 ---
 
@@ -27,16 +27,17 @@
 
 ### 确定技能类型
 
-1. 检查路径是否以 `~/.config/opencode/skills/` 开头 → **本地**
-2. 检查路径是否以 `~/.agents/skills/` 开头 → **远程**
-3. 如果未知，检查技能是否同时存在于两个位置（本地优先）
+1. 检查路径是否以 `~/.config/opencode/skills/thymed-skills/` 开头 → **GitHub 项目技能**
+2. 检查路径是否以 `~/.config/opencode/skills/` 开头（但不是 thymed-skills） → **用户自定义技能**
+3. 检查路径是否以 `~/.agents/skills/` 开头 → **远程技能**
 
 ### 类型对应行为
 
 | 类型 | 位置 | 可修改 | 工作流 |
 |------|------|--------|--------|
 | 远程 | `~/.agents/skills/` | ❌ 否 | 审查 → 报告 → 等待确认 |
-| 本地 | `~/.config/opencode/skills/` | ✅ 是 | 审查 → 建议修复 → 确认后应用 |
+| GitHub 项目 | `~/.config/opencode/skills/thymed-skills/` | ✅ 是 | 审查 → 建议修复 → 确认后应用 |
+| 用户自定义 | `~/.config/opencode/skills/<其他>/` | ✅ 是 | 审查 → 建议修复 → 确认后应用 |
 
 ---
 
@@ -46,7 +47,8 @@
 
 技能通常存储在：
 - `~/.agents/skills/<skill-name>/` - 远程安装
-- `~/.config/opencode/skills/<skill-name>/` - 本地创建
+- `~/.config/opencode/skills/thymed-skills/<skill-name>/` - GitHub 项目技能
+- `~/.config/opencode/skills/<其他>/` - 用户自定义技能
 
 ### 步骤 2: 检查文件结构
 

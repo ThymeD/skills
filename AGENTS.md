@@ -1,6 +1,6 @@
 # AGENTS.md - Skills 仓库
 
-**用途**: 本仓库包含 OpenCode 自定义技能。技能会被复制到 `~/.config/opencode/skills/` 目录下使用。
+**用途**: 本仓库为 https://github.com/ThymeD/skills 项目的技能集合。克隆到 `~/.config/opencode/skills/thymed-skills/` 后 OpenCode 会自动发现这些技能。
 
 ---
 
@@ -136,15 +136,15 @@ C:\Users\dzx\.config\opencode/skills/
 
 ### 使用本地技能时的优化流程
 
-当 AI 工具使用本地技能（`~/.config/opencode/skills/`）遇到问题时：
+当 AI 工具使用 thymed-skills 中的技能遇到问题时：
 
 1. **识别问题**：发现技能描述不清晰、缺少示例、路径错误等问题
-2. **直接修复**：在项目版本 `C:\code\skills\` 中修改对应技能文件
+2. **直接修复**：在 thymed-skills 目录下修改对应技能文件
 3. **验证有效**：确认修复有效后提交到 GitHub
-4. **同步本地**：本地通过 `git pull` 同步更新
+4. **同步本地**：本地通过 skill-sync-pr 技能同步更新
 
-**项目版本路径**：`C:\code\skills\`（开发版）
-**本地使用路径**：`~/.config/opencode/skills\`（使用版）
+**仓库路径**：`~/.config/opencode/skills/thymed-skills/`（Git 仓库 + 技能目录）
+**用户自定义技能**：`~/.config/opencode/skills/<其他>/`（不受 thymed-skills 更新影响）
 
 ### 遇到问题时的处理流程
 
@@ -187,7 +187,8 @@ C:\Users\dzx\.config\opencode/skills/
 
 ## 配置位置
 
-- **本地技能**: `~/.config/opencode/skills/`
+- **GitHub 项目技能**: `~/.config/opencode/skills/thymed-skills/`
+- **用户自定义技能**: `~/.config/opencode/skills/<其他>/`
 - **OpenClaw 配置**: `~/.openclaw/`
 - **OpenCode 配置**: `~/.local/share/opencode/`
 
