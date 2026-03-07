@@ -73,13 +73,17 @@ git --version
 
 ### 步骤 2: 查找本地仓库
 
-检查 `~/.config/opencode/skills/` 是否为 git 仓库：
+检查 `~/.config/opencode/skills/` 是否为 git 仓库（这是仓库目录，可能与技能目录不同）：
 
 ```bash
 git -C "~/.config/opencode/skills" rev-parse --git-dir
 ```
 
 如果不存在，提示用户先克隆仓库或只查看更新（只读）。
+
+**注意**：仓库目录和技能目录可能不同：
+- 仓库目录：`~/.config/opencode/skills/`（git 所在位置）
+- 技能目录：`~/.config/opencode/skills/thymed-skills/`（实际技能位置）
 
 ### 步骤 3: 检测远程更新
 
