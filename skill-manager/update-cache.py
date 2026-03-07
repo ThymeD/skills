@@ -70,7 +70,7 @@ def scan_skills():
     return skills
 
 def main():
-    cache_file = get_home() / '.config' / 'opencode' / 'skills' / 'skill-manager' / 'cache.json'
+    cache_file = get_home() / '.config' / 'opencode' / 'skills' / 'thymed-skills' / 'skill-manager' / 'cache.json'
     
     skills = scan_skills()
     
