@@ -37,6 +37,12 @@
 - **所有新建的 AGENTS.md 默认使用中文**，除非内容包含英文技术术语/代码（此时保持英文）
 - 项目用 init 指令输出的项目级 AGENTS 文件必须用中文描述
 - 后续对 AGENTS 文件的改动应主动分析内容是否足够精简，判断是否有内容适合创建 skill 独立存放
+- **GitHub 代码提交规范**（推荐）：
+  - 提交代码到远程 GitHub 仓库前，必须先在 GitHub 上登记 Issue
+  - 创建 PR 前，PR 必须关联到仓库上已有的未关闭 Issue
+  - **禁止直接本地推送代码到远程仓库的主分支**（包括 main/master）
+  - 登记 Issue、创建 PR 时，描述内容应通过文件方式提交（如 `gh issue create --body-file`），避免中文乱码
+  - 完成后主动检查 Issue/PR 是否正确提交到线上
 ```
 
 ### 2. 推荐 Skills
@@ -108,6 +114,12 @@ npx skills add find-skills -g
 - **所有新建的 AGENTS.md 默认使用中文**，除非内容包含英文技术术语/代码（此时保持英文）
 - 项目用 init 指令输出的项目级 AGENTS 文件必须用中文描述
 - 后续对 AGENTS 文件的改动应主动分析内容是否足够精简，判断是否有内容适合创建 skill 独立存放
+- **GitHub 代码提交规范**（推荐）：
+  - 提交代码到远程 GitHub 仓库前，必须先在 GitHub 上登记 Issue
+  - 创建 PR 前，PR 必须关联到仓库上已有的未关闭 Issue
+  - **禁止直接本地推送代码到远程仓库的主分支**（包括 main/master）
+  - 登记 Issue、创建 PR 时，描述内容应通过文件方式提交（如 `gh issue create --body-file`），避免中文乱码
+  - 完成后主动检查 Issue/PR 是否正确提交到线上
 
 ## 可用 Skills
 
