@@ -18,7 +18,7 @@
 ## 技能分类
 
 - **远程技能** (`~/.agents/skills/`)：仅审查，不修改
-- **本地技能** (`~/.config/opencode/skills/`)：审查+优化建议+确认后修改
+- **GitHub 项目技能** (`~/.config/opencode/skills/thymed-skills/`)：审查+优化建议+确认后修改
 
 ## 评分标准
 

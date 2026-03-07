@@ -6,16 +6,17 @@ OpenCode 自定义技能集合。
 
 | 技能 | 说明 |
 |------|------|
-| [openclaw-ops](./openclaw-ops/) | OpenClaw（小龙虾）运维管理 - 安装、初始化、Gateway管理、故障排查 |
-| [skill-manager](./skill-manager/) | 管理本地 Skills - 列出已安装技能、检查更新、缓存管理 |
-| [skill-creator](./skill-creator/) | 创建和优化 Skills - 创建新 skill、更新优化、测试验证 |
-| [skill-auditor](./skill-auditor/) | 技能审查器 - 分析技能缺陷、提供优化建议 |
-| [skill-finder](./skill-finder/) | 热门 Skills 推荐 - 从 skills.sh 获取榜单、个性化推荐 |
-| [skill-sync-pr](./skill-sync-pr/) | 同步 PR - 检测本地技能优化、自动提交 PR 到 GitHub |
+| [openclaw-ops](./thymed-skills/openclaw-ops/) | OpenClaw（小龙虾）运维管理 - 安装、初始化、Gateway管理、故障排查 |
+| [skill-manager](./thymed-skills/skill-manager/) | 管理本地 Skills - 列出已安装技能、检查更新、缓存管理 |
+| [skill-creator](./thymed-skills/skill-creator/) | 创建和优化 Skills - 创建新 skill、更新优化、测试验证 |
+| [skill-auditor](./thymed-skills/skill-auditor/) | 技能审查器 - 分析技能缺陷、提供优化建议 |
+| [skill-finder](./thymed-skills/skill-finder/) | 热门 Skills 推荐 - 从 skills.sh 获取榜单、个性化推荐 |
+| [skill-sync-pr](./thymed-skills/skill-sync-pr/) | 同步技能 - 从 GitHub 拉取最新技能、登记 Issue |
 
 ## 使用方式
 
-将这些技能复制到 `~/.config/opencode/skills/` 目录下即可使用。
+1. **克隆仓库**：将本仓库克隆到 `~/.config/opencode/skills/thymed-skills/`
+2. **链接技能**：OpenCode 会自动发现 `thymed-skills` 目录下的技能
 
 ## 添加新技能
 

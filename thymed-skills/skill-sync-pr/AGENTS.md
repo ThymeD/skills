@@ -1,6 +1,6 @@
 # Skill Sync PR - 智能体详细指令
 
-**版本 1.10.0**
+**版本 1.11.0**
 
 > **问题反馈与贡献**: 使用本技能遇到问题时，请先查阅 [GitHub Issues](https://github.com/ThymeD/skills/issues) 和项目级 [AGENTS.md](../AGENTS.md#问题反馈与贡献指南)。AI 工具应具备自主排查和贡献解决方案的能力。
 
@@ -39,11 +39,11 @@ Skill Sync 从 GitHub 仓库拉取最新技能，检测并合并更新。
 ## 核心概念
 
 ### 本地技能目录
-- OpenCode 技能目录：`~/.config/opencode/skills/<skill-name>/`
+- OpenCode 技能目录：`~/.config/opencode/skills/thymed-skills/<skill-name>/`
 - GitHub 仓库目录：`~/.config/opencode/skills/`（或用户指定的仓库路径）
 
 **注意**：GitHub 仓库和技能目录**可能是不同路径**：
-- 技能目录：`~/.config/opencode/skills/`（OpenCode 读取的位置）
+- 技能目录：`~/.config/opencode/skills/thymed-skills/`（OpenCode 读取的位置）
 - 仓库目录：可能是 `~/code/skills/` 或其他用户指定的路径
 
 ### 跨平台路径规范
@@ -91,13 +91,67 @@ git -C "~/.config/opencode/skills" fetch origin
 git -C "~/.config/opencode/skills" log --oneline origin/main ^main
 ```
 
-### 步骤 4: 展示更新内容
+### 步骤 4: 检测破坏性更新
+
+**重要**：检查远程更新是否包含破坏性改动（如目录结构变更、路径变更）。
+
+检测命令：
+```bash
+# 查看是否有目录重命名
+git -C "~/.config/opencode/skills" diff --name-status origin/main ^main | grep "^R"
+
+# 检查是否新增了 thymed-skills 目录（新结构）
+git -C "~/.config/opencode/skills" ls-tree -r --name-only origin/main | grep "^thymed-skills"
+```
+
+如果检测到破坏性更新：
+1. 展示迁移方案（见下方）
+2. **必须用户确认后才能继续**
+3. 提供手动迁移命令
+
+**破坏性更新迁移方案**：
+```markdown
+## ⚠️ 破坏性更新
+
+检测到远程有重大结构变更，需要迁移。
+
+### 迁移步骤：
+
+```bash
+# 1. 创建新目录
+mkdir ~/.config/opencode/skills/thymed-skills
+
+# 2. 移动项目技能
+mv openclaw-ops ~/.config/opencode/skills/thymed-skills/
+mv skill-manager ~/.config/opencode/skills/thymed-skills/
+mv skill-sync-pr ~/.config/opencode/skills/thymed-skills/
+# ... 其他技能
+
+# 3. 保留用户自定义技能在原位置
+```
+
+### 迁移后结构：
+```
+~/.config/opencode/skills/
+├── thymed-skills/   # 项目技能（可拉取更新）
+└── my-skill/       # 用户自定义技能（不受影响）
+```
+
+---
+### 请确认：
+- [ ] 已完成迁移
+- [ ] 确认继续拉取更新
+
+请回复"确认迁移"继续，或"取消"终止。
+```
+
+### 步骤 5: 展示更新内容
 
 向用户展示远程的更新内容：
 - 新增了哪些技能
 - 哪些技能有更新
 
-### 步骤 5: 执行拉取（用户确认后）
+### 步骤 6: 执行拉取（用户确认后）
 
 用户确认后执行拉取：
 
@@ -315,7 +369,7 @@ else
     # 不同路径，先拉取到仓库，再复制到技能目录
     git fetch origin
     git checkout origin/main -- .
-    cp -r skills/* ~/.config/opencode/skills/
+    cp -r skills/* ~/.config/opencode/skills/thymed-skills/
 fi
 ```
 
@@ -379,7 +433,7 @@ git reset HEAD skill-manager/cache.json
 
 ```bash
 # 检查本地技能目录
-ls -la ~/.config/opencode/skills/
+ls -la ~/.config/opencode/skills/thymed-skills/
 ```
 
 ### 步骤 6: 用户确认后执行
@@ -469,13 +523,13 @@ gh auth login
 没有找到 ThymeD/skills 的本地克隆。
 
 请选择:
-1. **克隆仓库** - AI 自动克隆到 `~/.config/opencode/skills/`
+1. **克隆仓库** - AI 自动克隆到 `~/.config/opencode/skills/thymed-skills/`
 2. **指定路径** - 提供你本地的仓库路径
 3. **仅本地使用** - 不需要远程仓库，仅比较差异
 ```
 
 根据用户选择执行：
-- 选项1: `git clone https://github.com/ThymeD/skills.git ~/.config/opencode/skills/`
+- 选项1: `git clone https://github.com/ThymeD/skills.git ~/.config/opencode/skills/thymed-skills/`
 - 选项2: 使用用户提供的路径
 - 选项3: 仅在本地比较差异，不提交
 
@@ -568,8 +622,62 @@ find ~ -name ".git" -type d 2>/dev/null | grep skills
 
 ---
 
+## Issue 提交流程最佳实践
+
+当需要提交代码改动到 GitHub 项目时，应遵循以下流程：
+
+### 1. 先登记 Issue 描述改动
+
+在提交代码前，先创建 Issue 描述要做的改动：
+- 改动说明：做什么改动
+- 改动原因：为什么需要这样改
+- 涉及文件：哪些文件会受影响
+- 迁移方案：如果有破坏性更新，需要提供详细的迁移步骤
+
+**创建 Issue 注意事项**：
+- **不要使用 heredoc 语法**（如 `$(cat <<'EOF'`），会被当作字符串
+- **不要使用 `--body` 参数直接传多行内容**，可能被截断
+- **推荐使用 `--body-file` 参数**，将内容写入临时文件后传递
+
+**正确示例**：
+```bash
+# 正确：将内容写入文件
+cat > issue_body.md << 'EOF'
+## 改动说明
+...
+EOF
+gh issue create --repo owner/repo --title "标题" --body-file issue_body.md
+
+# 正确：简短内容可以直接用 --body
+gh issue create --repo owner/repo --title "标题" --body "简短描述"
+```
+
+### 2. 等待用户确认
+
+Issue 创建后，**必须等待用户确认**才能继续：
+- 用户确认 Issue 描述的改动
+- 用户同意合并此改动
+- 才能基于 Issue 创建分支和提交代码
+
+### 3. 基于 Issue 创建 PR
+
+用户确认后：
+- 创建分支（如 `fix/issue-{编号}` 或 `feat/issue-{编号}`）
+- 提交代码
+- 创建 PR 并关联 Issue
+
+### 4. 经验总结
+
+- **不先执行代码**：先描述改动，用户确认后再执行
+- **包含迁移方案**：破坏性更新必须提供迁移命令
+- **等待确认**：用户确认 Issue 后再创建 PR
+- **代码未动，Issue 先行**：这是最佳实践
+
+---
+
 ## 版本历史
 
+- 1.11.0 - 增加 Issue 提交流程最佳实践：先登记 Issue 描述改动，用户确认后再创建 PR
 - 1.10.0 - 新增登记 Issue 功能：AI 使用技能遇到问题时可自动登记 Issue 到 GitHub
 - 1.9.0 - 简化技能定位：聚焦拉取更新，提交代码为可选功能，降低使用门槛
 - 1.8.0 - 增加排除缓存文件逻辑，推送前自动移除 cache.json

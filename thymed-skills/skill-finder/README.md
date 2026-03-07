@@ -27,7 +27,7 @@
 
 ## 偏好设置
 
-偏好存储在 `~/.config/opencode/skills/skill-finder/preferences.json`
+偏好存储在 `~/.config/opencode/skills/thymed-skills/skill-finder/preferences.json`
 
 ## 版本
 

@@ -43,7 +43,7 @@ https://www.skills.sh/hot
 获取榜单后，必须按以下规则过滤：
 
 1. **读取已安装技能**：读取 `~/.agents/skills/` 目录，获取本地已安装的技能列表
-2. **读取用户偏好**：读取 `~/.config/opencode/skills/skill-finder/preferences.json` 获取排除的类别和技能
+2. **读取用户偏好**：读取 `~/.config/opencode/skills/thymed-skills/skill-finder/preferences.json` 获取排除的类别和技能
 3. **过滤规则**：
    - 移除已安装的技能
    - 移除 excludedCategories 中指定的类别（如 azure、gcp、aws）
@@ -72,7 +72,7 @@ https://www.skills.sh/hot
 ### 偏好文件位置
 
 ```
-~/.config/opencode/skills/skill-finder/preferences.json
+~/.config/opencode/skills/thymed-skills/skill-finder/preferences.json
 ```
 
 ### 偏好数据结构
@@ -115,7 +115,7 @@ https://www.skills.sh/hot
 通过以下方式了解用户技术栈和已安装技能：
 1. 读取项目配置文件（package.json、requirements.txt、Cargo.toml 等）
 2. 读取 `~/.agents/skills/` 目录了解已安装技能
-3. 读取 `~/.config/opencode/skills/skill-finder/preferences.json` 了解用户偏好
+3. 读取 `~/.config/opencode/skills/thymed-skills/skill-finder/preferences.json` 了解用户偏好
 4. 读取 AGENTS.md 了解项目配置
 
 ## 输出示例
@@ -210,7 +210,7 @@ https://www.skills.sh/hot
 
 ```bash
 # 读取当前偏好
-cat ~/.config/opencode/skills/skill-finder/preferences.json
+cat ~/.config/opencode/skills/thymed-skills/skill-finder/preferences.json
 
 # 添加排除的类别
 # 编辑 preferences.json 添加新的 excludedCategories

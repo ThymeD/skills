@@ -23,12 +23,12 @@
 本地有哪些技能？
 
 # 刷新缓存
-python ~/.config/opencode/skills/skill-manager/update-cache.py
+python ~/.config/opencode/skills/thymed-skills/skill-manager/update-cache.py
 ```
 
 ## 缓存机制
 
-技能列表存储在 `~/.config/opencode/skills/skill-manager/cache.json`，提升查询效率。
+技能列表存储在 `~/.config/opencode/skills/thymed-skills/skill-manager/cache.json`，提升查询效率。
 
 ## 版本
 

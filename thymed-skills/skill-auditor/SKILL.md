@@ -1,6 +1,6 @@
 ---
 name: skill-auditor
-description: 分析已安装技能的明显缺陷和优化机会。远程技能仅做审查（不修改）。本地技能在 ~/.config/opencode/skills/ 目录下，提供审查+优化建议，确认后执行修改。
+description: 分析已安装技能的明显缺陷和优化机会。远程技能仅做审查（不修改）。本地技能在 ~/.config/opencode/skills/thymed-skills/ 目录下，提供审查+优化建议，确认后执行修改。
 license: MIT
 metadata:
   author: local
@@ -18,7 +18,7 @@ metadata:
 - 来源：GitHub 仓库
 - **行为**：仅审查，不修改
 
-### 本地技能 (~/.config/opencode/skills/)
+### 本地技能 (~/.config/opencode/skills/thymed-skills/)
 - 手动创建或 fork
 - **行为**：完整审查 + 优化建议 + 确认后执行修改
 
@@ -121,8 +121,8 @@ metadata:
 ```markdown
 ## 技能审查: [skill-name] ✏️
 
-**路径:** `~/.config/opencode/skills/[skill-name]/`
-**类型:** 本地（可优化）
+**路径:** `~/.config/opencode/skills/thymed-skills/[skill-name]/`
+**类型:** GitHub 项目技能（可优化）
 
 ### 结构评估
 - ✅ 有 SKILL.md
