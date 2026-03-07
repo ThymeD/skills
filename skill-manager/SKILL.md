@@ -8,7 +8,7 @@ description: |
   - "看看本地有哪些 skill"、"看看有哪些技能"、"列出本地 skills"
   - "本地有哪些技能"、"当前有哪些技能"
   - "技能管理"、"管理 skills"
-  - "安装 skill"、"add skill" - 安装技能后自动刷新缓存
+  - "安装 skill"、"add skill"、"安装一个 skill" - 安装技能后自动刷新缓存
   
   **核心功能**：
   - 列出本地 skills（读取缓存）
@@ -19,7 +19,7 @@ description: |
 license: MIT
 metadata:
   author: local
-  version: 1.1.1
+  version: 1.2.0
 ---
 
 # Skill Manager
