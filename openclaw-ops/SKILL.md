@@ -269,10 +269,34 @@ journalctl -u openclaw-gateway -n 20
 - 检查执行策略
 - 手动运行任务测试
 
+### 4. Gateway 服务安装失败（schtasks 权限错误）
+
+**错误信息**：
+```
+Gateway service install failed: schtasks create failed: ����: �ܾ����ʡ�
+```
+
+**原因**：Windows 任务计划程序创建失败，通常是因为**没有使用管理员权限**运行终端。
+
+**解决方案**：
+
+1. **重新以管理员身份运行终端**：
+   - 右键点击 PowerShell 或 CMD 图标
+   - 选择"以管理员身份运行"
+   - 重新执行 `openclaw gateway start`
+
+2. **验证管理员权限**：
+   ```powershell
+   # 检查当前是否为管理员
+   ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+   ```
+   返回 `True` 表示是管理员权限
+
 ---
 
 ## 版本历史
 
+- v1.2.1 - 增加 Gateway 服务安装失败（schtasks 权限错误）解决方案
 - v1.2.0 - 增加安装/修复触发词、检测已安装状态、小龙虾代称
 - v1.1.0 - 增加 OpenClaw 一句话初始化功能
 - v1.0.0 - 初始版本
