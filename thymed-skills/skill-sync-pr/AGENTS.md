@@ -38,13 +38,27 @@ Skill Sync 从 GitHub 仓库拉取最新技能，检测并合并更新。
 
 ## 核心概念
 
-### 本地技能目录
-- OpenCode 技能目录：`~/.config/opencode/skills/thymed-skills/<skill-name>/`
-- GitHub 仓库目录：`~/.config/opencode/skills/`（或用户指定的仓库路径）
+### 目录结构
 
-**注意**：GitHub 仓库和技能目录**可能是不同路径**：
-- 技能目录：`~/.config/opencode/skills/thymed-skills/`（OpenCode 读取的位置）
-- 仓库目录：可能是 `~/code/skills/` 或其他用户指定的路径
+```
+~/.config/opencode/skills/thymed-skills/                    # OpenCode 全局技能目录（不需要 git 管理）
+├── AGENTS.md                               # 项目级配置
+├── README.md
+├── thymed-skills/                          # GitHub 项目技能（git 仓库）
+│   ├── .git/                              # git 在这里
+│   ├── openclaw-ops/
+│   ├── skill-manager/
+│   └── ...
+└── my-custom-skill/                       # 用户自定义技能（不受 thymed-skills 更新影响）
+```
+
+### 关键路径
+
+| 路径 | 说明 |
+|------|------|
+| `~/.config/opencode/skills/thymed-skills/` | OpenCode 全局技能目录 |
+| `~/.config/opencode/skills/thymed-skills/thymed-skills/` | GitHub 项目技能目录（git 仓库） |
+| `~/.config/opencode/skills/thymed-skills/<其他>/` | 用户自定义技能 |
 
 ### 跨平台路径规范
 所有技能文件必须使用跨平台路径：
@@ -73,26 +87,26 @@ git --version
 
 ### 步骤 2: 查找本地仓库
 
-检查 `~/.config/opencode/skills/` 是否为 git 仓库（这是仓库目录，可能与技能目录不同）：
+检查 `~/.config/opencode/skills/thymed-skills/thymed-skills/` 是否为 git 仓库：
 
 ```bash
-git -C "~/.config/opencode/skills" rev-parse --git-dir
+git -C "~/.config/opencode/skills/thymed-skills/thymed-skills" rev-parse --git-dir
 ```
 
 如果不存在，提示用户先克隆仓库或只查看更新（只读）。
 
 **注意**：仓库目录和技能目录可能不同：
-- 仓库目录：`~/.config/opencode/skills/`（git 所在位置）
-- 技能目录：`~/.config/opencode/skills/thymed-skills/`（实际技能位置）
+- 仓库目录：`~/.config/opencode/skills/thymed-skills/`（git 所在位置）
+- 技能目录：`~/.config/opencode/skills/thymed-skills/thymed-skills/`（实际技能位置）
 
 ### 步骤 3: 检测远程更新
 
 ```bash
 # 拉取远程最新
-git -C "~/.config/opencode/skills" fetch origin
+git -C "~/.config/opencode/skills/thymed-skills" fetch origin
 
 # 查看远程新增的提交
-git -C "~/.config/opencode/skills" log --oneline origin/main ^main
+git -C "~/.config/opencode/skills/thymed-skills" log --oneline origin/main ^main
 ```
 
 ### 步骤 4: 检测破坏性更新
@@ -102,10 +116,10 @@ git -C "~/.config/opencode/skills" log --oneline origin/main ^main
 检测命令：
 ```bash
 # 查看是否有目录重命名
-git -C "~/.config/opencode/skills" diff --name-status origin/main ^main | grep "^R"
+git -C "~/.config/opencode/skills/thymed-skills" diff --name-status origin/main ^main | grep "^R"
 
 # 检查是否新增了 thymed-skills 目录（新结构）
-git -C "~/.config/opencode/skills" ls-tree -r --name-only origin/main | grep "^thymed-skills"
+git -C "~/.config/opencode/skills/thymed-skills" ls-tree -r --name-only origin/main | grep "^thymed-skills"
 ```
 
 如果检测到破坏性更新：
@@ -123,12 +137,12 @@ git -C "~/.config/opencode/skills" ls-tree -r --name-only origin/main | grep "^t
 
 ```bash
 # 1. 创建新目录
-mkdir ~/.config/opencode/skills/thymed-skills
+mkdir ~/.config/opencode/skills/thymed-skills/thymed-skills
 
 # 2. 移动项目技能
-mv openclaw-ops ~/.config/opencode/skills/thymed-skills/
-mv skill-manager ~/.config/opencode/skills/thymed-skills/
-mv skill-sync-pr ~/.config/opencode/skills/thymed-skills/
+mv openclaw-ops ~/.config/opencode/skills/thymed-skills/thymed-skills/
+mv skill-manager ~/.config/opencode/skills/thymed-skills/thymed-skills/
+mv skill-sync-pr ~/.config/opencode/skills/thymed-skills/thymed-skills/
 # ... 其他技能
 
 # 3. 保留用户自定义技能在原位置
@@ -136,7 +150,7 @@ mv skill-sync-pr ~/.config/opencode/skills/thymed-skills/
 
 ### 迁移后结构：
 ```
-~/.config/opencode/skills/
+~/.config/opencode/skills/thymed-skills/
 ├── thymed-skills/   # 项目技能（可拉取更新）
 └── my-skill/       # 用户自定义技能（不受影响）
 ```
@@ -160,7 +174,7 @@ mv skill-sync-pr ~/.config/opencode/skills/thymed-skills/
 用户确认后执行拉取：
 
 ```bash
-git -C "~/.config/opencode/skills" pull origin main
+git -C "~/.config/opencode/skills/thymed-skills" pull origin main
 ```
 
 ---
@@ -373,7 +387,7 @@ else
     # 不同路径，先拉取到仓库，再复制到技能目录
     git fetch origin
     git checkout origin/main -- .
-    cp -r skills/* ~/.config/opencode/skills/thymed-skills/
+    cp -r skills/* ~/.config/opencode/skills/thymed-skills/thymed-skills/
 fi
 ```
 
@@ -437,7 +451,7 @@ git reset HEAD skill-manager/cache.json
 
 ```bash
 # 检查本地技能目录
-ls -la ~/.config/opencode/skills/thymed-skills/
+ls -la ~/.config/opencode/skills/thymed-skills/thymed-skills/
 ```
 
 ### 步骤 6: 用户确认后执行
@@ -527,13 +541,13 @@ gh auth login
 没有找到 ThymeD/skills 的本地克隆。
 
 请选择:
-1. **克隆仓库** - AI 自动克隆到 `~/.config/opencode/skills/thymed-skills/`
+1. **克隆仓库** - AI 自动克隆到 `~/.config/opencode/skills/thymed-skills/thymed-skills/`
 2. **指定路径** - 提供你本地的仓库路径
 3. **仅本地使用** - 不需要远程仓库，仅比较差异
 ```
 
 根据用户选择执行：
-- 选项1: `git clone https://github.com/ThymeD/skills.git ~/.config/opencode/skills/thymed-skills/`
+- 选项1: `git clone https://github.com/ThymeD/skills.git ~/.config/opencode/skills/thymed-skills/thymed-skills/`
 - 选项2: 使用用户提供的路径
 - 选项3: 仅在本地比较差异，不提交
 
@@ -621,7 +635,7 @@ find ~ -name ".git" -type d 2>/dev/null | grep skills
 ## 安全注意事项
 
 1. **不提交敏感信息** - 检查是否有 API 密钥、密码等
-2. **验证文件来源** - 只处理 `~/.config/opencode/skills/` 目录下的技能
+2. **验证文件来源** - 只处理 `~/.config/opencode/skills/thymed-skills/` 目录下的技能
 3. **确认分支名** - 使用规范的分支命名
 
 ---
