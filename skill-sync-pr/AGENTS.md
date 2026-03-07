@@ -1,6 +1,6 @@
 # Skill Sync PR - 智能体详细指令
 
-**版本 1.9.0**
+**版本 1.10.0**
 
 > **问题反馈与贡献**: 使用本技能遇到问题时，请先查阅 [GitHub Issues](https://github.com/ThymeD/skills/issues) 和项目级 [AGENTS.md](../AGENTS.md#问题反馈与贡献指南)。AI 工具应具备自主排查和贡献解决方案的能力。
 
@@ -15,11 +15,12 @@ Skill Sync 从 GitHub 仓库拉取最新技能，检测并合并更新。
 **核心功能：**
 1. **拉取最新技能**：检测远程更新，自动拉取并合并（主要场景，无需 GitHub 账号）
 2. **检查更新**：查看远程有哪些新技能或更新（无需 GitHub 账号）
-3. **提交优化**：将本地优化推送到 GitHub（可选，需要 GitHub 账号）
+3. **登记 Issue**：在使用技能遇到问题时，自动登记 Issue 到 GitHub（需要 GitHub 账号）
+4. **提交优化**：将本地优化推送到 GitHub（可选，需要 GitHub 账号）
 
 **用户群体定位：**
 - 大部分用户：首次安装或偶尔更新技能 → 只需拉取
-- 少数用户：想贡献代码 → 需要 GitHub 账号
+- 少数用户：想贡献代码或反馈问题 → 需要 GitHub 账号
 
 ---
 
@@ -30,6 +31,8 @@ Skill Sync 从 GitHub 仓库拉取最新技能，检测并合并更新。
 - **"拉取最新技能" - 更新本地技能到最新版本**
 - **"同步技能" - 同步最新技能**
 - "检查技能更新" - 检查远程是否有新内容
+- "登记问题" - 在 GitHub 登记使用中遇到的问题
+- "反馈问题" - 反馈技能使用问题
 
 ---
 
@@ -102,12 +105,86 @@ git -C "~/.config/opencode/skills" log --oneline origin/main ^main
 git -C "~/.config/opencode/skills" pull origin main
 ```
 
-### 提交代码到 GitHub（可选，仅高级用户）
+---
 
-只有用户明确要求提交时才执行：
-- 需要 GitHub 账号
-- 需要安装 gh CLI
-- 需要登录 GitHub
+## 登记 Issue（需要 GitHub 账号）
+
+当用户在使用 skills 项目下的技能遇到问题时，可以自动登记 Issue 到 GitHub。
+
+### 步骤 1: 检测环境
+
+检查 gh CLI 是否安装：
+
+```bash
+gh --version
+```
+
+如果未安装，提示用户安装：
+- Windows: `winget install GitHub.cli`
+- macOS: `brew install gh`
+- Linux: 見 [GitHub CLI 官方文档](https://github.com/cli/cli#installation)
+
+### 步骤 2: 检测登录状态
+
+```bash
+gh auth status
+```
+
+如果未登录，引导用户登录：
+
+```bash
+gh auth login
+```
+
+登录流程：
+1. 选择 GitHub.com
+2. 选择 HTTPS
+3. 登录你的 GitHub 账号
+
+### 步骤 3: 收集问题信息
+
+向用户询问以下信息：
+- 遇到什么问题了
+- 在哪个技能中遇到的
+- 期望行为是什么
+- 实际行为是什么
+- 已尝试的排查思路
+
+### 步骤 4: 创建 Issue
+
+用户确认后，执行创建：
+
+```bash
+gh issue create --repo ThymeD/skills -t "<标题>" -b "<内容>"
+```
+
+标题格式：`[技能名] 问题描述`
+
+内容模板：
+```markdown
+## 问题描述
+[用户描述的问题]
+
+## 涉及技能
+[技能名称]
+
+## 期望行为 vs 实际行为
+- 期望：[期望是什么]
+- 实际：[实际发生了什么]
+
+## 环境信息
+- 操作系统：
+- OpenCode 版本：
+- 已尝试的排查：
+```
+
+### 步骤 5: 展示结果
+
+展示创建的 Issue 链接，告知用户可以在 Issue 上追踪和回复。
+
+### 贡献解决方案
+
+如果 AI 解决了问题，应在原 Issue 上回复解决方案，并询问用户是否愿意提交 PR 贡献代码。
 
 当用户说"从远程更新"或"推送到远程"时：
 
@@ -493,6 +570,7 @@ find ~ -name ".git" -type d 2>/dev/null | grep skills
 
 ## 版本历史
 
+- 1.10.0 - 新增登记 Issue 功能：AI 使用技能遇到问题时可自动登记 Issue 到 GitHub
 - 1.9.0 - 简化技能定位：聚焦拉取更新，提交代码为可选功能，降低使用门槛
 - 1.8.0 - 增加排除缓存文件逻辑，推送前自动移除 cache.json
 - 1.7.0 - 修正同步流程逻辑顺序，优化步骤 5 的子步骤（准备环境→检测远程更新→路径差异→展示确认→执行）
