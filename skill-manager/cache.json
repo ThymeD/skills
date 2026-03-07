@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "lastUpdate": "2026-03-06T10:30:00Z",
+  "skills": [
+    {
+      "name": "skill-manager",
+      "description": "管理本地 Skills",
+      "type": "手动创建",
+      "location": "~/.config/opencode/skills/skill-manager/",
+      "lastUpdate": "2026-03-06"
+    },
+    {
+      "name": "skill-finder",
+      "description": "热门 Skills 推荐",
+      "type": "手动创建",
+      "location": "~/.config/opencode/skills/skill-finder/",
+      "lastUpdate": "2026-03-06"
+    },
+    {
+      "name": "skill-creator",
+      "description": "创建和优化 AI Agent 技能",
+      "type": "手动创建",
+      "location": "~/.config/opencode/skills/skill-creator/",
+      "lastUpdate": "2026-03-06"
+    },
+    {
+      "name": "skill-auditor",
+      "description": "技能审查器",
+      "type": "手动创建",
+      "location": "~/.config/opencode/skills/skill-auditor/",
+      "lastUpdate": "2026-03-06"
+    },
+    {
+      "name": "openclaw-ops",
+      "description": "OpenClaw 运维管理",
+      "type": "手动创建",
+      "location": "~/.config/opencode/skills/openclaw-ops/",
+      "lastUpdate": "2026-03-06"
+    }
+  ]
+}
