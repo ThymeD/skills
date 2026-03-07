@@ -30,9 +30,9 @@
 ## 路径规范
 
 所有路径使用跨平台写法：
-- `~/.config/opencode/skills/thymed-skills/` - GitHub 项目技能目录
-- `~/.config/opencode/skills/` - GitHub 仓库目录（git 所在位置）
-- `~/code/skills/` - 可能的其他仓库路径
+- `~/.config/opencode/skills/` - OpenCode 全局技能目录
+- `~/.config/opencode/skills/thymed-skills/` - GitHub 项目技能目录（git 仓库）
+- `~/.config/opencode/skills/<其他>/` - 用户自定义技能
 
 ## 版本
 

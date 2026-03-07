@@ -1,6 +1,6 @@
 # Skill Sync PR - 智能体详细指令
 
-**版本 1.11.0**
+**版本 1.12.0**
 
 > **问题反馈与贡献**: 使用本技能遇到问题时，请先查阅 [GitHub Issues](https://github.com/ThymeD/skills/issues) 和项目级 [AGENTS.md](../AGENTS.md#问题反馈与贡献指南)。AI 工具应具备自主排查和贡献解决方案的能力。
 
@@ -38,13 +38,27 @@ Skill Sync 从 GitHub 仓库拉取最新技能，检测并合并更新。
 
 ## 核心概念
 
-### 本地技能目录
-- OpenCode 技能目录：`~/.config/opencode/skills/thymed-skills/<skill-name>/`
-- GitHub 仓库目录：`~/.config/opencode/skills/`（或用户指定的仓库路径）
+### 目录结构
 
-**注意**：GitHub 仓库和技能目录**可能是不同路径**：
-- 技能目录：`~/.config/opencode/skills/thymed-skills/`（OpenCode 读取的位置）
-- 仓库目录：可能是 `~/code/skills/` 或其他用户指定的路径
+```
+~/.config/opencode/skills/thymed-skills/                    # OpenCode 全局技能目录（不需要 git 管理）
+├── AGENTS.md                               # 项目级配置
+├── README.md
+├── thymed-skills/                          # GitHub 项目技能（git 仓库）
+│   ├── .git/                              # git 在这里
+│   ├── openclaw-ops/
+│   ├── skill-manager/
+│   └── ...
+└── my-custom-skill/                       # 用户自定义技能（不受 thymed-skills 更新影响）
+```
+
+### 关键路径
+
+| 路径 | 说明 |
+|------|------|
+| `~/.config/opencode/skills/` | OpenCode 全局技能目录 |
+| `~/.config/opencode/skills/thymed-skills/` | GitHub 项目技能目录（git 仓库） |
+| `~/.config/opencode/skills/<用户文件夹名称>/<其他>/` | 用户自定义技能（非必须） |
 
 ### 跨平台路径规范
 所有技能文件必须使用跨平台路径：
@@ -73,22 +87,26 @@ git --version
 
 ### 步骤 2: 查找本地仓库
 
-检查 `~/.config/opencode/skills/` 是否为 git 仓库：
+检查 `~/.config/opencode/skills/thymed-skills/` 是否为 git 仓库：
 
 ```bash
-git -C "~/.config/opencode/skills" rev-parse --git-dir
+git -C "~/.config/opencode/skills/thymed-skills" rev-parse --git-dir
 ```
 
 如果不存在，提示用户先克隆仓库或只查看更新（只读）。
+
+**注意**：仓库目录和技能目录可能不同：
+- 仓库目录：`~/.config/opencode/skills/thymed-skills/`（git 所在位置）
+- 技能目录：`~/.config/opencode/skills/thymed-skills/`（实际技能位置）
 
 ### 步骤 3: 检测远程更新
 
 ```bash
 # 拉取远程最新
-git -C "~/.config/opencode/skills" fetch origin
+git -C "~/.config/opencode/skills/thymed-skills" fetch origin
 
 # 查看远程新增的提交
-git -C "~/.config/opencode/skills" log --oneline origin/main ^main
+git -C "~/.config/opencode/skills/thymed-skills" log --oneline origin/main ^main
 ```
 
 ### 步骤 4: 检测破坏性更新
@@ -98,10 +116,10 @@ git -C "~/.config/opencode/skills" log --oneline origin/main ^main
 检测命令：
 ```bash
 # 查看是否有目录重命名
-git -C "~/.config/opencode/skills" diff --name-status origin/main ^main | grep "^R"
+git -C "~/.config/opencode/skills/thymed-skills" diff --name-status origin/main ^main | grep "^R"
 
 # 检查是否新增了 thymed-skills 目录（新结构）
-git -C "~/.config/opencode/skills" ls-tree -r --name-only origin/main | grep "^thymed-skills"
+git -C "~/.config/opencode/skills/thymed-skills" ls-tree -r --name-only origin/main | grep "^thymed-skills"
 ```
 
 如果检测到破坏性更新：
@@ -132,7 +150,7 @@ mv skill-sync-pr ~/.config/opencode/skills/thymed-skills/
 
 ### 迁移后结构：
 ```
-~/.config/opencode/skills/
+~/.config/opencode/skills/thymed-skills/
 ├── thymed-skills/   # 项目技能（可拉取更新）
 └── my-skill/       # 用户自定义技能（不受影响）
 ```
@@ -156,7 +174,7 @@ mv skill-sync-pr ~/.config/opencode/skills/thymed-skills/
 用户确认后执行拉取：
 
 ```bash
-git -C "~/.config/opencode/skills" pull origin main
+git -C "~/.config/opencode/skills/thymed-skills" pull origin main
 ```
 
 ---
@@ -617,7 +635,7 @@ find ~ -name ".git" -type d 2>/dev/null | grep skills
 ## 安全注意事项
 
 1. **不提交敏感信息** - 检查是否有 API 密钥、密码等
-2. **验证文件来源** - 只处理 `~/.config/opencode/skills/` 目录下的技能
+2. **验证文件来源** - 只处理 `~/.config/opencode/skills/thymed-skills/` 目录下的技能
 3. **确认分支名** - 使用规范的分支命名
 
 ---
@@ -664,9 +682,24 @@ Issue 创建后，**必须等待用户确认**才能继续：
 用户确认后：
 - 创建分支（如 `fix/issue-{编号}` 或 `feat/issue-{编号}`）
 - 提交代码
-- 创建 PR 并关联 Issue
+- **创建 PR 时必须关联 Issue**（使用 `Closes #编号` 或 `--body` 中包含 `Closes #编号`）
 
-### 4. 经验总结
+### 4. 原则
+
+**必须遵循的三条原则**：
+
+1. **每次提交 PR 前必须登记 Issue**：不能直接提交代码，必须先有 Issue 描述要做的改动
+
+2. **PR 必须关联 Issue**：PR 描述中必须包含 `Closes #编号`，说明这个 PR 是因为哪个 Issue 才做的
+
+3. **提交代码需谨慎**：除非是必须的，否则不要随便改动代码。只有在以下情况才提交代码：
+   - 修复缺陷（Bug fix）
+   - 必要的优化（Performance improvement）
+   - 添加新功能（Feature）
+   
+   避免无意义的改动，如仅仅为了"更好"而改代码。
+
+### 5. 经验总结
 
 - **不先执行代码**：先描述改动，用户确认后再执行
 - **包含迁移方案**：破坏性更新必须提供迁移命令
@@ -677,6 +710,7 @@ Issue 创建后，**必须等待用户确认**才能继续：
 
 ## 版本历史
 
+- 1.12.0 - 增加提交代码的三条原则：必须先登记 Issue、PR 必须关联 Issue、提交代码需谨慎
 - 1.11.0 - 增加 Issue 提交流程最佳实践：先登记 Issue 描述改动，用户确认后再创建 PR
 - 1.10.0 - 新增登记 Issue 功能：AI 使用技能遇到问题时可自动登记 Issue 到 GitHub
 - 1.9.0 - 简化技能定位：聚焦拉取更新，提交代码为可选功能，降低使用门槛
