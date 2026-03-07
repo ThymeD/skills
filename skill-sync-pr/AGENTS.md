@@ -118,8 +118,8 @@ git -C "~/.config/opencode/skills/thymed-skills" log --oneline origin/main ^main
 # 查看是否有目录重命名
 git -C "~/.config/opencode/skills/thymed-skills" diff --name-status origin/main ^main | grep "^R"
 
-# 检查是否新增了 thymed-skills 目录（新结构）
-git -C "~/.config/opencode/skills/thymed-skills" ls-tree -r --name-only origin/main | grep "^thymed-skills"
+# 检查是否有嵌套的 thymed-skills 目录（旧结构）
+git -C "~/.config/opencode/skills/thymed-skills" ls-tree -r --name-only origin/main | grep "^thymed-skills/"
 ```
 
 如果检测到破坏性更新：
@@ -136,26 +136,23 @@ git -C "~/.config/opencode/skills/thymed-skills" ls-tree -r --name-only origin/m
 ### 迁移步骤：
 
 ```bash
-# 1. 创建新目录
-mkdir ~/.config/opencode/skills/thymed-skills
+# 1. 删除旧目录
+rm -rf ~/.config/opencode/skills/thymed-skills
 
-# 2. 移动项目技能
-mv openclaw-ops ~/.config/opencode/skills/thymed-skills/
-mv skill-manager ~/.config/opencode/skills/thymed-skills/
-mv skill-sync-pr ~/.config/opencode/skills/thymed-skills/
-# ... 其他技能
-
-# 3. 保留用户自定义技能在原位置
+# 2. 重新克隆
+git clone https://github.com/ThymeD/skills.git ~/.config/opencode/skills/thymed-skills
 ```
 
 ### 迁移后结构：
 ```
 ~/.config/opencode/skills/thymed-skills/
-├── thymed-skills/   # 项目技能（可拉取更新）
-└── my-skill/       # 用户自定义技能（不受影响）
+├── skill-manager/    # 项目技能（可拉取更新）
+├── skill-finder/
+└── openclaw-ops/
 ```
 
 ---
+
 ### 请确认：
 - [ ] 已完成迁移
 - [ ] 确认继续拉取更新
