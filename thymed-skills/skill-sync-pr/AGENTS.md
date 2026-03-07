@@ -634,19 +634,22 @@ find ~ -name ".git" -type d 2>/dev/null | grep skills
 - 涉及文件：哪些文件会受影响
 - 迁移方案：如果有破坏性更新，需要提供详细的迁移步骤
 
-**示例**：
-```markdown
+**创建 Issue 注意事项**：
+- **不要使用 heredoc 语法**（如 `$(cat <<'EOF'`），会被当作字符串
+- **不要使用 `--body` 参数直接传多行内容**，可能被截断
+- **推荐使用 `--body-file` 参数**，将内容写入临时文件后传递
+
+**正确示例**：
+```bash
+# 正确：将内容写入文件
+cat > issue_body.md << 'EOF'
 ## 改动说明
-将项目技能移入 thymed-skills 目录，隔离用户自定义技能。
+...
+EOF
+gh issue create --repo owner/repo --title "标题" --body-file issue_body.md
 
-## 改动原因
-1. 避免拉取更新时覆盖用户自定义技能
-
-## 迁移方案
-提供详细的命令和步骤
-
-## 待确认
-请回复"确认迁移"表示同意合并此改动。
+# 正确：简短内容可以直接用 --body
+gh issue create --repo owner/repo --title "标题" --body "简短描述"
 ```
 
 ### 2. 等待用户确认
