@@ -650,9 +650,9 @@ find ~ -name ".git" -type d 2>/dev/null | grep skills
 - 迁移方案：如果有破坏性更新，需要提供详细的迁移步骤
 
 **创建 Issue 注意事项**：
-- **不要使用 heredoc 语法**（如 `$(cat <<'EOF'`），会被当作字符串
-- **不要使用 `--body` 参数直接传多行内容**，可能被截断
-- **推荐使用 `--body-file` 参数**，将内容写入临时文件后传递
+- **不要使用 heredoc 语法**（如 `$(cat <<'EOF')`），内容会变成字面量
+- **不要使用 `--body` 参数直接传多行内容**，可能被截断或转义
+- **必须使用 `--body-file` 参数**，将内容写入临时文件后传递
 
 **正确示例**：
 ```bash
@@ -663,8 +663,31 @@ cat > issue_body.md << 'EOF'
 EOF
 gh issue create --repo owner/repo --title "标题" --body-file issue_body.md
 
-# 正确：简短内容可以直接用 --body
-gh issue create --repo owner/repo --title "标题" --body "简短描述"
+# 错误：内容会变成字面量 "$(cat <<'EOF'"
+gh issue create --repo owner/repo --title "标题" --body "$(cat <<'EOF'
+## 改动说明
+...
+EOF
+)"
+```
+
+**创建 PR 注意事项**：
+- **PR 必须关联 Issue**：使用 `Closes #编号` 或在 body 中包含
+- **推荐使用 `--body-file`** 传递 PR 描述，避免多行内容问题
+
+**正确示例**：
+```bash
+# 正确：使用 body-file
+cat > pr_body.md << 'EOF'
+## Summary
+- 修复了缓存路径问题
+
+Closes #24
+EOF
+gh pr create --repo owner/repo --title "fix: 缓存路径" --body-file pr_body.md
+
+# 正确：简短内容直接用 --body
+gh pr create --repo owner/repo --title "fix: 缓存路径" --body "Closes #24"
 ```
 
 ### 2. 等待用户确认
@@ -683,30 +706,70 @@ Issue 创建后，**必须等待用户确认**才能继续：
 
 ### 4. 原则
 
-**必须遵循的三条原则**：
+**必须遵循的两条铁律**：
 
-1. **每次提交 PR 前必须登记 Issue**：不能直接提交代码，必须先有 Issue 描述要做的改动
+1. **先登记 Issue，再提交代码** ⚠️
+   - 不能直接修改代码就提交
+   - 必须先创建 Issue 描述要做的改动
+   - **等待用户确认后**才能开始修改代码
+   - 这是 GitHub 最佳实践，也是本项目的硬性规则
 
-2. **PR 必须关联 Issue**：PR 描述中必须包含 `Closes #编号`，说明这个 PR 是因为哪个 Issue 才做的
-
-3. **提交代码需谨慎**：除非是必须的，否则不要随便改动代码。只有在以下情况才提交代码：
-   - 修复缺陷（Bug fix）
-   - 必要的优化（Performance improvement）
-   - 添加新功能（Feature）
-   
-   避免无意义的改动，如仅仅为了"更好"而改代码。
+2. **PR 必须关联 Issue**：
+   - PR 描述中必须包含 `Closes #编号`
+   - 说明这个 PR 是因为哪个 Issue 才做的
 
 ### 5. 经验总结
 
-- **不先执行代码**：先描述改动，用户确认后再执行
+- **先登记 Issue，再提交代码**：这是铁律，违反会扰乱项目管理
 - **包含迁移方案**：破坏性更新必须提供迁移命令
-- **等待确认**：用户确认 Issue 后再创建 PR
+- **等待确认**：用户确认 Issue 后才能创建分支和提交
 - **代码未动，Issue 先行**：这是最佳实践
+- **Windows 命令兼容**：使用跨平台命令或完整路径
 
 ---
 
+## 跨平台命令注意事项
+
+### Windows 兼容性问题
+
+在 Windows 环境下，某些 Unix 命令不可用：
+
+| Unix 命令 | Windows 等价 | 说明 |
+|-----------|--------------|------|
+| `ls` | `dir` | 列出文件 |
+| `cat` | `type` | 查看文件内容 |
+| `head` | `more` | 查看文件开头 |
+| `grep` | `findstr` | 搜索文本 |
+| `mv` | `move` 或 `xcopy + rmdir` | 移动/重命名 |
+| `rm -rf` | `rmdir /S /Q` | 删除目录 |
+| `cp -r` | `xcopy /E /I /Y` | 复制目录 |
+| `&&` | `&&` | 链式命令（两者都支持） |
+
+### 跨平台建议
+
+1. **优先使用 Git 命令**：通过 `git` 命令完成大部分操作
+   ```bash
+   git ls-files                    # 代替 ls
+   git diff --name-only            # 代替 ls + grep
+   git add -A                      # 添加所有文件
+   ```
+
+2. **使用 Python 脚本**：如 `update-cache.py`，跨平台兼容
+
+3. **使用完整路径**：避免依赖系统命令
+   ```bash
+   # 不好：依赖 grep
+   git ls-tree -r HEAD | grep "pattern"
+   
+   # 好：使用 Python
+   python script.py
+   ```
+
+4. **测试命令**：在 Windows 上执行前先验证命令是否可用
+
 ## 版本历史
 
+- 1.13.0 - 优化跨平台命令兼容性，添加 Windows 命令注意事项；补充 PR 创建的 body-file 示例
 - 1.12.0 - 增加提交代码的三条原则：必须先登记 Issue、PR 必须关联 Issue、提交代码需谨慎
 - 1.11.0 - 增加 Issue 提交流程最佳实践：先登记 Issue 描述改动，用户确认后再创建 PR
 - 1.10.0 - 新增登记 Issue 功能：AI 使用技能遇到问题时可自动登记 Issue 到 GitHub
