@@ -7,7 +7,7 @@
 ## 项目概述
 
 - **类型**: OpenCode 技能集合
-- **主要技能**: `openclaw-ops` - OpenClaw Gateway 运维管理
+- **主要技能**: `opencode-config-template` - 全局配置模板 | `openclaw-ops` - OpenClaw Gateway 运维管理
 - **语言**: Markdown 文档 (SKILL.md, AGENTS.md)
 
 ---
@@ -233,5 +233,5 @@ markdownlint **/*.md
 
 ## 参考资料
 
-- 现有技能: `openclaw-ops/` (良好的结构参考)
+- 现有技能: `opencode-config-template/` (配置模板) | `openclaw-ops/` (运维参考)
 - OpenCode 官方文档 - 技能格式规范

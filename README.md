@@ -6,6 +6,7 @@ OpenCode 自定义技能集合。
 
 | 技能 | 说明 |
 |------|------|
+| [opencode-config-template](./opencode-config-template/) | OpenCode 全局配置模板 - 提供 AGENTS.md 配置参考，帮助新用户快速初始化 |
 | [openclaw-ops](./openclaw-ops/) | OpenClaw（小龙虾）运维管理 - 安装、初始化、Gateway管理、故障排查 |
 | [skill-manager](./skill-manager/) | 管理本地 Skills - 列出已安装技能、检查更新、缓存管理 |
 | [skill-creator](./skill-creator/) | 创建和优化 Skills - 创建新 skill、更新优化、测试验证 |
