@@ -7,7 +7,7 @@
 ## 项目概述
 
 - **类型**: OpenCode 技能集合
-- **主要技能**: `opencode-config-template` - 全局配置模板 | `openclaw-ops` - OpenClaw Gateway 运维管理
+- **主要技能**: `opencode-config-template` - 全局配置模板 | `openclaw-ops` - OpenClaw Gateway 运维管理 | `project-ai-init` - 项目 AI 环境初始化 | `project-init` - 项目初始化
 - **语言**: Markdown 文档 (SKILL.md, AGENTS.md)
 
 ---
