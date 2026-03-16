@@ -6,6 +6,7 @@ OpenCode 自定义技能集合。
 
 | 技能 | 说明 |
 |------|------|
+| [gitops](./gitops/) | Git/GitHub 操作管理 - 代码提交推送、Issue/PR 管理、标签发布、分支操作 |
 | [project-ai-init](./project-ai-init/) | 项目 AI 环境初始化 - 创建项目 AGENTS.md 配置 |
 | [project-init](./project-init/) | 项目初始化 - 创建项目工作目录结构 |
 | [opencode-config-template](./opencode-config-template/) | OpenCode 全局配置模板 - 提供 AGENTS.md 配置参考，帮助新用户快速初始化 |
