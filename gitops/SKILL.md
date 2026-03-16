@@ -287,7 +287,25 @@ create_pr("owner/repo", "标题", "多行描述...", "main", "feature-branch")
 1. **禁止强制推送** - 禁止使用 `git push --force`
 2. **禁止直接推送到主分支** - main/master 分支受保护
 3. **提交前检查** - 推送前确认没有敏感信息
-4. **Issue/PR 关联** - 提交信息中关联 Issue（如 `Closes #123`）
+4. **Issue/PR 关联** - Bug 修复类 PR 需关联 Issue（如 `Closes #123`）
+
+## Issue/PR 提交规范
+
+### Issue 提交
+
+- **Bug 修复类**：需要提交 Issue，描述问题
+- **需求类**：不必提交 Issue，可直接提交 PR
+
+### PR 提交
+
+- **Bug 修复类 PR**：
+  - 必须关联 Issue（使用 `Closes #123` 或在 body 中包含）
+  - 描述问题和修复方案
+  
+- **需求类 PR**：
+  - 不必关联 Issue
+  - **必须描述清楚加了什么功能**
+  - 使用清晰的标题和详细的 body 说明功能内容
 
 ## 注意事项
 
