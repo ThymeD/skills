@@ -6,11 +6,13 @@ OpenCode 自定义技能集合。
 
 | 技能 | 说明 |
 |------|------|
+| [project-ai-init](./project-ai-init/) | 项目 AI 环境初始化 - 创建项目 AGENTS.md 配置 |
+| [project-init](./project-init/) | 项目初始化 - 创建项目工作目录结构 |
 | [opencode-config-template](./opencode-config-template/) | OpenCode 全局配置模板 - 提供 AGENTS.md 配置参考，帮助新用户快速初始化 |
 | [openclaw-ops](./openclaw-ops/) | OpenClaw（小龙虾）运维管理 - 安装、初始化、Gateway管理、故障排查 |
 | [skill-manager](./skill-manager/) | 管理本地 Skills - 列出已安装技能、检查更新、缓存管理 |
 | [skill-creator](./skill-creator/) | 创建和优化 Skills - 创建新 skill、更新优化、测试验证 |
-| [skill-auditor](./skill-auditor/) | 技能审查器 - 分析技能缺陷、提供优化建议 |
+| [skill-auditor](./skill-auditor/) | 技能审查器 - 分析技能缺陷，提供优化建议 |
 | [skill-finder](./skill-finder/) | 热门 Skills 推荐 - 从 skills.sh 获取榜单、个性化推荐 |
 | [skill-sync-pr](./skill-sync-pr/) | 同步技能 - 从 GitHub 拉取最新技能、登记 Issue |
 
