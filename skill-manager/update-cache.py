@@ -53,7 +53,7 @@ def scan_skills():
     skills = []
     
     locations = [
-        get_home() / '.config' / 'opencode' / 'skills',
+        get_home() / '.config' / 'opencode' / 'skills' / 'thymed-skills',
         get_home() / '.agents' / 'skills'
     ]
     
