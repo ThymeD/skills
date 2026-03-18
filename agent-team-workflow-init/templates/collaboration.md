@@ -1,0 +1,73 @@
+# 协作计划
+
+## 项目信息
+- 项目：[项目名]
+- 启动时间：[时间]
+
+---
+
+## 需求进度（引用SPEC.md）
+
+| 需求编号 | 需求描述 | 状态 | 负责人 |
+|----------|----------|------|--------|
+| #001 | [需求描述] | 待开始 | - |
+
+---
+
+## 最新任务（用户可直接复制给agent）
+
+### 当前进行中
+> 复制以下内容给当前agent：
+
+**[agent名称]**
+- 分支：
+- 任务：
+- 关联需求：SPEC.md #001
+- 产出目录：
+- 上一阶段产出位置：
+
+### 待执行任务
+> 以下任务等待执行，按顺序启动：
+
+1. **[agent名称]** - [任务描述]（关联需求：SPEC.md #001）
+
+---
+
+## 进度追踪（完整记录）
+
+### 已完成
+> 格式：完成时间: YYYY-MM-DD HH:MM → agent: 任务 → 关联需求: #xxx → 产出: 目录/文件
+
+### 进行中
+> 格式：agent: 任务 → 关联需求: #xxx → 分支: xxx → 产出: 目录/文件
+
+---
+
+## 产出约定
+| 任务 | 产出目录 |
+|------|----------|
+| requirements | requirements/ |
+| architecture | docs/ |
+| ui-design | design/ |
+| code | src/ |
+| automation-test | tests/ |
+| ui-test | tests/ui/ |
+| 其他文档 | docs/ |
+
+## 归档目录
+
+| 目录 | 用途 |
+|------|------|
+| evaluation/daily/ | 日常评价 |
+| evaluation/self-summary/ | 各agent绩效总结 |
+| evaluation/stage/ | 阶段考评 |
+| evaluation/cycle/ | 周期复盘 |
+| evaluation/personal/ | 个人考核 |
+| evaluation/retrospective/ | 复盘报告 |
+| evaluation/team/ | 团队变动 |
+
+## 考评记录（PM填写）
+> 在功能模块合入release时填写
+
+| agent | 任务 | 关联需求 | 分支 | 评分 | 详细表现与不足 |
+|-------|------|----------|------|------|----------------|
