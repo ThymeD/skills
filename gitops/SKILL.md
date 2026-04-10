@@ -1,3 +1,12 @@
+---
+name: gitops
+description: Git 与 GitHub 仓库管理工具 - 负责项目代码的版本控制、提交推送、Issue 管理、PR 提交和标签操作。触发词：gitops、提交代码、推送到 GitHub、同步代码、登记 Issue、提交 PR、打标签、分支管理等。
+license: MIT
+metadata:
+  author: local
+  version: 1.0.0
+---
+
 # Skill: GitOps
 
 Git 与 GitHub 仓库管理工具 - 负责项目代码的版本控制、提交推送、Issue 管理、PR 提交和标签操作。

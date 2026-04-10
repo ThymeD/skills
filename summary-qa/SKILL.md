@@ -1,14 +1,12 @@
 ---
 name: summary-qa
-description: 从文章或文档提炼要点，输出简体中文复习包：单选/判断题（含章节标题与摘录出处）与要点总结。输入可为 URL、本地路径或粘贴正文（正文须由环境或用户先提供）。**无论材料语种（含英文网页），面向用户的默认输出须为简体中文。** 出题流程见 SKILL 与 rubric。EN triggers: summarize, quiz, MCQ, study pack, article review.
+description: "从文章或文档提炼要点，输出简体中文复习包（单选/判断题+要点总结）。触发词：总结、出题、复习、要点、summarize、quiz、MCQ、study pack"
 license: MIT
 compatibility: opencode, openclaw, cursor
 metadata:
-  title_zh: 总结与要点测验
-  primary_goals: summarize,quiz,review
+  title_zh: "总结与要点测验"
+  primary_goals: "summarize, quiz, review"
   locale: zh-CN
-  output_locale: zh-CN
-  compat: opencode,openclaw,cursor
 ---
 
 # summary-qa（总结与要点测验）
@@ -18,7 +16,7 @@ metadata:
 **本 Skill 负责**
 
 - 把输入材料整理成**可复习的学习包**：**单选题 / 判断题**（按知识性质选用，不强制比例）+ 每题**出处** + 每题**质量等级（高 / 中 / 低）**（判定口径与**主题/中心思想契合度、重点知识点**等维度见 [rubric.md](rubric.md)「题目质量等级」）。文章总结按**用户可见流程**在答题之后再输出（见下文「用户可见交互流程」）。
-- **默认与用户意图**：无相反说明时，遵循下文「宿主环境与会话形态」中的**默认推荐**。用户在本轮（或同一任务连续上下文）**明确指定**的流程或产出（例如只要总结、一次性题面、同一条消息内合并输出题面与解析）**优先于**默认步骤形态；**含糊表述**（如「快点」）不视为覆盖默认，可简短追问或按默认推荐执行。**客观环境约束**（无法取得 URL 正文、不可写 `{baseDir}/data/` 等）优先于用户「必须落盘」类指令，并须说明原因与可行替代。
+- **默认与用户意图**：无相反说明时，遵循上文「默认行为」。用户在本轮（或同一任务连续上下文）**明确指定**的流程或产出（例如只要总结、一次性题面、同一条消息内合并输出题面与解析）**优先于**默认步骤形态；**含糊表述**（如「快点」）不视为覆盖默认，可简短追问或按默认行为执行。**客观环境约束**（无法取得 URL 正文、不可写 `{baseDir}/data/` 等）优先于用户「必须落盘」类指令，并须说明原因与可行替代。
 - **出题数量**：默认 **5～10 道题**（单选 + 判断合计）。若材料过短，或**可独立命题、不重复、不牵强**的知识点不足以达到 5 道，可据实**减少题数**，并在步骤 1 或 Coverage 中**简要说明原因**。若用户**指定题数**且 **N ≤ 20**，优先按用户意见执行（仍受材料可支撑度约束时可建议调整）。**题数门槛（强制）**：用户在本轮提出的**目标题数 N**（含显式数字，或「八十道」「尽量多」等可合理换算、推断出的目标数量）若 **N > 20**，**必须先与用户确认**是否仍按该目标执行；**未经确认不得进入步骤 2**，不得输出任何题目的题干与选项。用户确认后**允许**按约定题数生成。若用户要求的题数**明显超出材料可支撑范围**（即使 N ≤ 20），仍须走下文**「先报价再交货」**，**不得**无说明地硬凑低价值题目。
 - **先报价再交货（默认响应策略；强制）**：一旦触发「须先与用户协商题数」（**N > 20**，或 **目标 N 相对材料明显偏高**），代理**不得**默认输出题面；首轮协商回复须**至少**包含：**(1) 建议题数 N'** 及**为何**（结合材料体量、可独立考点）；**(2) 若用户仍坚持原目标 N** 时**可预期后果**（如重复考点、表述变体增多、细枝末节题增多、「低」质量题占比上升等，与 [rubric.md](rubric.md) 一致）；**(3) 请用户明确**是否采用 **N'**、是否仍按 **N**、或其它 **N''**。**收到用户明确答复前不得进入步骤 2**。用户确认或改用 N' / N'' 后，再进入步骤 1 → 步骤 2（「交货」）。
 - **题目质量标注（强制）**：无论题数多少，**每一道题**在步骤 2 展示题面时须标注 **质量：高**、**质量：中** 或 **质量：低**（三选一，与 rubric 定义一致）；步骤 3 的逐题明细表中须包含同一题号的**相同**等级，便于用户对「题海」中的信息增量心中有数。
@@ -46,13 +44,11 @@ metadata:
 
 ---
 
-## 宿主环境与会话形态（OpenCode / OpenClaw / Cursor）
+## 默认行为（无相反说明时照此执行）
 
-### 默认推荐（无相反说明时照此执行）
-
-1. **流程**：优先 **多轮**；步骤 1→2→3→4 常在同一会话中分多条消息完成。**答题前**不向用户展示步骤 3 的答案表与步骤 4 的完整总结；代理须遵守各步「严禁提前输出」的边界。
-2. **题面**：**默认**每一则对用户回复中，步骤 2 **只展示一道题**；用户答完再发下一题。除非用户在本轮**已主动要求**「一次性题面 / 全部题面 / 统考」等（见「用户可见交互流程」步骤 2），否则必须 **逐题**，**不得**自行合并多题同屏。
-3. **落盘**：`{baseDir}/data/`（`feedback.jsonl`、`memory.md`、案例目录等）若**无写权限或目录不存在且无法创建**，则**跳过落盘**，仅在对话中收集反馈或偏好，并在回复中**一句说明**未写入本地文件。
+1. **流程**：多轮交互；步骤 1→2→3→4 常在同一会话中分多条消息完成。**答题前**不向用户展示步骤 3 的答案表与步骤 4 的完整总结。
+2. **题面**：每一则对用户回复中，步骤 2 **只展示一道题**；用户答完再发下一题。除非用户**已主动要求**「一次性题面 / 全部题面 / 统考」等（见步骤 2），否则必须逐题。
+3. **落盘**：见下方「数据文件」中的落盘降级说明。
 
 ### 用户明确指定时的优先级
 
@@ -190,9 +186,9 @@ metadata:
 
 ---
 
-## 数据文件（均在当前 Skill 目录下）
+## 数据文件（均在技能目录下）
 
-OpenClaw 约定用 `{baseDir}` 表示本技能文件夹根路径（见 [OpenClaw Skills](https://docs.openclaw.ai/zh-CN/tools/skills)）；其他环境也可用「技能根目录」理解。
+`{baseDir}` 指 SKILL.md 所在目录（技能根目录）。
 
 | 路径 | 用途 |
 |------|------|
@@ -203,11 +199,7 @@ OpenClaw 约定用 `{baseDir}` 表示本技能文件夹根路径（见 [OpenClaw
 
 **案例晋升（简版）**：用户多次正向反馈或明确标记为范例的题目，可摘要写入 `{baseDir}/data/cases/`；过时或多次负向反馈的可移至 `{baseDir}/data/archive/`。
 
-**自定义路径**：当前版本**不支持**更改数据目录；一律使用上述相对路径。
-
-**Canonical 建议**：若 `.opencode/skills/`、`.cursor/skills/`、OpenClaw `<workspace>/skills/` 等多处各有一份副本，请指定**一处**为主维护源，其余同步，避免行为与 [rubric.md](rubric.md) 分叉。
-
-**部署位置提示**：OpenClaw 优先从工作区 `<workspace>/skills/<name>/` 加载（优先级最高）；亦支持 `~/.openclaw/skills`、`~/.agents/skills` 等，详见官方文档。OpenCode / OpenClaw / Cursor 分节见下文。
+**落盘降级**：若无写权限或目录不存在且无法创建，则跳过落盘，仅在对话中收集反馈或偏好，并一句说明未写入本地文件。
 
 ---
 
@@ -239,41 +231,8 @@ OpenClaw 约定用 `{baseDir}` 表示本技能文件夹根路径（见 [OpenClaw
 
 ---
 
-## Frontmatter 与多平台兼容说明
+## 部署位置
 
-本文件同时面向 **Cursor**（项目或用户目录下的 `.cursor/skills/`）、[OpenCode 代理技能](https://opencode.ai/docs/zh-cn/skills/) 与 [OpenClaw Skills](https://docs.openclaw.ai/zh-CN/tools/skills)：
-
-| 项 | Cursor | OpenCode | OpenClaw |
-|----|--------|----------|----------|
-| 必备 frontmatter | `name`、`description`（均受长度等约束） | 同上；`description` 1–1024 字符 | `name`、`description`；`metadata` 建议单行 JSON |
-| 额外字段 | `license`、`compatibility`、`metadata` 等**非文档必填项**，通常由解析器忽略，**不影响**作为 Skill 使用 | `license`、`compatibility`、`metadata`（字符串键值映射） | 未列出的键多可忽略 |
-| 资源路径 | 正文中的 `{baseDir}` 在 Cursor 中等价于**本技能目录**（含 `SKILL.md` 的文件夹） | 相对技能根目录即可 | 官方约定 `{baseDir}` 为技能根 |
-
-- **`compatibility` 与 `metadata.compat`**：二者均列举 **opencode、openclaw、cursor**。若所用工具仅解析其一，以二者中**更完整**的字段为准，避免误判为单平台技能。
-
-部署目录名须与 `name` 一致（`summary-qa`）。常见路径：**Cursor** 为项目 `.cursor/skills/summary-qa/` 或用户 `~/.cursor/skills/summary-qa/`；**OpenCode** 为 `.opencode/skills/summary-qa/`；**OpenClaw** 为 `<workspace>/skills/summary-qa/` 等。
-
----
-
-## 在 OpenCode 中使用
-
-- **放置位置**：项目内 `.opencode/skills/summary-qa/`（目录名与 `name` 一致）。
-- **加载**：以 [OpenCode 技能文档](https://opencode.ai/docs/zh-cn/skills/) 为准；`description` 用于发现，正文规则与 OpenClaw / Cursor 相同。
-- **`{baseDir}`**：含 `SKILL.md` 的本目录；`data/` 相对路径不变。
-
----
-
-## 在 OpenClaw 中使用
-
-- **放置位置**：工作区 `<workspace>/skills/summary-qa/`（优先级以 [OpenClaw Skills](https://docs.openclaw.ai/zh-CN/tools/skills) 为准）；亦支持 `~/.openclaw/skills` 等全局路径。
-- **`{baseDir}`**：官方约定的技能根目录，与正文、[schemas.md](schemas.md) 中路径一致。
-- **工具与沙箱**：若沙箱禁止写 `data/`，适用上文「宿主环境与会话形态」中的落盘降级说明。
-
----
-
-## 在 Cursor 中使用
-
-- **放置位置**：将本目录整体放到**项目** `.cursor/skills/summary-qa/`（仓库内协作）或**用户** `~/.cursor/skills/summary-qa/`（全局）。勿放入 `~/.cursor/skills-cursor/`（系统保留）。
-- **发现与加载**：Cursor 通过 `name` + `description` 做发现；正文指令与 OpenCode/OpenClaw 一致。URL / 本地路径需先用 Cursor 内**终端、读取文件、浏览器或 MCP** 等得到正文，再按本 Skill 执行。
-- **`{baseDir}`**：在 Cursor 中解释为**当前技能根目录**（即 `SKILL.md` 所在文件夹），`data/` 相对其下路径不变。
-- **多份副本**：与上文「数据文件」中 Canonical 建议一致——指定一处为主或保持同步。
+- **OpenCode**：`.opencode/skills/summary-qa/`（项目）或 `~/.config/opencode/skills/summary-qa/`（全局）
+- **OpenClaw**：`<workspace>/skills/summary-qa/` 或 `~/.openclaw/skills/`
+- **Cursor**：`.cursor/skills/summary-qa/`（项目）或 `~/.cursor/skills/summary-qa/`（全局）
