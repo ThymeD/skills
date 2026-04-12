@@ -1,293 +1,90 @@
 {
   "version": 1,
-  "lastUpdate": "2026-03-12T08:19:02.506553+00:00",
+  "lastUpdate": "2026-04-08T14:00:00.000000+00:00",
   "skills": [
     {
-      "name": "conversation-history",
-      "description": "当用户询问过去的对话、之前的问题、历史记录，或者想要继续之前的对话上下文时使用",
+      "name": "agent-team-workflow-init",
+      "description": "多Agent团队协作工作流初始化。触发词：初始化工作流、工作流初始化、配置agent团队等。",
       "type": "手动创建",
-      "location": "~/.config\\opencode\\skills\\thymed-skills\\conversation-history",
-      "lastUpdate": "2026-03-12"
+      "location": "~/.config\\opencode\\skills\\thymed-skills\\agent-team-workflow-init",
+      "lastUpdate": "2026-04-08"
+    },
+    {
+      "name": "gitops",
+      "description": "Git 与 GitHub 仓库管理工具 - 负责项目代码的版本控制、提交推送、Issue 管理、PR 提交和标签操作。",
+      "type": "手动创建",
+      "location": "~/.config\\opencode\\skills\\thymed-skills\\gitops",
+      "lastUpdate": "2026-04-08"
     },
     {
       "name": "openclaw-ops",
-      "description": "OpenClaw（小龙虾）运维管理。用于安装 OpenClaw、初始化 OpenClaw、Gateway 启动/停止/重启/状态查看、API Key 配置、故障排查、定时任务管理。当用户说\"启动 Gateway\"、\"查看 Gateway 状态\"、\"配置 API Key\"、\"排查 401 错误\"、\"查看定时任务\"、\"OpenClaw 出问题了\"、\"初始化 OpenClaw\"、\"配置 OpenClaw\"、\"新电脑配置 OpenClaw\"、\"安装 OpenClaw\"、\"修复 OpenClaw\"、\"小龙虾\"或\"openclaw\"时使用此技能。",
+      "description": "OpenClaw（小龙虾）运维管理。用于安装 OpenClaw、初始化 OpenClaw、Gateway 启动/停止/重启/状态查看、API Key 配置、故障排查、定时任务管理。",
       "type": "手动创建",
       "location": "~/.config\\opencode\\skills\\thymed-skills\\openclaw-ops",
-      "lastUpdate": "2026-03-12"
+      "lastUpdate": "2026-04-08"
     },
     {
       "name": "opencode-config-template",
-      "description": "OpenCode 初始化配置模板 - 提供全局 AGENTS.md 的通用配置参考，帮助新用户快速配置自己的 OpenCode 环境",
+      "description": "OpenCode 初始化配置模板 - 提供全局 AGENTS.md 的通用配置参考，帮助新用户快速配置自己的 OpenCode 环境。",
       "type": "手动创建",
       "location": "~/.config\\opencode\\skills\\thymed-skills\\opencode-config-template",
-      "lastUpdate": "2026-03-12"
+      "lastUpdate": "2026-04-08"
+    },
+    {
+      "name": "project-ai-init",
+      "description": "项目级 AI 环境初始化。触发词：创建项目、新项目、项目初始化等。",
+      "type": "手动创建",
+      "location": "~/.config\\opencode\\skills\\thymed-skills\\project-ai-init",
+      "lastUpdate": "2026-04-08"
+    },
+    {
+      "name": "project-init",
+      "description": "项目初始化。创建项目工作目录结构（.poc/, requirements/, docs/, tests/）。触发词：开始开发、初始化项目、项目初始化等。",
+      "type": "手动创建",
+      "location": "~/.config\\opencode\\skills\\thymed-skills\\project-init",
+      "lastUpdate": "2026-04-08"
     },
     {
       "name": "skill-auditor",
       "description": "分析已安装技能的明显缺陷和优化机会。远程技能仅做审查（不修改）。本地技能在 ~/.config/opencode/skills/thymed-skills/ 目录下，提供审查+优化建议，确认后执行修改。",
       "type": "手动创建",
       "location": "~/.config\\opencode\\skills\\thymed-skills\\skill-auditor",
-      "lastUpdate": "2026-03-12"
+      "lastUpdate": "2026-04-08"
     },
     {
       "name": "skill-creator",
-      "description": "创建和优化 skills。用于用户想要创建新 skill、更新或优化现有 skill、运行测试来验证 skill 效果。当用户说\"创建一个 skill\"、\"把这个变成 skill\"或\"帮我写个 skill\"时使用此技能。",
+      "description": "创建和优化 skills。用于用户想要创建新 skill、更新或优化现有 skill、运行测试来验证 skill 效果。",
       "type": "手动创建",
       "location": "~/.config\\opencode\\skills\\thymed-skills\\skill-creator",
-      "lastUpdate": "2026-03-12"
+      "lastUpdate": "2026-04-08"
     },
     {
       "name": "skill-finder",
-      "description": "|",
+      "description": "发现和推荐热门 AI Agent Skills。用于：用户询问热门 skills、推荐 skills、需要安装新 skill 等场景。",
       "type": "手动创建",
       "location": "~/.config\\opencode\\skills\\thymed-skills\\skill-finder",
-      "lastUpdate": "2026-03-12"
+      "lastUpdate": "2026-04-08"
     },
     {
       "name": "skill-manager",
-      "description": "|",
+      "description": "管理本地已安装的 AI Agent Skills，包括列出技能、检查更新、安装技能后自动刷新缓存。",
       "type": "手动创建",
       "location": "~/.config\\opencode\\skills\\thymed-skills\\skill-manager",
-      "lastUpdate": "2026-03-12"
+      "lastUpdate": "2026-04-08"
     },
     {
       "name": "skill-sync-pr",
-      "description": "|",
+      "description": "同步技能 - 从 GitHub 拉取最新技能，检测并合并更新。遇到问题时可自动登记 Issue 到 GitHub。",
       "type": "手动创建",
       "location": "~/.config\\opencode\\skills\\thymed-skills\\skill-sync-pr",
-      "lastUpdate": "2026-03-12"
+      "lastUpdate": "2026-04-08"
     },
     {
-      "name": "agent-browser",
-      "description": "Browser automation CLI for AI agents. Use when the user needs to interact with websites, including navigating pages, filling forms, clicking buttons, taking screenshots, extracting data, testing web apps, or automating any browser task. Triggers include requests to \"open a website\", \"fill out a form\", \"click a button\", \"take a screenshot\", \"scrape data from a page\", \"test this web app\", \"login to a site\", \"automate browser actions\", or any task requiring programmatic web interaction.",
-      "type": "npx 全局",
-      "location": "~/.agents\\skills\\agent-browser",
-      "lastUpdate": "2026-03-12"
-    },
-    {
-      "name": "ai-seo",
-      "description": "\"When the user wants to optimize content for AI search engines, get cited by LLMs, or appear in AI-generated answers. Also use when the user mentions 'AI SEO,' 'AEO,' 'GEO,' 'LLMO,' 'answer engine optimization,' 'generative engine optimization,' 'LLM optimization,' 'AI Overviews,' 'optimize for ChatGPT,' 'optimize for Perplexity,' 'AI citations,' 'AI visibility,' 'zero-click search,' 'how do I show up in AI answers,' 'LLM mentions,' or 'optimize for Claude/Gemini.' Use this whenever someone wants their content to be cited or surfaced by AI assistants and AI search engines. For traditional technical and on-page SEO audits, see seo-audit. For structured data implementation, see schema-markup.\"",
-      "type": "npx 全局",
-      "location": "~/.agents\\skills\\ai-seo",
-      "lastUpdate": "2026-03-12"
-    },
-    {
-      "name": "brainstorming",
-      "description": "\"You MUST use this before any creative work - creating features, building components, adding functionality, or modifying behavior. Explores user intent, requirements and design before implementation.\"",
-      "type": "npx 全局",
-      "location": "~/.agents\\skills\\brainstorming",
-      "lastUpdate": "2026-03-12"
-    },
-    {
-      "name": "browser-use",
-      "description": "Automates browser interactions for web testing, form filling, screenshots, and data extraction. Use when the user needs to navigate websites, interact with web pages, fill forms, take screenshots, or extract information from web pages.",
-      "type": "npx 全局",
-      "location": "~/.agents\\skills\\browser-use",
-      "lastUpdate": "2026-03-12"
-    },
-    {
-      "name": "copy-editing",
-      "description": "\"When the user wants to edit, review, or improve existing marketing copy. Also use when the user mentions 'edit this copy,' 'review my copy,' 'copy feedback,' 'proofread,' 'polish this,' 'make this better,' 'copy sweep,' 'tighten this up,' 'this reads awkwardly,' 'clean up this text,' 'too wordy,' or 'sharpen the messaging.' Use this when the user already has copy and wants it improved rather than rewritten from scratch. For writing new copy, see copywriting.\"",
-      "type": "npx 全局",
-      "location": "~/.agents\\skills\\copy-editing",
-      "lastUpdate": "2026-03-12"
-    },
-    {
-      "name": "copywriting",
-      "description": "When the user wants to write, rewrite, or improve marketing copy for any page — including homepage, landing pages, pricing pages, feature pages, about pages, or product pages. Also use when the user says \"write copy for,\" \"improve this copy,\" \"rewrite this page,\" \"marketing copy,\" \"headline help,\" \"CTA copy,\" \"value proposition,\" \"tagline,\" \"subheadline,\" \"hero section copy,\" \"above the fold,\" \"this copy is weak,\" \"make this more compelling,\" or \"help me describe my product.\" Use this whenever someone is working on website text that needs to persuade or convert. For email copy, see email-sequence. For popup copy, see popup-cro. For editing existing copy, see copy-editing.",
-      "type": "npx 全局",
-      "location": "~/.agents\\skills\\copywriting",
-      "lastUpdate": "2026-03-12"
-    },
-    {
-      "name": "dispatching-parallel-agents",
-      "description": "Use when facing 2+ independent tasks that can be worked on without shared state or sequential dependencies",
-      "type": "npx 全局",
-      "location": "~/.agents\\skills\\dispatching-parallel-agents",
-      "lastUpdate": "2026-03-12"
-    },
-    {
-      "name": "dogfood",
-      "description": "Systematically explore and test a web application to find bugs, UX issues, and other problems. Use when asked to \"dogfood\", \"QA\", \"exploratory test\", \"find issues\", \"bug hunt\", \"test this app/site/platform\", or review the quality of a web application. Produces a structured report with full reproduction evidence -- step-by-step screenshots, repro videos, and detailed repro steps for every issue -- so findings can be handed directly to the responsible teams.",
-      "type": "npx 全局",
-      "location": "~/.agents\\skills\\dogfood",
-      "lastUpdate": "2026-03-12"
-    },
-    {
-      "name": "electron",
-      "description": "Automate Electron desktop apps (VS Code, Slack, Discord, Figma, Notion, Spotify, etc.) using agent-browser via Chrome DevTools Protocol. Use when the user needs to interact with an Electron app, automate a desktop app, connect to a running app, control a native app, or test an Electron application. Triggers include \"automate Slack app\", \"control VS Code\", \"interact with Discord app\", \"test this Electron app\", \"connect to desktop app\", or any task requiring automation of a native Electron application.",
-      "type": "npx 全局",
-      "location": "~/.agents\\skills\\electron",
-      "lastUpdate": "2026-03-12"
-    },
-    {
-      "name": "executing-plans",
-      "description": "Use when you have a written implementation plan to execute in a separate session with review checkpoints",
-      "type": "npx 全局",
-      "location": "~/.agents\\skills\\executing-plans",
-      "lastUpdate": "2026-03-12"
-    },
-    {
-      "name": "find-skills",
-      "description": "Helps users discover and install agent skills when they ask questions like \"how do I do X\", \"find a skill for X\", \"is there a skill that can...\", or express interest in extending capabilities. This skill should be used when the user is looking for functionality that might exist as an installable skill.",
-      "type": "npx 全局",
-      "location": "~/.agents\\skills\\find-skills",
-      "lastUpdate": "2026-03-12"
-    },
-    {
-      "name": "finishing-a-development-branch",
-      "description": "Use when implementation is complete, all tests pass, and you need to decide how to integrate the work - guides completion of development work by presenting structured options for merge, PR, or cleanup",
-      "type": "npx 全局",
-      "location": "~/.agents\\skills\\finishing-a-development-branch",
-      "lastUpdate": "2026-03-12"
-    },
-    {
-      "name": "frontend-design",
-      "description": "Create distinctive, production-grade frontend interfaces with high design quality. Use this skill when the user asks to build web components, pages, artifacts, posters, or applications (examples include websites, landing pages, dashboards, React components, HTML/CSS layouts, or when styling/beautifying any web UI). Generates creative, polished code and UI design that avoids generic AI aesthetics.",
-      "type": "npx 全局",
-      "location": "~/.agents\\skills\\frontend-design",
-      "lastUpdate": "2026-03-12"
-    },
-    {
-      "name": "gemini-api-dev",
-      "description": "Use this skill when building applications with Gemini models, Gemini API, working with multimodal content (text, images, audio, video), implementing function calling, using structured outputs, or needing current model specifications. Covers SDK usage (google-genai for Python, @google/genai for JavaScript/TypeScript, com.google.genai:google-genai for Java, google.golang.org/genai for Go), model selection, and API capabilities.",
-      "type": "npx 全局",
-      "location": "~/.agents\\skills\\gemini-api-dev",
-      "lastUpdate": "2026-03-12"
-    },
-    {
-      "name": "programmatic-seo",
-      "description": "When the user wants to create SEO-driven pages at scale using templates and data. Also use when the user mentions \"programmatic SEO,\" \"template pages,\" \"pages at scale,\" \"directory pages,\" \"location pages,\" \"[keyword] + [city] pages,\" \"comparison pages,\" \"integration pages,\" \"building many pages for SEO,\" \"pSEO,\" \"generate 100 pages,\" \"data-driven pages,\" or \"templated landing pages.\" Use this whenever someone wants to create many similar pages targeting different keywords or locations. For auditing existing SEO issues, see seo-audit. For content strategy planning, see content-strategy.",
-      "type": "npx 全局",
-      "location": "~/.agents\\skills\\programmatic-seo",
-      "lastUpdate": "2026-03-12"
-    },
-    {
-      "name": "receiving-code-review",
-      "description": "Use when receiving code review feedback, before implementing suggestions, especially if feedback seems unclear or technically questionable - requires technical rigor and verification, not performative agreement or blind implementation",
-      "type": "npx 全局",
-      "location": "~/.agents\\skills\\receiving-code-review",
-      "lastUpdate": "2026-03-12"
-    },
-    {
-      "name": "remote-browser",
-      "description": "Controls a cloud browser from a sandboxed remote machine. Use when the agent is running in a sandbox (no GUI) and needs to navigate websites, interact with web pages, fill forms, take screenshots, or expose local dev servers via tunnels.",
-      "type": "npx 全局",
-      "location": "~/.agents\\skills\\remote-browser",
-      "lastUpdate": "2026-03-12"
-    },
-    {
-      "name": "requesting-code-review",
-      "description": "Use when completing tasks, implementing major features, or before merging to verify work meets requirements",
-      "type": "npx 全局",
-      "location": "~/.agents\\skills\\requesting-code-review",
-      "lastUpdate": "2026-03-12"
-    },
-    {
-      "name": "schema-markup",
-      "description": "When the user wants to add, fix, or optimize schema markup and structured data on their site. Also use when the user mentions \"schema markup,\" \"structured data,\" \"JSON-LD,\" \"rich snippets,\" \"schema.org,\" \"FAQ schema,\" \"product schema,\" \"review schema,\" \"breadcrumb schema,\" \"Google rich results,\" \"knowledge panel,\" \"star ratings in search,\" or \"add structured data.\" Use this whenever someone wants their pages to show enhanced results in Google. For broader SEO issues, see seo-audit. For AI search optimization, see ai-seo.",
-      "type": "npx 全局",
-      "location": "~/.agents\\skills\\schema-markup",
-      "lastUpdate": "2026-03-12"
-    },
-    {
-      "name": "seo-audit",
-      "description": "When the user wants to audit, review, or diagnose SEO issues on their site. Also use when the user mentions \"SEO audit,\" \"technical SEO,\" \"why am I not ranking,\" \"SEO issues,\" \"on-page SEO,\" \"meta tags review,\" \"SEO health check,\" \"my traffic dropped,\" \"lost rankings,\" \"not showing up in Google,\" \"site isn't ranking,\" \"Google update hit me,\" \"page speed,\" \"core web vitals,\" \"crawl errors,\" or \"indexing issues.\" Use this even if the user just says something vague like \"my SEO is bad\" or \"help with SEO\" — start with an audit. For building pages at scale to target keywords, see programmatic-seo. For adding structured data, see schema-markup. For AI search optimization, see ai-seo.",
-      "type": "npx 全局",
-      "location": "~/.agents\\skills\\seo-audit",
-      "lastUpdate": "2026-03-12"
-    },
-    {
-      "name": "site-architecture",
-      "description": "When the user wants to plan, map, or restructure their website's page hierarchy, navigation, URL structure, or internal linking. Also use when the user mentions \"sitemap,\" \"site map,\" \"visual sitemap,\" \"site structure,\" \"page hierarchy,\" \"information architecture,\" \"IA,\" \"navigation design,\" \"URL structure,\" \"breadcrumbs,\" \"internal linking strategy,\" \"website planning,\" \"what pages do I need,\" \"how should I organize my site,\" or \"site navigation.\" Use this whenever someone is planning what pages a website should have and how they connect. NOT for XML sitemaps (that's technical SEO — see seo-audit). For SEO audits, see seo-audit. For structured data, see schema-markup.",
-      "type": "npx 全局",
-      "location": "~/.agents\\skills\\site-architecture",
-      "lastUpdate": "2026-03-12"
-    },
-    {
-      "name": "slack",
-      "description": "Interact with Slack workspaces using browser automation. Use when the user needs to check unread channels, navigate Slack, send messages, extract data, find information, search conversations, or automate any Slack task. Triggers include \"check my Slack\", \"what channels have unreads\", \"send a message to\", \"search Slack for\", \"extract from Slack\", \"find who said\", or any task requiring programmatic Slack interaction.",
-      "type": "npx 全局",
-      "location": "~/.agents\\skills\\slack",
-      "lastUpdate": "2026-03-12"
-    },
-    {
-      "name": "subagent-driven-development",
-      "description": "Use when executing implementation plans with independent tasks in the current session",
-      "type": "npx 全局",
-      "location": "~/.agents\\skills\\subagent-driven-development",
-      "lastUpdate": "2026-03-12"
-    },
-    {
-      "name": "systematic-debugging",
-      "description": "Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes",
-      "type": "npx 全局",
-      "location": "~/.agents\\skills\\systematic-debugging",
-      "lastUpdate": "2026-03-12"
-    },
-    {
-      "name": "test-driven-development",
-      "description": "Use when implementing any feature or bugfix, before writing implementation code",
-      "type": "npx 全局",
-      "location": "~/.agents\\skills\\test-driven-development",
-      "lastUpdate": "2026-03-12"
-    },
-    {
-      "name": "using-git-worktrees",
-      "description": "Use when starting feature work that needs isolation from current workspace or before executing implementation plans - creates isolated git worktrees with smart directory selection and safety verification",
-      "type": "npx 全局",
-      "location": "~/.agents\\skills\\using-git-worktrees",
-      "lastUpdate": "2026-03-12"
-    },
-    {
-      "name": "using-superpowers",
-      "description": "Use when starting any conversation - establishes how to find and use skills, requiring Skill tool invocation before ANY response including clarifying questions",
-      "type": "npx 全局",
-      "location": "~/.agents\\skills\\using-superpowers",
-      "lastUpdate": "2026-03-12"
-    },
-    {
-      "name": "vercel-react-best-practices",
-      "description": "React and Next.js performance optimization guidelines from Vercel Engineering. This skill should be used when writing, reviewing, or refactoring React/Next.js code to ensure optimal performance patterns. Triggers on tasks involving React components, Next.js pages, data fetching, bundle optimization, or performance improvements.",
-      "type": "npx 全局",
-      "location": "~/.agents\\skills\\vercel-react-best-practices",
-      "lastUpdate": "2026-03-12"
-    },
-    {
-      "name": "verification-before-completion",
-      "description": "Use when about to claim work is complete, fixed, or passing, before committing or creating PRs - requires running verification commands and confirming output before making any success claims; evidence before assertions always",
-      "type": "npx 全局",
-      "location": "~/.agents\\skills\\verification-before-completion",
-      "lastUpdate": "2026-03-12"
-    },
-    {
-      "name": "web-design-guidelines",
-      "description": "Review UI code for Web Interface Guidelines compliance. Use when asked to \"review my UI\", \"check accessibility\", \"audit design\", \"review UX\", or \"check my site against best practices\".",
-      "type": "npx 全局",
-      "location": "~/.agents\\skills\\web-design-guidelines",
-      "lastUpdate": "2026-03-12"
-    },
-    {
-      "name": "writing-plans",
-      "description": "Use when you have a spec or requirements for a multi-step task, before touching code",
-      "type": "npx 全局",
-      "location": "~/.agents\\skills\\writing-plans",
-      "lastUpdate": "2026-03-12"
-    },
-    {
-      "name": "writing-skills",
-      "description": "Use when creating new skills, editing existing skills, or verifying skills work before deployment",
-      "type": "npx 全局",
-      "location": "~/.agents\\skills\\writing-skills",
-      "lastUpdate": "2026-03-12"
-    },
-    {
-      "name": "xiaohongshu",
-      "description": "|",
-      "type": "npx 全局",
-      "location": "~/.agents\\skills\\xiaohongshu",
-      "lastUpdate": "2026-03-12"
+      "name": "summary-qa",
+      "description": "总结与要点测验 - 从文章或文档提炼要点并生成简体中文总结，配套单选/判断题复习关键知识点，附「章节标题+摘录」出处。",
+      "type": "手动创建",
+      "location": "~/.config\\opencode\\skills\\thymed-skills\\summary-qa",
+      "lastUpdate": "2026-04-08"
     }
   ]
 }
