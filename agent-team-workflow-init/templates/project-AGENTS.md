@@ -13,7 +13,7 @@
 ### PM
 - **类型**: project-manager
 - **定义文件**: agents/pm.md
-- **职责**: 任务管家、协调者、考评者
+- **职责**: 任务管家、协调者
 - **协作文件**: collaboration.md
 
 ### Requirements Manager
@@ -70,7 +70,6 @@
 | 文件 | 说明 |
 |------|------|
 | collaboration.md | 协作计划、任务跟踪 |
-| evaluation.md | 评价记录、复盘 |
 
 ---
 

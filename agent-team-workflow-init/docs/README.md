@@ -13,7 +13,6 @@ agent-team-workflow-init/
 │   └── README.md         # 说明文档（本文件）
 ├── templates/
 │   ├── collaboration.md     # 协作文件模板
-│   ├── evaluation.md        # 评价文件模板
 │   ├── project-AGENTS.md    # 项目级AGENTS.md模板
 │   └── agent-team-workflow.md # 工作流规范模板
 └── agents/               # agent定义文件
@@ -38,18 +37,8 @@ agent-team-workflow-init/
 - 最新任务
 - 进度追踪
 - 产出约定
-- 考评记录
 
-### 2. 评价文件（evaluation.md）
-
-评价文件用于记录各agent的表现：
-- 各agent详细表现
-- 问题汇总
-- 整体评价
-- 待优化建议
-- 用户确认
-
-### 3. Agent定义文件
+### 2. Agent定义文件
 
 每个agent有独立的定义文件，包含：
 - 角色名称
@@ -63,7 +52,7 @@ agent-team-workflow-init/
 
 | agent | 职责 |
 |-------|------|
-| PM | 任务管家、协调者、考评者 |
+| PM | 任务管家、协调者 |
 | requirements-manager | 需求分析 |
 | architect | 技术方案设计 |
 | ui-designer | 界面设计 |
@@ -92,10 +81,9 @@ agent-team-workflow-init/
 
 1. 检测项目状态
 2. 创建协作文件（collaboration.md）
-3. 创建评价文件（evaluation.md）
-4. 复制agent定义文件到agents/目录
-5. 创建项目级AGENTS.md
-6. 用户确认完成
+3. 复制agent定义文件到agents/目录
+4. 创建项目级AGENTS.md
+5. 用户确认完成
 
 ## 后续步骤
 

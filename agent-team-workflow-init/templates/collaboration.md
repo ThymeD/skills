@@ -58,16 +58,4 @@
 
 | 目录 | 用途 |
 |------|------|
-| evaluation/daily/ | 日常评价 |
-| evaluation/self-summary/ | 各agent绩效总结 |
-| evaluation/stage/ | 阶段考评 |
-| evaluation/cycle/ | 周期复盘 |
-| evaluation/personal/ | 个人考核 |
-| evaluation/retrospective/ | 复盘报告 |
-| evaluation/team/ | 团队变动 |
-
-## 考评记录（PM填写）
-> 在功能模块合入release时填写
-
-| agent | 任务 | 关联需求 | 分支 | 评分 | 详细表现与不足 |
-|-------|------|----------|------|------|----------------|
+| collaboration.md | 协作计划、任务跟踪 |

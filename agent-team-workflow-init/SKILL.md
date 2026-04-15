@@ -13,7 +13,6 @@ metadata:
 
 为项目初始化多Agent团队协作工作流，包括：
 - 创建协作文件模板（collaboration.md）
-- 创建评价文件模板（evaluation.md）
 - 创建项目级 AGENTS.md
 - 创建各agent定义文件
 
@@ -41,11 +40,6 @@ metadata:
 - 复制 `templates/collaboration.md` 到项目根目录
 - 替换项目名称、启动时间
 
-#### 2.2 创建评价文件
-
-- 复制 `templates/evaluation.md` 到项目根目录
-- 替换项目名称
-
 #### 2.3 创建项目AGENTS.md
 
 - 复制 `templates/project-AGENTS.md` 到项目根目录为 `AGENTS.md`
@@ -69,7 +63,6 @@ metadata:
 ```
 项目根目录/
 ├── collaboration.md      ← 从templates复制
-├── evaluation.md         ← 从templates复制
 ├── AGENTS.md            ← 从templates复制
 ├── agent-team-workflow.md ← 从templates复制
 ├── agents/              ← 从skill agents/复制
@@ -79,14 +72,6 @@ metadata:
 ├── src/                 ← 代码产出目录（需创建）
 ├── tests/               ← 测试产出目录（需创建）
 │   └── ui/              ← UI测试目录（需创建）
-└── evaluation/          ← 考核文件目录（需创建）
-    ├── daily/           ← 日常评价
-    ├── self-summary/    ← 各agent绩效总结
-    ├── stage/            ← 阶段考评
-    ├── cycle/            ← 周期复盘
-    ├── personal/         ← 个人考核
-    ├── retrospective/     ← 复盘报告
-    └── team/            ← 团队变动
 ```
 
 ### 3. 等待用户确认
@@ -103,7 +88,6 @@ metadata:
 | 文件 | 说明 |
 |------|------|
 | collaboration.md | 协作文件模板 |
-| evaluation.md | 评价文件模板 |
 | AGENTS.md | 项目级agent配置 |
 | agents/pm.md | PM agent定义 |
 | agents/requirements-manager.md | 需求分析agent定义 |
@@ -141,7 +125,6 @@ metadata:
 | 操作 | 源文件 | 目标位置 |
 |------|--------|----------|
 | 复制 | templates/collaboration.md | 项目根目录/ |
-| 复制 | templates/evaluation.md | 项目根目录/ |
 | 复制 | templates/project-AGENTS.md | 项目根目录/AGENTS.md |
 | 复制 | templates/agent-team-workflow.md | 项目根目录/ |
 
@@ -158,7 +141,6 @@ metadata:
 ```
 项目根目录/
 ├── collaboration.md      ← 从templates复制
-├── evaluation.md         ← 从templates复制
 ├── AGENTS.md            ← 从templates复制
 ├── agent-team-workflow.md ← 从templates复制
 ├── agents/              ← 从skill agents/复制
@@ -168,14 +150,6 @@ metadata:
 ├── src/                 ← 代码产出目录（需创建）
 ├── tests/               ← 测试产出目录（需创建）
 │   └── ui/              ← UI测试目录（需创建）
-└── evaluation/          ← 考核文件目录（需创建）
-    ├── daily/           ← 日常评价
-    ├── self-summary/    ← 各agent绩效总结
-    ├── stage/            ← 阶段考评
-    ├── cycle/            ← 周期复盘
-    ├── personal/         ← 个人考核
-    ├── retrospective/     ← 复盘报告
-    └── team/            ← 团队变动
 ```
 
 ### Step 5: 复制agent定义文件
