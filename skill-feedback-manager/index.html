@@ -1,0 +1,4092 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skill Feedback Manager</title>
+    <link rel="icon"
+        href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB4PSIxMCIgeT0iMTUiIHdpZHRoPSI4MCIgaGVpZ2h0PSI3MCIgcng9IjgiIGZpbGw9IiMxYTFhMmUiIHN0cm9rZT0iIzRhNGE2YSIgc3Ryb2tlLXdpZHRoPSIzIi8+PHJlY3QgeD0iMTgiIHk9IjIzIiB3aWR0aD0iNjQiIGhlaWdodD0iOCIgcng9IjIiIGZpbGw9IiMzMzMiLz48cmVjdCB4PSIxOCIgeT0iMzUiIHdpZHRoPSI0MCIgaGVpZ2h0PSI1IiByeD0iMSIgZmlsbD0iIzQ0NCIvPjxyZWN0IHg9IjE4IiB5PSI0NCIgd2lkdGg9IjU1IiBoZWlnaHQ9IjUiIHJ4PSIxIiBmaWxsPSIjNDQ0Ii8+PHJlY3QgeD0iMTgiIHk9IjUzIiB3aWR0aD0iMzAiIGhlaWdodD0iNSIgcng9IjEiIGZpbGw9IiM0NDQiLz48dGV4dCB4PSI3OCIgeT0iMzAiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiNmMGMwNDAiIGZvbnQtZmFtaWx5PSJzZXJpZiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4piFPC90ZXh0PjxjaXJjbGUgY3g9Ijc4IiBjeT0iNjgiIHI9IjE0IiBmaWxsPSJub25lIiBzdHJva2U9IiM2YzZjYWEiIHN0cm9rZS13aWR0aD0iMyIvPjxwYXRoIGQ9Ik03OCA1OCBMNzggNjggTDg4IDY4IiBmaWxsPSJub25lIiBzdHJva2U9IiM4OGFhZmYiIHN0cm9rZS13aWR0aD0iMi41IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48Y2lyY2xlIGN4PSI3OCIgY3k9IjY4IiByPSIyIiBmaWxsPSIjODhhYWZmIi8+PC9zdmc+"
+        type="image/svg+xml">
+    <style>
+        :root {
+            --primary: #0071e3;
+            --primary-light: #e8f2ff;
+            --success: #34c759;
+            --warning: #ff9500;
+            --error: #ff3b30;
+            --bg: #f5f5f7;
+            --surface: #f5f5f7;
+            --sidebar-bg: #2d3748;
+            --sidebar-hover: #3a4a5e;
+            --card-bg: #ffffff;
+            --text: #1d1d1f;
+            --text-light: #86868b;
+            --text-secondary: #86868b;
+            --text-tertiary: #aeaeb2;
+            --border: #e5e5ea;
+            --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --radius: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            min-width: 260px;
+            background: var(--sidebar-bg);
+            color: #cbd5e0;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            border-right: none;
+        }
+
+        .sidebar-header {
+            padding: 20px 16px 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-header h1 {
+            font-size: 16px;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .sidebar-header .subtitle {
+            font-size: 12px;
+            color: #8a9ab5;
+            line-height: 1.6;
+        }
+
+        .scan-block {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .scan-block:first-child {
+            margin-top: 4px;
+            padding-top: 0;
+            border-top: none;
+        }
+
+        .scan-row {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .scan-row .stat-pair {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            min-width: 72px;
+        }
+
+        .scan-row .stat-pair:first-child {
+            justify-content: flex-start;
+        }
+
+        .scan-row .stat-pair:last-child {
+            justify-content: flex-start;
+        }
+
+        .scan-row-top {
+            margin-bottom: 2px;
+        }
+
+        .scan-row-bottom {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .scan-label {
+            color: #8a9ab5;
+            font-size: 12px;
+        }
+
+        .scan-count {
+            color: #e2e8f0;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .scan-date {
+            color: #718096;
+            font-size: 11px;
+        }
+
+        .scan-btn {
+            font-size: 11px;
+            padding: 1px 8px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 6px;
+            background: transparent;
+            color: #8a9ab5;
+            cursor: pointer;
+            white-space: nowrap;
+            margin-left: auto;
+        }
+
+        .scan-btn:hover {
+            color: #e2e8f0;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .scan-btn:disabled {
+            opacity: 0.5;
+            cursor: default;
+        }
+
+        .scan-spinner {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 2px solid #555;
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            vertical-align: middle;
+            margin-left: 4px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .scan-error {
+            color: var(--error);
+            font-size: 11px;
+        }
+
+        .scan-info-icon {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            line-height: 14px;
+            text-align: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: #888;
+            font-size: 10px;
+            cursor: pointer;
+            margin-left: 4px;
+            position: relative;
+        }
+
+        .sidebar-section {
+            padding: 12px 0;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .sidebar-section #categoryList {
+            flex: 1;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+        }
+
+        .sidebar-section #categoryList::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar-section #categoryList::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .sidebar-section #categoryList::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 3px;
+        }
+
+        .sidebar-section #categoryList::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .sidebar-section-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: #718096;
+            padding: 0 16px 8px;
+            letter-spacing: 1px;
+        }
+
+        .category-item {
+            padding: 8px 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.15s;
+            font-size: 14px;
+            position: relative;
+            border-radius: 8px;
+            margin: 1px 8px;
+            color: #cbd5e0;
+        }
+
+        .category-item:hover {
+            background: var(--sidebar-hover);
+        }
+
+        .category-item.active {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .category-item.drag-over {
+            background: rgba(74, 144, 217, 0.3);
+            outline: 2px dashed var(--primary);
+        }
+
+        .category-item .cat-icon {
+            font-size: 14px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .category-item .cat-name {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .category-item .cat-count {
+            font-size: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1px 8px;
+            border-radius: 10px;
+            min-width: 3em;
+            text-align: center;
+            color: #8a9ab5;
+        }
+
+        .category-item.active .cat-count {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+
+
+
+        /* Management Panel */
+        .mgmt-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 260px;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            display: none;
+            pointer-events: auto;
+        }
+
+        .mgmt-overlay.active {
+            display: block;
+        }
+
+        .mgmt-panel {
+            position: absolute;
+            inset: 0;
+            background: #fff;
+            z-index: 1001;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .mgmt-panel.active {
+            display: flex;
+        }
+
+        .mgmt-header {
+            padding: 20px 32px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .mgmt-header h2 {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .mgmt-close {
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            color: #999;
+            padding: 4px 8px;
+        }
+
+        .mgmt-close:hover {
+            color: #333;
+        }
+
+        .mgmt-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+            padding: 16px 24px;
+            gap: 0;
+            background: #fff;
+        }
+
+        .mgmt-tab {
+            padding: 0 24px;
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 34px;
+            color: var(--text-light);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.15s;
+        }
+
+        .mgmt-tab:hover {
+            color: var(--text);
+        }
+
+        .mgmt-tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .mgmt-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px 32px;
+        }
+
+        .mgmt-tab-content {
+            display: none;
+        }
+
+        .mgmt-tab-content.active {
+            display: block;
+        }
+
+        .mgmt-section {
+            margin-bottom: 28px;
+        }
+
+        .mgmt-section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .mgmt-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 0 12px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 16px;
+        }
+
+        .mgmt-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .mgmt-actions button {
+            padding: 5px 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            background: #fff;
+            color: #555;
+            transition: all 0.15s;
+            white-space: nowrap;
+        }
+
+        .mgmt-actions button:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .mgmt-actions button:disabled {
+            color: #ccc;
+            border-color: #eee;
+            cursor: default;
+        }
+
+        .mgmt-actions button:disabled:hover {
+            border-color: #eee;
+            color: #ccc;
+        }
+
+        .mgmt-actions .btn-del:hover {
+            border-color: var(--error);
+            color: var(--error);
+        }
+
+        .mgmt-divider {
+            width: 1px;
+            height: 20px;
+            background: var(--border);
+            flex-shrink: 0;
+        }
+
+        .mgmt-add-inline {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .mgmt-add-inline input {
+            width: 100px;
+            padding: 5px 8px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 12px;
+            outline: none;
+        }
+
+        .mgmt-add-inline input:focus {
+            border-color: var(--primary);
+        }
+
+        .btn-add {
+            padding: 5px 10px;
+            background: var(--primary);
+            color: #fff;
+            border: 1px solid var(--primary);
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.15s;
+        }
+
+        .btn-add:hover {
+            background: #3a7bc8;
+        }
+
+        .mgmt-prompt-hint {
+            margin-top: 16px;
+            padding: 12px;
+            background: #f8f9fa;
+            border: 1px dashed var(--border);
+            border-radius: 8px;
+        }
+
+        .prompt-hint-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .prompt-copy-btn {
+            font-size: 12px;
+            color: var(--primary);
+            cursor: pointer;
+            padding: 2px 8px;
+            border: 1px solid var(--primary);
+            border-radius: 4px;
+            background: #fff;
+        }
+
+        .prompt-copy-btn:hover {
+            background: var(--primary-light);
+        }
+
+        .prompt-hint-text {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-break: break-all;
+            margin: 0;
+            padding: 8px;
+            background: #fff;
+            border-radius: 4px;
+            border: 1px solid #eee;
+            max-height: 240px;
+            overflow-y: auto;
+        }
+
+        .mgmt-cat-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .mgmt-cat-tag {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            background: #fafafa;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .mgmt-cat-tag:hover {
+            border-color: var(--primary);
+        }
+
+        .mgmt-cat-tag.selected {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .mgmt-cat-tag .cat-icon {
+            font-size: 16px;
+        }
+
+        .mgmt-cat-tag .cat-label {
+            font-weight: 500;
+        }
+
+        .mgmt-cat-tag .cat-label-input {
+            font-size: 14px;
+            font-weight: 500;
+            padding: 1px 4px;
+            border: 1px solid var(--primary);
+            border-radius: 3px;
+            outline: none;
+            width: 80px;
+        }
+
+        .mgmt-cat-tag .cat-count {
+            font-size: 11px;
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 1px 6px;
+            border-radius: 8px;
+            margin-left: auto;
+        }
+
+        .mgmt-cat-tag.selected .cat-count {
+            background: rgba(74, 144, 217, 0.2);
+        }
+
+        .mgmt-list-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            margin-bottom: 8px;
+            background: #fafafa;
+            flex-wrap: wrap;
+        }
+
+        .mgmt-list-item .item-main {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .mgmt-list-item .item-name {
+            font-size: 14px;
+            font-weight: 500;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .mgmt-list-item .item-sub {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-top: 2px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .mgmt-list-item .item-badge {
+            font-size: 12px;
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 2px 8px;
+            border-radius: 10px;
+            white-space: nowrap;
+        }
+
+        .mgmt-list-item .item-remove {
+            background: none;
+            border: none;
+            color: #ccc;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 2px 6px;
+        }
+
+        .mgmt-list-item .item-remove:hover {
+            color: var(--error);
+        }
+
+        .mgmt-list-item.is-default {
+            border-left: 3px solid var(--primary);
+        }
+
+        .dir-skill-list {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            padding-top: 8px;
+            border-top: 1px dashed var(--border);
+            margin-top: 4px;
+            transition: max-height 0.2s ease, padding 0.2s ease, margin 0.2s ease;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .dir-skill-list.collapsed {
+            max-height: 0;
+            padding-top: 0;
+            margin-top: 0;
+            border-top: none;
+            overflow: hidden;
+        }
+
+        .dir-skill-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            padding: 3px 10px;
+            border-radius: 12px;
+            background: #fff;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s;
+        }
+
+        .dir-skill-chip:hover {
+            background: var(--primary-light);
+            border-color: var(--primary);
+        }
+
+        .conflict-body {
+            transition: max-height 0.2s ease;
+            max-height: 2000px;
+            overflow: hidden;
+        }
+
+        .conflict-body.collapsed {
+            max-height: 0;
+            overflow: hidden;
+        }
+
+        .scan-preview {
+            margin-top: 8px;
+            padding: 10px 12px;
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
+        .scan-preview .preview-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .scan-preview .preview-item {
+            color: var(--text-light);
+            padding: 1px 0;
+        }
+
+        .preview-conflict {
+            margin-top: 8px;
+            padding: 6px 8px;
+            background: #fff8e1;
+            border: 1px solid #ffe082;
+            border-radius: 6px;
+        }
+
+        .preview-conflict-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: #e65100;
+            margin-bottom: 4px;
+        }
+
+        .mgmt-dir-input-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0 0 12px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 16px;
+        }
+
+        .mgmt-dir-input-row input {
+            flex: 1;
+            padding: 7px 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 13px;
+            outline: none;
+            transition: border-color 0.15s;
+        }
+
+        .mgmt-dir-input-row input:focus {
+            border-color: var(--primary);
+        }
+
+        .conflict-section {
+            margin-top: 16px;
+            padding: 12px;
+            background: #fff8e1;
+            border: 1px solid #ffe082;
+            border-radius: 8px;
+        }
+
+        .conflict-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #e65100;
+            margin-bottom: 10px;
+        }
+
+        .conflict-card {
+            margin-bottom: 10px;
+            padding: 8px 10px;
+            background: #fff;
+            border-radius: 6px;
+            border: 1px solid #ffe082;
+        }
+
+        .conflict-skill-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 6px;
+        }
+
+        .conflict-options {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .conflict-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.15s;
+            border: 1px solid transparent;
+        }
+
+        .conflict-option:hover {
+            background: #f5f5f5;
+        }
+
+        .conflict-option.selected {
+            background: #e8f5e9;
+            border-color: #a5d6a7;
+        }
+
+        .conflict-radio {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 2px solid #ccc;
+            flex-shrink: 0;
+            position: relative;
+            transition: border-color 0.15s;
+        }
+
+        .conflict-radio.checked {
+            border-color: var(--primary);
+        }
+
+        .conflict-radio.checked::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--primary);
+        }
+
+        .conflict-dir-name {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--primary);
+            background: var(--primary-light);
+            padding: 1px 6px;
+            border-radius: 3px;
+            white-space: nowrap;
+        }
+
+        .conflict-dir-path {
+            font-size: 11px;
+            color: #888;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .conflict-meta {
+            font-size: 11px;
+            color: #aaa;
+            white-space: nowrap;
+        }
+
+        .add-category {
+            padding: 8px 16px;
+            display: flex;
+            gap: 6px;
+        }
+
+        .add-category input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            outline: none;
+        }
+
+        .add-category input::placeholder {
+            color: #666;
+        }
+
+        .add-category input:focus {
+            border-color: var(--primary);
+        }
+
+        .add-category button {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        /* Main Content */
+        .main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .toolbar {
+            padding: 12px 24px;
+            background: #fff;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .toolbar .search-box {
+            position: relative;
+            width: 660px;
+            flex-shrink: 0;
+        }
+
+        .toolbar .search-box input {
+            width: 100%;
+            padding: 8px 12px 8px 36px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+            background: var(--surface);
+            font-family: inherit;
+        }
+
+        .toolbar .search-box input:focus {
+            border-color: var(--primary);
+            background: #fff;
+        }
+
+        .toolbar .search-box::before {
+            content: '\1F50D';
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+        }
+
+        .sort-tabs {
+            display: flex;
+            gap: 4px;
+            margin-left: auto;
+        }
+
+        .sort-tab {
+            padding: 5px 10px;
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            font-size: 12px;
+            cursor: pointer;
+            background: #fff;
+            color: var(--text-light);
+            white-space: nowrap;
+            transition: all 0.15s;
+            font-weight: 500;
+        }
+
+        .sort-tab:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .sort-tab.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        /* Skills Grid */
+        .skills-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 24px;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 14px;
+        }
+
+        .skill-card {
+            background: #fff;
+            border-radius: var(--radius);
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+            border: none;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            position: relative;
+        }
+
+        .skill-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .skill-card.dragging {
+            opacity: 0.5;
+        }
+
+        .skill-card.shielded {
+            opacity: 0.5;
+            border: 2px dashed #ccc;
+            background: #fafafa;
+        }
+
+        .skill-card.shielded:hover {
+            opacity: 0.7;
+            transform: scale(1.02);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .skill-card.implicit {
+            opacity: 0.8;
+            border: 1px dotted #bcc4cc;
+            background: #fafbfc;
+        }
+
+        .skill-card.implicit:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+        }
+
+        .shielded-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            font-size: 10px;
+            background: #999;
+            color: #fff;
+            padding: 1px 6px;
+            border-radius: 3px;
+            white-space: nowrap;
+            z-index: 2;
+        }
+
+        .implicit-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            font-size: 10px;
+            background: rgba(160, 170, 185, 0.6);
+            color: #6b7280;
+            padding: 1px 6px;
+            border-radius: 3px;
+            white-space: nowrap;
+            z-index: 2;
+        }
+
+        /* Shield switch */
+        .shield-switch {
+            position: relative;
+            display: inline-block;
+            width: 36px;
+            height: 20px;
+            vertical-align: middle;
+            margin-left: 6px;
+        }
+
+        .shield-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .shield-switch .slider {
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            background: #ccc;
+            border-radius: 20px;
+            transition: background 0.2s;
+        }
+
+        .shield-switch .slider::before {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            left: 2px;
+            bottom: 2px;
+            background: #fff;
+            border-radius: 50%;
+            transition: transform 0.2s;
+        }
+
+        .shield-switch input:checked+.slider {
+            background: var(--success);
+        }
+
+        .shield-switch input:checked+.slider::before {
+            transform: translateX(16px);
+        }
+
+        .skill-card .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .card-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .skill-card .skill-name {
+            font-size: 15px;
+            font-weight: 600;
+            line-height: 1.3;
+            letter-spacing: -0.2px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .skill-card .skill-alias {
+            font-size: 11px;
+            color: var(--text-tertiary);
+            margin-top: 1px;
+        }
+
+        .skill-card .updated-badge {
+            font-size: 10px;
+            background: var(--warning);
+            color: #fff;
+            padding: 1px 6px;
+            border-radius: 3px;
+            white-space: nowrap;
+        }
+
+        .skill-card .skill-desc {
+            font-size: 13px;
+            color: var(--text-light);
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            margin-bottom: 14px;
+            min-height: 2.8em;
+        }
+
+        .skill-card .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .skill-card .rating {
+            font-size: 16px;
+            letter-spacing: 1px;
+        }
+
+        .skill-card .rating .star-filled {
+            color: var(--warning);
+        }
+
+        .skill-card .rating .star-empty {
+            color: #e5e5ea;
+        }
+
+        .skill-card .usage-count {
+            font-size: 12px;
+            color: var(--text-tertiary);
+            font-weight: 500;
+        }
+
+        .open-folder-btn {
+            cursor: pointer;
+            color: var(--text-light);
+            transition: color 0.15s;
+            white-space: nowrap;
+        }
+
+        .open-folder-btn .copy-icon {
+            display: inline-block;
+            width: 1em;
+            text-align: center;
+        }
+
+        .open-folder-btn:hover {
+            color: var(--primary);
+        }
+
+        .skill-card .category-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-top: 8px;
+        }
+
+        .skill-card .category-tag {
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 100px;
+            background: var(--primary-light);
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-light);
+        }
+
+        .empty-state .icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .empty-state h3 {
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: #fff;
+            border-radius: 12px;
+            width: 900px;
+            max-width: 90vw;
+            max-height: 85vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+
+        .modal-header h2 {
+            font-size: 18px;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+            padding: 0 4px;
+        }
+
+        .modal-close:hover {
+            color: #333;
+        }
+
+        .modal-body {
+            padding: 24px;
+            display: flex;
+            gap: 24px;
+            overflow-y: auto;
+            flex: 1;
+            min-height: 0;
+        }
+
+        /* Detail Panel - handled by Apple style above */
+
+        .modal-body .field {
+            margin-bottom: 20px;
+        }
+
+        .modal-body .field-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 6px;
+        }
+
+        .modal-body .desc-text {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #555;
+            background: #f9f9f9;
+            padding: 12px;
+            border-radius: 6px;
+        }
+
+        .modal-body .meta-row {
+            display: flex;
+            gap: 20px;
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        /* Star Rating */
+        .star-rating {
+            display: inline-flex;
+            gap: 4px;
+            font-size: 24px;
+        }
+
+        .star-rating .star {
+            cursor: pointer;
+            color: #ddd;
+            transition: color 0.1s;
+        }
+
+        .star-rating .star.filled {
+            color: var(--warning);
+        }
+
+        .star-rating .star:hover {
+            color: var(--warning);
+        }
+
+        /* Usage Counter */
+        .usage-counter {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .usage-counter .count-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .usage-counter button {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            background: #fff;
+            color: var(--primary);
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .usage-counter button:hover {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        /* Category Assignment */
+        .category-assignment {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .category-chip {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 13px;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            background: #fff;
+            transition: all 0.15s;
+        }
+
+        .category-chip.assigned {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .category-chip:hover {
+            border-color: var(--primary);
+        }
+
+        .category-chip .chip-check {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 2px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+        }
+
+        .category-chip.assigned .chip-check {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .chip-icon {
+            font-size: 13px;
+        }
+
+        .comment-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 13px;
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+        }
+
+        .comment-item.resolved {
+            opacity: 0.5;
+        }
+
+        .comment-item.resolved .comment-text {
+            text-decoration: line-through;
+            color: #aaa;
+        }
+
+        .comment-checkbox {
+            flex-shrink: 0;
+            margin-top: 2px;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+
+        .comment-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .comment-item .comment-time {
+            font-size: 11px;
+            color: #aaa;
+            margin-bottom: 2px;
+        }
+
+        .comment-item .comment-text {
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .comment-resolved-tag {
+            font-size: 11px;
+            color: var(--success);
+            background: #f6ffed;
+            padding: 0 6px;
+            border-radius: 3px;
+            margin-left: 6px;
+        }
+
+        .comment-input {
+            display: flex;
+            gap: 8px;
+        }
+
+        .comment-input textarea {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 13px;
+            resize: none;
+            height: 60px;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .comment-input textarea:focus {
+            border-color: var(--primary);
+        }
+
+        .comment-input button {
+            align-self: flex-end;
+            padding: 8px 16px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+
+        /* AI Tag Modal */
+        .ai-import-area {
+            width: 100%;
+            min-height: 150px;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 13px;
+            font-family: monospace;
+            outline: none;
+            resize: vertical;
+        }
+
+        .ai-import-area:focus {
+            border-color: var(--primary);
+        }
+
+        .ai-hint {
+            font-size: 12px;
+            color: #888;
+            margin-top: 8px;
+            line-height: 1.6;
+        }
+
+        .modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .modal-footer button {
+            padding: 8px 20px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: #fff;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .modal-footer .btn-primary {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            top: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: #fff;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.3s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+
+        /* Loading */
+        .loading-overlay {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 200px;
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        /* Avatar gradient colors */
+        /* Detail Panel - right 75% slide-in */
+        .detail-panel-overlay {
+            justify-content: flex-end;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .detail-panel-overlay .detail-panel {
+            background: #fff;
+            width: 75%;
+            height: 100%;
+            border-radius: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: -10px 0 40px rgba(0, 0, 0, 0.15);
+            animation: slideIn 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+            position: relative;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(60px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .close-float {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--surface);
+            border: none;
+            font-size: 16px;
+            color: var(--text-light);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            z-index: 10;
+        }
+
+        .close-float:hover {
+            background: #e5e5ea;
+            color: var(--text);
+        }
+
+        /* Hero */
+        .detail-hero {
+            padding: 28px 32px 0;
+            flex-shrink: 0;
+        }
+
+        .hero-name {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 4px;
+        }
+
+        .hero-desc {
+            font-size: 14px;
+            color: var(--text-light);
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            word-break: break-word;
+            min-height: 3em;
+        }
+
+        .fade-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border), transparent);
+            margin: 22px 0;
+        }
+
+        .stats-row {
+            display: flex;
+            align-items: center;
+            padding: 0 32px;
+            margin-top: 18px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 8px 0;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-tertiary);
+        }
+
+        .stat-val {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text);
+            min-width: 48px;
+            text-align: center;
+        }
+
+        .stat-sub {
+            font-size: 11px;
+            color: var(--text-tertiary);
+        }
+
+        .counter-stack {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .counter-arrow {
+            display: inline-block;
+            cursor: pointer;
+            color: var(--text-tertiary);
+            transition: color 0.15s;
+            user-select: none;
+            padding: 4px 8px;
+        }
+
+        .counter-arrow:hover {
+            color: var(--primary);
+        }
+
+        .counter-arrow svg {
+            display: block;
+            fill: currentColor;
+        }
+
+        .counter-manual {
+            font-size: 11px;
+            color: var(--text-tertiary);
+            line-height: 1;
+        }
+
+        .counter-manual .counter-num {
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        /* Two-column body */
+        .detail-left {
+            padding: 22px 32px 32px;
+        }
+
+        .detail-right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .detail-left::-webkit-scrollbar {
+            width: 0;
+        }
+
+        /* Sections */
+        .section {
+            margin-bottom: 22px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .section-title {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-tertiary);
+            margin-bottom: 10px;
+        }
+
+        .trigger-hl {
+            background: rgba(0, 113, 227, 0.12);
+            border-radius: 3px;
+            padding: 1px 3px;
+            font-weight: 600;
+        }
+
+        .trigger-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+
+        .trigger-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(0, 113, 227, 0.1);
+            font-size: 12px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .desc-text {
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--text);
+        }
+
+        .prop-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px 24px;
+            font-size: 13px;
+        }
+
+        .prop-item {
+            white-space: nowrap;
+        }
+
+        .prop-key {
+            color: var(--text-tertiary);
+            font-weight: 500;
+        }
+
+        .prop-key::after {
+            content: ':';
+            margin-right: 4px;
+        }
+
+        .prop-val {
+            color: var(--text);
+        }
+
+        .prop-val.link {
+            color: var(--primary);
+            cursor: pointer;
+        }
+
+        .prop-val.link:hover {
+            text-decoration: underline;
+        }
+
+        /* Stars */
+        .stat-controls .stars {
+            font-size: 16px;
+            letter-spacing: 1px;
+            cursor: pointer;
+            min-width: 80px;
+        }
+
+        .stars .filled {
+            color: var(--warning);
+        }
+
+        .stars .empty {
+            color: #e5e5ea;
+        }
+
+        /* Category pills */
+        .cat-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .cat-pill {
+            padding: 5px 12px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .cat-pill.active {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .cat-pill.inactive {
+            background: var(--surface);
+            color: var(--text-light);
+        }
+
+        .cat-pill.inactive:hover {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        /* Dependency section */
+        .dep-section {}
+
+        .dep-cols {
+            display: flex;
+            gap: 12px;
+        }
+
+        .dep-col {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .dep-col-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .dep-list {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .dep-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            padding: 3px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .dep-item:hover {
+            background: var(--primary-light);
+        }
+
+        .dep-item .dep-name {
+            color: var(--primary);
+        }
+
+        .dep-item .dep-shielded {
+            color: var(--warning);
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .dep-empty {
+            color: var(--text-tertiary);
+            font-size: 12px;
+            padding: 3px 8px;
+        }
+
+        .dep-warning {
+            color: var(--error);
+            font-size: 13px;
+            font-weight: 600;
+            margin-left: 6px;
+        }
+
+        /* Comments - timeline */
+        .comments-header {
+            padding: 22px 32px 8px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .comments-title {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-tertiary);
+        }
+
+        .comment-filter-tabs {
+            display: flex;
+            gap: 2px;
+            background: var(--surface);
+            border-radius: 6px;
+            padding: 2px;
+        }
+
+        .comment-filter-tab {
+            padding: 3px 10px;
+            font-size: 11px;
+            border-radius: 4px;
+            cursor: pointer;
+            color: var(--text-tertiary);
+            transition: all 0.15s;
+            user-select: none;
+        }
+
+        .comment-filter-tab:hover {
+            color: var(--text);
+        }
+
+        .comment-filter-tab.active {
+            background: #fff;
+            color: var(--text);
+            font-weight: 600;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+        }
+
+        .comments-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 32px;
+        }
+
+        .comments-list::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .comments-list::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .comments-list::-webkit-scrollbar-thumb {
+            background: #e5e5ea;
+            border-radius: 2px;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 18px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 4px;
+            top: 8px;
+            bottom: 8px;
+            width: 1.5px;
+            background: var(--border);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding: 0 0 18px 14px;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -18px;
+            top: 6px;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 2px solid #fff;
+            box-shadow: 0 0 0 1px var(--border);
+        }
+
+        .timeline-item.resolved .timeline-dot {
+            background: var(--success);
+        }
+
+        .timeline-date {
+            font-size: 11px;
+            color: var(--text-tertiary);
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .resolved-badge {
+            background: #e8f8ed;
+            color: var(--success);
+            padding: 1px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 500;
+        }
+
+        .timeline-text {
+            font-size: 13px;
+            line-height: 1.6;
+            color: var(--text);
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            word-break: break-word;
+        }
+
+        .timeline-item.resolved {
+            opacity: 0.5;
+        }
+
+        .timeline-item.resolved .timeline-text {
+            text-decoration: line-through;
+        }
+
+        .comment-box {
+            padding: 8px 32px 8px;
+            flex-shrink: 0;
+        }
+
+        .comment-box .input-row {
+            display: flex;
+            gap: 8px;
+            align-items: flex-end;
+        }
+
+        .comment-box textarea {
+            flex: 1;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 10px 14px;
+            font-size: 13px;
+            resize: none;
+            overflow: hidden;
+            height: 40px;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s;
+            color: var(--text);
+            background: var(--surface);
+        }
+
+        .comment-box textarea:focus {
+            border-color: var(--primary);
+            background: #fff;
+        }
+
+        .comment-box button {
+            padding: 6px 18px;
+            background: var(--primary);
+            border: none;
+            border-radius: 100px;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .comment-box button:hover {
+            background: #0062cc;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div style="display:flex;align-items:center;justify-content:space-between">
+                <h1 onclick="openDetailModal('skill-feedback-manager')" style="cursor:pointer;margin-bottom:0">
+                    技能看板</h1>
+                <div style="display:flex;align-items:center;gap:6px">
+                    <span class="scan-date" id="lastUpdateDate">-</span>
+                    <button class="scan-btn" id="btnRefreshAll" onclick="runRefreshAll()">更新数据</button>
+                </div>
+            </div>
+            <div class="subtitle" id="scanTime">
+                <div class="scan-block" id="statsArea"></div>
+            </div>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">分类筛选</div>
+            <div id="categoryList"></div>
+            <div class="add-category">
+                <button onclick="openMgmtPanel()"
+                    style="flex:1;padding:8px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:#8a9ab5;border-radius:8px;cursor:pointer;font-size:13px;transition:all 0.15s"
+                    onmouseover="this.style.background='rgba(255,255,255,0.15)';this.style.color='#e2e8f0'"
+                    onmouseout="this.style.background='rgba(255,255,255,0.08)';this.style.color='#8a9ab5'">&#9881;
+                    管理</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="main">
+        <div class="toolbar">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="搜索 skill..." oninput="renderSkills()" />
+            </div>
+            <div class="sort-tabs" id="sortTabs">
+                <span class="sort-tab" data-sort="rating-desc" onclick="setSort(this)">评分↓</span>
+                <span class="sort-tab" data-sort="comments-desc" onclick="setSort(this)">评论↓</span>
+                <span class="sort-tab" data-sort="pending-desc" onclick="setSort(this)">待处理↓</span>
+                <span class="sort-tab" data-sort="updated-desc" onclick="setSort(this)">更新↓</span>
+                <span class="sort-tab" data-sort="count-desc" onclick="setSort(this)">次数↓</span>
+                <span class="sort-tab" data-sort="name-asc" onclick="setSort(this)">名称↑</span>
+            </div>
+        </div>
+
+        <div class="skills-container" id="skillsContainer">
+            <div class="loading-overlay">加载中...</div>
+        </div>
+
+        <!-- Management Panel (inside .main) -->
+        <div class="mgmt-panel" id="mgmtPanel">
+            <div class="mgmt-header">
+                <h2>管理</h2>
+                <button class="mgmt-close" onclick="closeMgmtPanel()">&times;</button>
+            </div>
+            <div class="mgmt-tabs">
+                <div class="mgmt-tab active" onclick="switchMgmtTab('category')">分类管理</div>
+                <div class="mgmt-tab" onclick="switchMgmtTab('scanDir')">扫描目录</div>
+            </div>
+            <div class="mgmt-body">
+                <div class="mgmt-tab-content active" id="mgmtTabCategory">
+                    <div class="mgmt-toolbar">
+                        <div class="mgmt-actions">
+                            <button id="mgmtBtnLeft" onclick="mgmtMoveSelected(-1)" disabled title="左移选中分类">&#9664;
+                                左移</button>
+                            <button id="mgmtBtnRight" onclick="mgmtMoveSelected(1)" disabled title="右移选中分类">右移
+                                &#9654;</button>
+                            <button id="mgmtBtnRename" onclick="mgmtRenameSelected()" disabled
+                                title="重命名选中分类">重命名</button>
+                            <button id="mgmtBtnDel" class="btn-del" onclick="mgmtDeleteSelected()" disabled
+                                title="删除选中分类">删除</button>
+                        </div>
+                        <div class="mgmt-divider"></div>
+                        <div class="mgmt-add-inline">
+                            <input type="text" id="mgmtNewCatInput" placeholder="新分类"
+                                onkeydown="if(event.key==='Enter')mgmtAddCategory()">
+                            <button class="btn-add" onclick="mgmtAddCategory()">添加</button>
+                        </div>
+                    </div>
+                    <div id="mgmtCatList" class="mgmt-cat-grid"></div>
+                    <div class="mgmt-prompt-hint" id="mgmtPromptHint" style="display:none">
+                        <div class="prompt-hint-header">
+                            <span>💡 点击图标即可直接修改；也可复制下方提示词让 AI 推荐</span>
+                            <span class="prompt-copy-btn" onclick="copyPromptText()" title="复制提示词">复制</span>
+                        </div>
+
+                        <pre class="prompt-hint-text" id="promptHintText"></pre>
+
+                    </div>
+                </div>
+                <div class="mgmt-tab-content" id="mgmtTabScanDir">
+                    <div class="mgmt-dir-input-row">
+                        <input type="text" id="mgmtNewDirInput" placeholder="输入技能目录路径，如 D:/my-skills"
+                            onkeydown="if(event.key==='Enter')mgmtPreviewDir()">
+                        <button class="btn-add" onclick="mgmtPreviewDir()">预览扫描</button>
+                    </div>
+                    <div id="mgmtScanPreview"></div>
+                    <div id="mgmtConflictList"></div>
+                    <div id="mgmtDirList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detail Modal -->
+    <div class="modal-overlay detail-panel-overlay" id="detailModal" onclick="if(event.target===this)closeDetailModal()"
+        onwheel="event.preventDefault()">
+        <div class="detail-panel" onclick="event.stopPropagation()" onwheel="event.stopPropagation()">
+            <button class="close-float" onclick="closeDetailModal()">&times;</button>
+            <div id="modalBody" style="display:flex;flex-direction:column;flex:1;min-height:0;overflow:hidden">
+            </div>
+        </div>
+    </div>
+
+    <!-- Usage Info Modal -->
+    <div class="modal-overlay" id="usageInfoModal">
+        <div class="modal" style="max-width:480px">
+            <div class="modal-header">
+                <h2>自动计数统计规则</h2>
+                <button class="modal-close" onclick="closeUsageInfoModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="line-height:1.8;color:#555">基于 <b id="usageInfoPath"
+                        style="color:#8fbcff;word-break:break-all"></b> 下的会话日志，统计通过 CodeAgentCLI 使用 Skill 的记录（包括用户输入 /命令
+                    和 AI 主动调用 Skill 工具）。</p>
+                <p style="line-height:1.8;color:#555">其他工具或其他日志来源的使用记录不在统计范围内，可通过手动 +/−1 补充。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Management Panel -->
+    <div class="mgmt-overlay" id="mgmtOverlay" onclick="closeMgmtPanel()"></div>
+
+    <!-- Scan Error Modal -->
+    <div class="modal-overlay" id="scanErrorModal">
+        <div class="modal" style="max-width:560px">
+            <div class="modal-header">
+                <h2>调用扫描失败</h2>
+                <button class="modal-close" onclick="closeScanErrorModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="field">
+                    <div class="field-label">错误信息</div>
+
+                    <pre id="scanErrorContent"
+                        style="background:#f5f5f5;padding:10px;border-radius:6px;font-size:12px;overflow-x:auto;white-space:pre-wrap;word-break:break-all;max-height:150px;overflow-y:auto"></pre>
+
+                </div>
+                <div class="field">
+                    <div class="field-label">AI 修复提示词 <button onclick="copyScanErrorHint()"
+                            style="margin-left:8px;font-size:12px;padding:2px 8px;border:1px solid var(--border);border-radius:4px;cursor:pointer;background:#fff">复制</button>
+                    </div>
+                    <textarea id="scanErrorHint"
+                        style="width:100%;height:120px;font-size:12px;padding:8px;border:1px solid var(--border);border-radius:6px;resize:vertical"
+                        readonly></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Import Modal -->
+    <div class="modal-overlay" id="aiImportModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>导入 AI 分类标签</h2>
+                <button class="modal-close" onclick="closeAIImportModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="field">
+                    <div class="field-label">粘贴 AI 生成的分类结果</div>
+                    <textarea class="ai-import-area" id="aiImportText"
+                        placeholder="格式示例：&#10;&#10;## 代码检视&#10;- it-mr-review-comment&#10;- it-code-review&#10;&#10;## 测试&#10;- api-test-design&#10;- api-test-dev&#10;&#10;或简单格式：&#10;代码检视: it-mr-review-comment, it-code-review&#10;测试: api-test-design, api-test-dev"></textarea>
+                    <div class="ai-hint">
+                        支持两种格式：<br>
+                        1. Markdown 格式：## 分类名 + - skillId 列表<br>
+                        2. 简单格式：分类名: skill1, skill2<br>
+                        导入后会自动创建不存在的分类，并将 skill 归入对应分类。
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button onclick="closeAIImportModal()">取消</button>
+                <button class="btn-primary" onclick="applyAIImport()">应用分类</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // ---- Default Categories (方案A: 按开发流程阶段) ----
+        const DEFAULT_CATEGORIES = {
+            '需求': { order: 1, icon: '📋' },
+            '设计': { order: 2, icon: '🏗️' },
+            '开发': { order: 3, icon: '💻' },
+            '规范': { order: 4, icon: '📏' },
+            '测试': { order: 5, icon: '🧪' },
+            '质量': { order: 6, icon: '🔍' },
+            '调试': { order: 7, icon: '🐛' },
+            '升级': { order: 8, icon: '🔄' },
+            '工程': { order: 9, icon: '🔧' },
+            '知识': { order: 10, icon: '📚' },
+            '交付': { order: 11, icon: '🚀' },
+            '工具': { order: 12, icon: '🛠️' },
+        };
+
+        // ---- State ----
+        let skills = [];
+        let feedback = { categories: {}, categoryMeta: {}, skills: {} };
+        let dependencies = {};
+        let translations = {};
+        let homeDir = '';
+        let currentSort = localStorage.getItem('skillSort') || 'name-asc';
+        let selectedCategory = '__all__';
+        let currentDetailSkillId = null;
+        let selectedMgmtCat = null;
+
+        // ---- API ----
+        const API = '/api';
+
+        async function apiGet(path) {
+            const res = await fetch(API + path);
+            return res.json();
+        }
+
+        async function apiPost(path, body) {
+            const res = await fetch(API + path, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body),
+            });
+            return res.json();
+        }
+
+        // ---- Init ----
+
+
+        async function init() {
+            try {
+                const [skillsRes, feedbackRes, homeDirRes, depsRes, zhRes] = await Promise.all([
+                    apiGet('/skills'),
+                    apiGet('/feedback'),
+                    apiGet('/home-dir'),
+                    apiGet('/skill-dependencies'),
+                    apiGet('/skill-translations'),
+                ]);
+                skills = skillsRes.skills || [];
+                feedback = feedbackRes || { categories: {}, skills: {} };
+                dependencies = depsRes.dependencies || {};
+                translations = zhRes || {};
+
+                // Sync shielded skills with "已屏蔽" category tag
+                if (!feedback.categories['已屏蔽']) feedback.categories['已屏蔽'] = [];
+                if (!feedback.categoryMeta) feedback.categoryMeta = {};
+                if (!feedback.categoryMeta['已屏蔽']) feedback.categoryMeta['已屏蔽'] = { order: 99, icon: '🚫' };
+                for (const s of skills) {
+                    const fb = feedback.skills[s.id] || {};
+                    const isShielded = s.shielded || fb.shielded;
+                    const inCat = feedback.categories['已屏蔽'].includes(s.id);
+                    if (isShielded && !inCat) {
+                        feedback.categories['已屏蔽'].push(s.id);
+                    } else if (!isShielded && inCat) {
+                        feedback.categories['已屏蔽'].splice(feedback.categories['已屏蔽'].indexOf(s.id), 1);
+                    }
+                }
+
+                // Skill scan time
+                updateSkillScanTime();
+
+                // Usage scan time (from last scan state)
+                const scanState = feedback.usageScanState;
+                updateUsageScanTime(scanState && scanState.lastScanTime ? scanState.lastScanTime : null);
+
+                // Restore last refresh date
+                restoreLastRefreshDate();
+
+                // Set projects dir path in usage info modal
+                if (homeDirRes.homeDir) {
+                    homeDir = homeDirRes.homeDir;
+                    document.getElementById('usageInfoPath').textContent =
+                        homeDir + '\\.claude\\projects\\';
+                }
+
+                // Restore sort tab state from localStorage
+                restoreSortTabs();
+
+                renderAll();
+            } catch (e) {
+                document.getElementById('skillsContainer').innerHTML =
+                    `<div class="empty-state"><div class="icon">&#9888;</div><h3>无法连接服务器</h3><p>请先运行: node server.js</p></div>`;
+            }
+        }
+
+        function getTotalCalls() {
+            let total = 0;
+            for (const s of skills) {
+                const fb = feedback.skills[s.id] || {};
+                total += (fb.autoCount || 0) + (fb.usageCount || 0);
+            }
+            return total;
+        }
+
+        function getFreshnessColor(dateStr) {
+            if (!dateStr) return '#666';
+            const diff = Date.now() - new Date(dateStr).getTime();
+            const oneWeek = 7 * 24 * 3600 * 1000;
+            const oneMonth = 30 * 24 * 3600 * 1000;
+            if (diff > oneMonth) return '#e74c3c'; // red
+            if (diff > oneWeek) return '#f39c12';   // yellow/orange
+            return '#666';                                       // default
+        }
+
+        function updateUsageScanTime(scanTime) {
+            if (scanTime) {
+                updateLastRefreshDate(scanTime);
+            }
+        }
+
+        function updateSkillScanTime(scanTime) {
+            if (scanTime) {
+                localStorage.setItem('skillScanTime', scanTime);
+                updateLastRefreshDate(scanTime);
+            } else {
+                const saved = localStorage.getItem('skillScanTime');
+                if (saved) updateLastRefreshDate(saved);
+            }
+        }
+
+        function updateLastRefreshDate(scanTime) {
+            const dateEl = document.getElementById('lastUpdateDate');
+            if (!dateEl) return;
+            dateEl.textContent = new Date(scanTime).toISOString().slice(0, 10);
+            dateEl.style.color = getFreshnessColor(scanTime);
+            localStorage.setItem('lastRefreshDate', scanTime);
+        }
+
+        function restoreLastRefreshDate() {
+            const saved = localStorage.getItem('lastRefreshDate');
+            if (saved) updateLastRefreshDate(saved);
+        }
+
+        let _refreshing = false;
+        async function runRefreshAll() {
+            if (_refreshing) return;
+            _refreshing = true;
+            const btn = document.getElementById('btnRefreshAll');
+            const dateEl = document.getElementById('lastUpdateDate');
+            btn.disabled = true;
+            btn.style.opacity = '0.6';
+            dateEl.innerHTML = '更新中...<span class="scan-spinner"></span>';
+
+            try {
+                // Step 1: refresh skill list + dependencies
+                const [res, depsRes] = await Promise.all([
+                    apiGet('/skills'),
+                    apiGet('/skill-dependencies'),
+                ]);
+                skills = res.skills || [];
+                dependencies = depsRes.dependencies || {};
+
+                // Step 2: run usage scan
+                const usageRes = await apiPost('/usage-scan', {});
+                if (usageRes.ok) {
+                    const feedbackRes = await apiGet('/feedback');
+                    feedback = feedbackRes || feedback;
+                    const now = new Date().toISOString();
+                    localStorage.setItem('skillScanTime', now);
+                    updateLastRefreshDate(now);
+                    renderAll();
+                    showToast('数据更新完成，新增 ' + (usageRes.newCalls || 0) + ' 条调用记录');
+                } else {
+                    dateEl.textContent = '更新失败';
+                    dateEl.style.color = '#e74c3c';
+                    showScanErrorModal(usageRes.error, usageRes.hint);
+                }
+            } catch (e) {
+                dateEl.textContent = '更新失败';
+                dateEl.style.color = '#e74c3c';
+                showScanErrorModal(e.message, '');
+            } finally {
+                _refreshing = false;
+                btn.disabled = false;
+                btn.style.opacity = '';
+            }
+        }
+
+        function showScanErrorModal(error, hint) {
+            const modal = document.getElementById('scanErrorModal');
+            document.getElementById('scanErrorContent').textContent = error || '未知错误';
+            document.getElementById('scanErrorHint').value = hint || '技能看板的调用扫描脚本执行出错，请帮我修复。\n\n错误信息:\n' + (error || '');
+            modal.classList.add('active');
+        }
+
+        function closeScanErrorModal() {
+            document.getElementById('scanErrorModal').classList.remove('active');
+        }
+
+        function showUsageInfoModal() {
+            document.getElementById('usageInfoModal').classList.add('active');
+        }
+        function closeUsageInfoModal() {
+            document.getElementById('usageInfoModal').classList.remove('active');
+        }
+
+        function copyScanErrorHint() {
+            const textarea = document.getElementById('scanErrorHint');
+            textarea.select();
+            document.execCommand('copy');
+            showToast('已复制提示词');
+        }
+
+        // ---- Rendering ----
+        function renderAll() {
+            renderCategories();
+            renderSkills();
+            renderStats();
+        }
+
+        function renderCategories() {
+            const list = document.getElementById('categoryList');
+            const cats = Object.keys(feedback.categories);
+
+            // Sort categories: by categoryMeta.order, then name; categories without meta go last
+            const meta = feedback.categoryMeta || {};
+            cats.sort((a, b) => {
+                const oa = meta[a] ? meta[a].order : 9999;
+                const ob = meta[b] ? meta[b].order : 9999;
+                if (oa !== ob) return oa - ob;
+                return a.localeCompare(b, 'zh-CN');
+            });
+
+            // Count skills per category
+            const catCounts = {};
+            cats.forEach(c => { catCounts[c] = feedback.categories[c].length; });
+            const uncategorized = skills.filter(s => {
+                return !cats.some(c => feedback.categories[c].includes(s.id));
+            }).length;
+
+            let html = `
+      <div class="category-item ${selectedCategory === '__all__' ? 'active' : ''}"
+              onclick="selectCategory('__all__')"
+              ondragover="handleDragOver(event)" ondrop="handleDrop(event, '__all__')">
+         <span class="cat-icon">&#128218;</span>
+         <span class="cat-name">全部</span>
+         <span class="cat-count">${skills.length}</span>
+      </div>
+      <div class="category-item ${selectedCategory === '__none__' ? 'active' : ''}"
+              onclick="selectCategory('__none__')"
+              ondragover="handleDragOver(event)" ondrop="handleDrop(event, '__none__')">
+         <span class="cat-icon">📂</span>
+         <span class="cat-name">未分类</span>
+         <span class="cat-count">${uncategorized}</span>
+      </div>
+   `;
+
+            cats.forEach(cat => {
+                const icon = (meta[cat] && meta[cat].icon) ? meta[cat].icon : '&#128193;';
+                html += `
+         <div class="category-item ${selectedCategory === cat ? 'active' : ''}"
+                 data-cat="${escapeAttr(cat)}"
+                 onclick="selectCategory('${escapeAttr(cat)}')">
+            <span class="cat-icon">${icon}</span>
+            <span class="cat-name">${escapeHtml(cat)}</span>
+            <span class="cat-count">${catCounts[cat]}</span>
+         </div>
+      `;
+            });
+
+            list.innerHTML = html;
+        }
+
+        function restoreSortTabs() {
+            const saved = localStorage.getItem('skillSort') || 'name-asc';
+            const field = saved.replace(/-desc$/, '').replace(/-asc$/, '');
+            const labels = { name: '名称', rating: '评分', count: '次数', updated: '更新', pending: '待处理', comments: '评论' };
+            const defaults = { name: 'name-asc', rating: 'rating-desc', count: 'count-desc', updated: 'updated-desc', pending: 'pending-desc', comments: 'comments-desc' };
+            const defaultLabels = { name: '名称↑', rating: '评分↓', count: '次数↓', updated: '更新↓', pending: '待处理↓', comments: '评论↓' };
+            const isAsc = saved.endsWith('-asc');
+            document.querySelectorAll('.sort-tab').forEach(t => {
+                const f = t.dataset.sort.replace(/-desc$/, '').replace(/-asc$/, '');
+                if (f === field) {
+                    t.dataset.sort = saved;
+                    t.textContent = labels[field] + (isAsc ? '↑' : '↓');
+                    t.classList.add('active');
+                } else {
+                    t.dataset.sort = defaults[f];
+                    t.textContent = defaultLabels[f];
+                    t.classList.remove('active');
+                }
+            });
+        }
+
+        function setSort(el) {
+            const sort = el.dataset.sort;
+            const field = sort.replace(/-desc$/, '').replace(/-asc$/, '');
+            const labels = { name: '名称', rating: '评分', count: '次数', updated: '更新', pending: '待处理', comments: '评论' };
+            if (el.classList.contains('active')) {
+                const isDesc = sort.endsWith('-desc');
+                const newSort = isDesc ? field + '-asc' : field + '-desc';
+                el.dataset.sort = newSort;
+                el.textContent = labels[field] + (isDesc ? '↑' : '↓');
+                currentSort = newSort;
+            } else {
+                const defaults = { name: 'name-asc', rating: 'rating-desc', count: 'count-desc', updated: 'updated-desc', pending: 'pending-desc', comments: 'comments-desc' };
+                const defaultLabels = { name: '名称↑', rating: '评分↓', count: '次数↓', updated: '更新↓', pending: '待处理↓', comments: '评论↓' };
+                document.querySelectorAll('.sort-tab').forEach(t => {
+                    const f = t.dataset.sort.replace(/-desc$/, '').replace(/-asc$/, '');
+                    t.dataset.sort = defaults[f];
+                    t.textContent = defaultLabels[f];
+                    t.classList.remove('active');
+                });
+                currentSort = el.dataset.sort;
+                el.classList.add('active');
+            }
+            localStorage.setItem('skillSort', currentSort);
+            renderSkills();
+        }
+
+        function renderSkills() {
+            const container = document.getElementById('skillsContainer');
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const sort = currentSort;
+
+            let filtered = skills.filter(s => {
+                if (search && !s.name.toLowerCase().includes(search) && !s.description.toLowerCase().includes(search) && !s.id.toLowerCase().includes(search)) return false;
+                if (selectedCategory === '__all__') return true;
+                if (selectedCategory === '__none__') {
+                    return !Object.values(feedback.categories).some(arr => arr.includes(s.id));
+                }
+                return (feedback.categories[selectedCategory] || []).includes(s.id);
+            });
+
+            // Sort: implicit skills near bottom, shielded skills always last, then by chosen sort
+            const implicitSkills = feedback.categories['隐式技能'] || [];
+            filtered.sort((a, b) => {
+                const fa = feedback.skills[a.id] || {};
+                const fbb = feedback.skills[b.id] || {};
+                const sa = (a.shielded || fa.shielded) ? 2 : implicitSkills.includes(a.id) ? 1 : 0;
+                const sb = (b.shielded || fbb.shielded) ? 2 : implicitSkills.includes(b.id) ? 1 : 0;
+                if (sa !== sb) return sa - sb; // normal(0) < implicit(1) < shielded(2)
+                switch (sort) {
+                    case 'name': case 'name-asc': return a.name.localeCompare(b.name);
+                    case 'name-desc': return b.name.localeCompare(a.name);
+                    case 'rating-desc': return (fbb.rating || 0) - (fa.rating || 0);
+                    case 'rating-asc': return (fa.rating || 0) - (fbb.rating || 0);
+                    case 'count-desc': return ((fbb.autoCount || 0) + (fbb.usageCount || 0)) - ((fa.autoCount || 0) + (fa.usageCount || 0));
+                    case 'count-asc': return ((fa.autoCount || 0) + (fa.usageCount || 0)) - ((fbb.autoCount || 0) + (fbb.usageCount || 0));
+                    case 'updated': case 'updated-desc': return new Date(b.lastModified) - new Date(a.lastModified);
+                    case 'updated-asc': return new Date(a.lastModified) - new Date(b.lastModified);
+                    case 'pending-desc': {
+                        const pa = ((fa.comments || []).filter(c => !c.resolved)).length;
+                        const pb = ((fbb.comments || []).filter(c => !c.resolved)).length;
+                        return pb - pa || a.name.localeCompare(b.name);
+                    }
+                    case 'pending-asc': {
+                        const pa = ((fa.comments || []).filter(c => !c.resolved)).length;
+                        const pb = ((fbb.comments || []).filter(c => !c.resolved)).length;
+                        return pa - pb || a.name.localeCompare(b.name);
+                    }
+                    case 'comments-desc': {
+                        const ca = (fa.comments || []).length;
+                        const cb = (fbb.comments || []).length;
+                        return cb - ca || a.name.localeCompare(b.name);
+                    }
+                    case 'comments-asc': {
+                        const ca = (fa.comments || []).length;
+                        const cb = (fbb.comments || []).length;
+                        return ca - cb || a.name.localeCompare(b.name);
+                    }
+                    default: return 0;
+                }
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="empty-state"><div class="icon">&#128270;</div><h3>没有匹配的 skill</h3><p>尝试调整搜索条件或切换分类</p></div>`;
+                return;
+            }
+
+            const html = `<div class="skills-grid">${filtered.map(s => renderSkillCard(s)).join('')}</div>`;
+            container.innerHTML = html;
+        }
+
+        function renderSkillCard(skill) {
+            const fb = feedback.skills[skill.id] || {};
+            const rating = fb.rating || 0;
+            const totalCount = (fb.autoCount || 0) + (fb.usageCount || 0);
+            const isUpdated = fb.lastEvaluatedDate && new Date(skill.lastModified) > new Date(fb.lastEvaluatedDate);
+            const isShielded = skill.shielded || fb.shielded;
+            const implicitSkills = feedback.categories['隐式技能'] || [];
+            const isImplicit = !isShielded && implicitSkills.includes(skill.id);
+
+            const cats = Object.keys(feedback.categories).filter(c => feedback.categories[c].includes(skill.id));
+
+            const stars = Array.from({ length: 5 }, (_, i) =>
+                `<span class="${i < rating ? 'star-filled' : 'star-empty'}">${i < rating ? '&#9733;' : '&#9734;'}</span>`
+            ).join('');
+
+            let cardClass = '';
+            let badgeHtml = '';
+            if (isShielded) {
+                cardClass = ' shielded';
+                badgeHtml = '<span class="shielded-badge">已屏蔽</span>';
+            } else if (isImplicit) {
+                cardClass = ' implicit';
+                badgeHtml = '<span class="implicit-badge">👻 隐式</span>';
+            }
+
+            return `
+      <div class="skill-card${cardClass}" draggable="true"
+              ondragstart="handleDragStart(event, '${skill.id}')"
+              onclick="openDetailModal('${skill.id}')">
+         ${badgeHtml}
+         <div class="card-header">
+            <div class="card-info">
+               <div class="skill-name">${escapeHtml(skill.name)}</div>
+            </div>
+            ${isUpdated ? '<span class="updated-badge">有更新</span>' : ''}
+         </div>
+         <div class="skill-desc">${(()=>{const dt=getSkillDisplayText(skill);return escapeHtml(dt.text)+' '+getTranslationBadge(dt.status);})()}</div>
+         <div class="card-footer">
+            <div class="rating">${stars}</div>
+            <div class="usage-count">${totalCount > 0 ? totalCount + ' 次' : '未使用'}</div>
+         </div>
+         ${cats.length ? `<div class="category-tags">${cats.map(c => {
+                const meta = feedback.categoryMeta || {};
+                const icon = (meta[c] && meta[c].icon) ? meta[c].icon + ' ' : '';
+                return `<span class="category-tag">${icon}${escapeHtml(c)}</span>`;
+            }).join('')}</div>` : ''}
+      </div>
+   `;
+        }
+
+        function renderStats() {
+            const total = skills.length;
+            const rated = skills.filter(s => (feedback.skills[s.id] || {}).rating).length;
+            const usedSkills = skills.filter(s => {
+                const fb = feedback.skills[s.id] || {};
+                return (fb.autoCount || 0) + (fb.usageCount || 0) > 0;
+            });
+            const totalUsage = skills.reduce((sum, s) => {
+                const fb = feedback.skills[s.id] || {};
+                return sum + (fb.autoCount || 0) + (fb.usageCount || 0);
+            }, 0);
+            const commented = skills.filter(s => ((feedback.skills[s.id] || {}).comments || []).length > 0).length;
+            const totalComments = skills.reduce((sum, s) => sum + ((feedback.skills[s.id] || {}).comments || []).length, 0);
+            const resolvedComments = skills.reduce((sum, s) => sum + ((feedback.skills[s.id] || {}).comments || []).filter(c => c.resolved).length, 0);
+            const updated = skills.filter(s => {
+                const fb = feedback.skills[s.id] || {};
+                return fb.lastEvaluatedDate && new Date(s.lastModified) > new Date(fb.lastEvaluatedDate);
+            }).length;
+            const shieldedCount = skills.filter(s => s.shielded || (feedback.skills[s.id] || {}).shielded).length;
+            const implicitSkills = feedback.categories['隐式技能'] || [];
+            const implicitCount = skills.filter(s => {
+                return !s.shielded && !(feedback.skills[s.id] || {}).shielded && implicitSkills.includes(s.id);
+            }).length;
+
+            document.getElementById('statsArea').innerHTML = `
+      <div class="scan-row"><span class="stat-pair"><span class="scan-label">技能数</span><span class="scan-count">${total}</span></span><span class="stat-pair"><span class="scan-label">隐式</span><span class="scan-count">${implicitCount}</span></span><span class="stat-pair"><span class="scan-label">已屏蔽</span><span class="scan-count">${shieldedCount}</span></span></div>
+      <div class="scan-row"><span class="stat-pair"><span class="scan-label">已使用</span><span class="scan-count">${usedSkills.length}</span></span><span class="stat-pair"><span class="scan-label">调用数</span><span class="scan-count">${totalUsage}</span></span></div>
+      <div class="scan-row"><span class="stat-pair"><span class="scan-label">评论数</span><span class="scan-count">${totalComments}</span></span><span class="stat-pair"><span class="scan-label">已处理</span><span class="scan-count">${resolvedComments}</span></span></div>
+      ${updated > 0 ? `<div class="scan-row"><span style="color:var(--warning);font-size:12px">⚠ 有更新待重新评价: ${updated}</span></div>` : ''}
+   `;
+        }
+
+
+        // ---- Category Management ----
+        function selectCategory(cat) {
+            selectedCategory = cat;
+            renderCategories();
+            renderSkills();
+        }
+
+        function addCategory() {
+            const input = document.getElementById('newCategoryInput');
+            const name = input.value.trim();
+            if (!name) return;
+            if (feedback.categories[name]) { showToast('分类已存在'); return; }
+            feedback.categories[name] = [];
+            if (!feedback.categoryMeta) feedback.categoryMeta = {};
+            const nextOrder = Object.values(feedback.categoryMeta).reduce((max, m) => Math.max(max, m.order || 0), 0) + 1;
+            feedback.categoryMeta[name] = { order: nextOrder, icon: '📁' };
+            input.value = '';
+            saveAndRender();
+            showToast(`已添加分类: ${name}`);
+        }
+
+        function applyDefaultCategories() {
+            const existingCats = Object.keys(feedback.categories);
+            const existingDefaultCats = existingCats.filter(c => DEFAULT_CATEGORIES[c]);
+
+            let msg = '将应用默认分类（按开发流程阶段），共12个分类。\n\n';
+            if (existingDefaultCats.length > 0) {
+                msg += `已有 ${existingDefaultCats.length} 个同名分类，其图标和顺序将被覆盖。\n`;
+            }
+            msg += '是否继续？';
+            if (!confirm(msg)) return;
+
+            // Ensure categoryMeta exists
+            if (!feedback.categoryMeta) feedback.categoryMeta = {};
+
+            // Apply all default categories (empty, for manual classification)
+            for (const [cat, def] of Object.entries(DEFAULT_CATEGORIES)) {
+                if (!feedback.categories[cat]) feedback.categories[cat] = [];
+                feedback.categoryMeta[cat] = { order: def.order, icon: def.icon };
+            }
+
+            saveAndRender();
+            showToast('已应用默认分类');
+        }
+
+
+        // ---- Skill Card Drag & Drop ----
+        let draggedSkillId = null;
+
+        function handleDragStart(e, skillId) {
+            draggedSkillId = skillId;
+            e.dataTransfer.effectAllowed = 'move';
+            e.target.classList.add('dragging');
+            setTimeout(() => e.target.classList.remove('dragging'), 0);
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            const item = e.currentTarget;
+            item.classList.add('drag-over');
+            setTimeout(() => item.classList.remove('drag-over'), 300);
+        }
+
+        async function handleDrop(e, category) {
+            e.preventDefault();
+            if (!draggedSkillId) return;
+
+            const skillId = draggedSkillId;
+            draggedSkillId = null;
+
+            if (category === '__all__') return; // dropping on "all" does nothing
+
+            // Remove from all existing categories first
+            Object.keys(feedback.categories).forEach(c => {
+                feedback.categories[c] = feedback.categories[c].filter(id => id !== skillId);
+            });
+
+            // Add to target category (unless "uncategorized")
+            if (category !== '__none__') {
+                if (!feedback.categories[category]) feedback.categories[category] = [];
+                if (!feedback.categories[category].includes(skillId)) {
+                    feedback.categories[category].push(skillId);
+                }
+            }
+
+            saveAndRender();
+            showToast(category === '__none__' ? '已移除分类' : `已归入: ${category}`);
+        }
+
+        // ---- Detail Modal ----
+        function openDetailModal(skillId) {
+            currentDetailSkillId = skillId;
+            const skill = skills.find(s => s.id === skillId);
+            if (!skill) return;
+
+            const fb = feedback.skills[skillId] || {};
+            const rating = fb.rating || 0;
+            const count = fb.usageCount || 0;
+            const autoCount = fb.autoCount || 0;
+            const totalCount = autoCount + count;
+            const comments = fb.comments || [];
+            const isUpdated = fb.lastEvaluatedDate && new Date(skill.lastModified) > new Date(fb.lastEvaluatedDate);
+            const isShielded = skill.shielded || fb.shielded;
+            const implicitSkills = feedback.categories['隐式技能'] || [];
+            const isImplicit = !isShielded && implicitSkills.includes(skillId);
+            const cats = Object.keys(feedback.categories);
+            const meta = feedback.categoryMeta || {};
+            const sortedCats = [...cats].sort((a, b) => (meta[a]?.order ?? 9999) - (meta[b]?.order ?? 9999));
+            const assignedCats = cats.filter(c => (feedback.categories[c] || []).includes(skillId));
+            const unassignedCats = sortedCats.filter(c => !assignedCats.includes(c));
+
+            const stars = Array.from({ length: 5 }, (_, i) =>
+                `<span class="star ${i < rating ? 'filled' : 'empty'}" onclick="rateSkill(${i + 1})">&#9733;</span>`
+            ).join('');
+
+            const resolvedCount = comments.filter(c => c.resolved).length;
+            // Auto-extract triggers from description: "触发词：kw1、kw2" or "用户触发：kw1、kw2"
+            const triggers = (() => {
+                const desc = skill.description || '';
+                const m = desc.match(/(?:触发词|用户触发)[：:]\s*([^\n]+)/);
+                if (!m) return [];
+                return m[1].split(/[、,，]/).map(s => s.trim()).filter(Boolean);
+            })();
+
+            // Translation
+            const dispText = getSkillDisplayText(skill);
+            const transBadge = dispText.status === 'untranslated' ? ' 🌐 暂无中文翻译' : (dispText.status === 'outdated' ? ' 🔄 翻译可能过期' : '');
+            const origTitle = dispText.status !== 'native' ? escapeAttr('原文: ' + (skill.description || '')) : '';
+
+            // Highlight triggers only in the "触发词：" portion of description
+            let descHtml = escapeHtml(dispText.text || '无描述');
+            if (triggers.length > 0 && dispText.text) {
+                // Split at "触发词：" or "用户触发：", only highlight the part after it
+                const markerMatch = descHtml.match(/(?:触发词|用户触发)[：:]/);
+                if (markerMatch) {
+                    const marker = markerMatch[0];
+                    const markerIdx = descHtml.indexOf(marker);
+                    const before = descHtml.substring(0, markerIdx + marker.length);
+                    let after = descHtml.substring(markerIdx + marker.length);
+                    const sorted = [...triggers].sort((a, b) => b.length - a.length);
+                    for (const t of sorted) {
+                        const escaped = escapeHtml(t);
+                        const re = new RegExp(escaped.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
+                        after = after.replace(re, '<span class="trigger-hl">$&</span>');
+                    }
+                    descHtml = before + after;
+                }
+            }
+
+            document.getElementById('modalBody').innerHTML = `
+      <div class="detail-hero">
+         <div class="hero-name">${escapeHtml(skill.name)}</div>
+         <div class="hero-desc" title="${origTitle || ''}">${descHtml}${transBadge ? ' <span style="font-size:11px;color:var(--text-tertiary)">'+transBadge+'</span>' : ''}</div>
+      </div>
+      <div class="fade-divider"></div>
+      <!-- Two-column layout -->
+      <div style="display:flex;flex:1;min-height:0;overflow:hidden">
+         <!-- Left column -->
+         <div style="flex:1;overflow-y:auto;border-right:1px solid var(--border)">
+
+            <div class="stats-row">
+               <div class="stat-item" style="flex:1">
+                  <span class="stat-label">状态</span>
+                  <label class="shield-switch"><input type="checkbox" ${isShielded ? '' : 'checked'} onchange="toggleShield('${skill.id}')"><span class="slider"></span></label>
+                  <span style="font-size:12px;color:${isShielded ? '#999' : isImplicit ? '#8e99a4' : 'var(--success)'}">${isShielded ? '已屏蔽' : isImplicit ? '👻 隐式' : '启用中'}</span>
+               </div>
+               <div class="stat-item" style="flex:1;border-left:1px solid var(--border)">
+                  <span class="stat-label">调用</span>
+                  <span class="stat-val">${totalCount} 次</span>
+                  ${autoCount > 0 ? `<span class="stat-sub">自动${autoCount}</span>` : ''}
+                  <div class="counter-stack">
+                     <span class="counter-arrow" onclick="debouncedIncrement()" title="手动 +1"><svg width="36" height="10" viewBox="0 0 36 10"><path d="M1 10 L18 0 L35 10 L27 10 L18 5 L9 10Z" fill="currentColor"/></svg></span>
+                     <span class="counter-manual">手动<span class="counter-num" id="countValue">${count}</span></span>
+                     <span class="counter-arrow" onclick="debouncedDecrement()" title="手动 -1"><svg width="36" height="10" viewBox="0 0 36 10"><path d="M1 0 L18 10 L35 0 L27 0 L18 5 L9 0Z" fill="currentColor"/></svg></span>
+                  </div>
+               </div>
+               <div class="stat-item" style="flex:1;border-left:1px solid var(--border)">
+                  <span class="stat-label">评分</span>
+                  <span class="stat-val" style="color:var(--warning)">${rating > 0 ? rating + ' 星' : '未评价'}</span>
+                  <div class="stat-controls">
+                     <div class="stars" id="starRating">${stars}</div>
+                  </div>
+               </div>
+            </div>
+            <div class="fade-divider" style="margin-bottom:0"></div>
+
+            <div class="detail-left">
+               <div class="section">
+                  <div class="section-title">基本信息</div>
+                  <div class="prop-grid">
+                     <span class="prop-item"><span class="prop-key">版本</span><span class="prop-val">${skill.version || '-'}</span></span>
+                     <span class="prop-item"><span class="prop-key">更新</span><span class="prop-val">${new Date(skill.lastModified).toLocaleString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}</span></span>
+                     <span class="prop-item"><span class="prop-key">路径</span>${skill.directory ? `<a class="prop-val link" href="openfolder:///${escapeHtml(skill.directory.replace(/\\/g, '/'))}" title="${escapeHtml(skill.directory)}">打开文件夹</a>` : '<span class="prop-val">-</span>'}</span>
+                     <span class="prop-item"><span class="prop-key">调用</span><span class="prop-val link" title="复制调用文本，发给 AI 即可使用该技能" data-skill-id="${escapeHtml(skill.id)}" data-skill-name="${escapeHtml(skill.name)}" data-skill-dir="${escapeHtml(skill.directory)}" onclick="copyInvokeText(this)">复制调用文本</span></span>
+                  </div>
+                  ${isUpdated ? '<div style="color:var(--warning);font-weight:600;font-size:13px;margin-top:8px">⚠ 有更新待重新评价</div>' : ''}
+               </div>
+
+               <div class="section">
+                  <div class="section-title">所属分类</div>
+                  <div class="cat-pills">
+                     ${assignedCats.map(c => {
+                const icon = meta[c]?.icon || '';
+                return `<span class="cat-pill active" onclick="toggleCategory('${escapeAttr(c)}')">${icon} ${escapeHtml(c)}</span>`;
+            }).join('')}
+                     ${unassignedCats.map(c => {
+                const icon = meta[c]?.icon || '';
+                return `<span class="cat-pill inactive" onclick="toggleCategory('${escapeAttr(c)}')">${icon} ${escapeHtml(c)}</span>`;
+            }).join('')}
+                     ${cats.length === 0 ? '<span style="color:var(--text-tertiary);font-size:13px">暂无分类，请在左侧添加</span>' : ''}
+                  </div>
+               </div>
+
+               <div class="section dep-section" id="depSection">
+                  <div class="section-title">依赖关系<span id="depWarning"></span></div>
+                  <div class="dep-cols">
+                     <div class="dep-col">
+                        <div class="dep-col-title">子集</div>
+                        <div class="dep-list" id="depChildren"><span class="dep-empty">加载中...</span></div>
+                     </div>
+                     <div class="dep-col">
+                        <div class="dep-col-title">父级</div>
+                        <div class="dep-list" id="depParents"><span class="dep-empty">加载中...</span></div>
+                     </div>
+                  </div>
+               </div>
+
+            </div>
+         </div>
+
+         <!-- Right column: Feedback -->
+         <div class="detail-right">
+            <div class="comments-header">
+               <span class="comments-title">使用反馈 (${comments.length})</span>
+               <div class="comment-filter-tabs">
+                  <span class="comment-filter-tab active" onclick="filterComments('all',this)">全部</span>
+                  <span class="comment-filter-tab" onclick="filterComments('open',this)">未处理${comments.filter(c => !c.resolved).length > 0 ? ' ' + comments.filter(c => !c.resolved).length : ''}</span>
+                  <span class="comment-filter-tab" onclick="filterComments('resolved',this)">已处理${resolvedCount > 0 ? ' ' + resolvedCount : ''}</span>
+               </div>
+            </div>
+            <div class="comment-box">
+               <div class="input-row">
+                  <textarea id="commentInput" placeholder="写下你的使用体验..."></textarea>
+                  <button onclick="addComment()">发表</button>
+               </div>
+            </div>
+            <div class="comments-list" id="commentsList">
+               ${comments.length === 0 ? '<div style="color:var(--text-tertiary);font-size:13px;padding:8px 0">暂无评论</div>' : ''}
+               <div class="timeline">
+                  ${comments.slice().reverse().map((c, idx) => {
+                const i = comments.length - 1 - idx; return `
+                     <div class="timeline-item ${c.resolved ? 'resolved' : ''}" data-resolved="${c.resolved ? '1' : '0'}">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-date">
+                           ${new Date(c.timestamp).toLocaleString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+                           ${c.resolved ? '<span class="resolved-badge">已处理</span>' : ''}
+                           <span style="cursor:pointer;color:var(--error);margin-left:6px;font-size:11px" onclick="deleteComment(${i})">删除</span>
+                           <input type="checkbox" style="margin-left:auto;accent-color:var(--primary);cursor:pointer" ${c.resolved ? 'checked' : ''} onchange="toggleCommentResolved(${i})" title="${c.resolved ? '取消已处理标记' : '标记为已处理'}">
+                        </div>
+                        <div class="timeline-text" title="${escapeAttr(c.text)}">${escapeHtml(c.text).replace(/\n/g, '<br>')}</div>
+                     </div>
+                  `;
+            }).join('')}
+               </div>
+            </div>
+         </div>
+      </div>
+   `;
+
+            document.getElementById('detailModal').classList.add('active');
+            document.querySelector('.skills-container').style.overflow = 'hidden';
+
+            // Load dependencies asynchronously
+            loadDependencies(skillId);
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detailModal').classList.remove('active');
+            document.querySelector('.skills-container').style.overflow = '';
+            currentDetailSkillId = null;
+        }
+
+        // ---- Dependencies ----
+
+        async function loadDependencies(skillId) {
+            const childrenEl = document.getElementById('depChildren');
+            const parentsEl = document.getElementById('depParents');
+            const warningEl = document.getElementById('depWarning');
+            if (!childrenEl || !parentsEl) return;
+
+            const depInfo = dependencies[skillId] || { children: [], parents: [] };
+
+            // Render children (子集)
+            if (depInfo.children.length === 0) {
+                childrenEl.innerHTML = '<span class="dep-empty">无</span>';
+            } else {
+                childrenEl.innerHTML = depInfo.children.map(c => {
+                    const s = skills.find(sk => sk.id === c.id);
+                    const label = s ? s.name : c.id;
+                    const shieldBadge = c.shielded ? '<span class="dep-shielded">⚠ 已屏蔽</span>' : '';
+                    return `<div class="dep-item" onclick="openDetailModal('${escapeAttr(c.id)}')"><span class="dep-name">${escapeHtml(label)}</span>${shieldBadge}</div>`;
+                }).join('');
+            }
+
+            // Render parents (父级)
+            if (depInfo.parents.length === 0) {
+                parentsEl.innerHTML = '<span class="dep-empty">无</span>';
+            } else {
+                parentsEl.innerHTML = depInfo.parents.map(p => {
+                    const s = skills.find(sk => sk.id === p.id);
+                    const label = s ? s.name : p.id;
+                    const shieldBadge = p.shielded ? '<span class="dep-shielded">⚠ 已屏蔽</span>' : '';
+                    return `<div class="dep-item" onclick="openDetailModal('${escapeAttr(p.id)}')"><span class="dep-name">${escapeHtml(label)}</span>${shieldBadge}</div>`;
+                }).join('');
+            }
+
+            // Warning badge: all children shielded
+            const shieldedChildren = depInfo.children.filter(c => c.shielded);
+            if (depInfo.children.length > 0 && shieldedChildren.length === depInfo.children.length) {
+                warningEl.innerHTML = '<span class="dep-warning">⚠</span>';
+            } else if (shieldedChildren.length > 0) {
+                warningEl.innerHTML = '<span style="color:var(--warning);font-size:13px;margin-left:6px">⚠</span>';
+            } else {
+                warningEl.innerHTML = '';
+            }
+        }
+
+        // ---- Shield Toggle ----
+        async function doShield(skillId, shielded) {
+            const skill = skills.find(s => s.id === skillId);
+
+            // When shielding, check if other enabled skills depend on this one
+            if (shielded) {
+                const depInfo = dependencies[skillId];
+                if (depInfo && depInfo.parents && depInfo.parents.length > 0) {
+                    const activeParents = depInfo.parents.filter(p => !p.shielded);
+                    if (activeParents.length > 0) {
+                        const names = activeParents.map(p => {
+                            const s = skills.find(sk => sk.id === p.id);
+                            return s ? s.name : p.id;
+                        }).join('、');
+                        if (!confirm(`⚠ 该技能被以下技能依赖：${names}\n\n屏蔽后这些技能的调用链可能中断。确定屏蔽？`)) {
+                            return;
+                        }
+                    }
+                }
+            }
+
+            try {
+                const resp = await fetch('/api/skill-shield', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id: skillId, shielded }),
+                });
+                const result = await resp.json();
+                if (!resp.ok) {
+                    showToast(result.error || '操作失败');
+                    return;
+                }
+                // Sync local feedback state
+                if (!feedback.skills[skillId]) feedback.skills[skillId] = {};
+                feedback.skills[skillId].shielded = shielded;
+                // Sync "已屏蔽" category tag
+                if (!feedback.categories['已屏蔽']) feedback.categories['已屏蔽'] = [];
+                const shieldCatIdx = feedback.categories['已屏蔽'].indexOf(skillId);
+                if (shielded && shieldCatIdx < 0) {
+                    feedback.categories['已屏蔽'].push(skillId);
+                } else if (!shielded && shieldCatIdx >= 0) {
+                    feedback.categories['已屏蔽'].splice(shieldCatIdx, 1);
+                }
+                showToast(shielded ? '已屏蔽: ' + (skill ? skill.name : skillId) : '已启用: ' + (skill ? skill.name : skillId));
+                // Save feedback to server (with updated category) before re-fetching
+                await apiPost('/feedback', feedback);
+                // Re-scan to refresh file state, then re-render
+                const [skillsRes, depsRes] = await Promise.all([
+                    apiGet('/skills'),
+                    apiGet('/skill-dependencies'),
+                ]);
+                skills = skillsRes.skills || [];
+                dependencies = depsRes.dependencies || {};
+                const feedbackRes = await apiGet('/feedback');
+                feedback = feedbackRes || { categories: {}, skills: {} };
+                renderAll();
+                // Re-open detail modal if it was open for this skill
+                if (currentDetailSkillId === skillId) {
+                    openDetailModal(skillId);
+                }
+            } catch (e) {
+                showToast('操作失败: ' + e.message);
+            }
+        }
+
+        async function toggleShield(skillId) {
+            const skill = skills.find(s => s.id === skillId);
+            if (!skill) return;
+            const fb = feedback.skills[skillId] || {};
+            const currentlyShielded = skill.shielded || fb.shielded;
+            await doShield(skillId, !currentlyShielded);
+        }
+
+        function filterComments(type, el) {
+            // Update tab active state
+            el.parentElement.querySelectorAll('.comment-filter-tab').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+            // Show/hide timeline items
+            const list = document.getElementById('commentsList');
+            if (!list) return;
+            list.querySelectorAll('.timeline-item').forEach(item => {
+                const resolved = item.dataset.resolved === '1';
+                if (type === 'all') item.style.display = '';
+                else if (type === 'open') item.style.display = resolved ? 'none' : '';
+                else if (type === 'resolved') item.style.display = resolved ? '' : 'none';
+            });
+        }
+
+        function copyInvokeText(el) {
+            const { skillId, skillName, skillDir } = el.dataset;
+            const skillFile = skillDir ? skillDir.replace(/[\\/]$/, '') + '/SKILL.md' : '';
+            const text = `使用技能 ${skillName}（${skillId}），SKILL.md 路径: ${skillFile}`;
+            navigator.clipboard.writeText(text).then(() => {
+                el.textContent = '已复制';
+                setTimeout(() => { el.textContent = '复制调用文本'; }, 1500);
+            });
+        }
+
+        function rateSkill(rating) {
+            if (!currentDetailSkillId) return;
+            if (!feedback.skills[currentDetailSkillId]) feedback.skills[currentDetailSkillId] = {};
+            const current = feedback.skills[currentDetailSkillId].rating || 0;
+            if (current === rating) {
+                delete feedback.skills[currentDetailSkillId].rating;
+                delete feedback.skills[currentDetailSkillId].lastEvaluatedDate;
+            } else {
+                feedback.skills[currentDetailSkillId].rating = rating;
+                feedback.skills[currentDetailSkillId].lastEvaluatedDate = new Date().toISOString();
+            }
+            saveFeedback();
+            openDetailModal(currentDetailSkillId); // re-render
+            renderSkills();
+            renderStats();
+        }
+
+        let _countLock = false;
+        function _doCountChange(delta) {
+            if (!currentDetailSkillId || _countLock) return;
+            _countLock = true;
+            if (!feedback.skills[currentDetailSkillId]) feedback.skills[currentDetailSkillId] = {};
+            const cur = feedback.skills[currentDetailSkillId].usageCount || 0;
+            const next = Math.max(0, cur + delta);
+            if (next === cur) { _countLock = false; return; }
+            feedback.skills[currentDetailSkillId].usageCount = next;
+            if (!feedback.skills[currentDetailSkillId].usageLog) feedback.skills[currentDetailSkillId].usageLog = [];
+            feedback.skills[currentDetailSkillId].usageLog.push({
+                timestamp: new Date().toISOString(),
+                type: delta > 0 ? 'manual-plus' : 'manual-minus',
+            });
+            saveFeedback();
+            openDetailModal(currentDetailSkillId); // re-render to update stats-row
+            renderSkills();
+            setTimeout(() => { _countLock = false; }, 300);
+        }
+        function debouncedIncrement() { _doCountChange(1); }
+        function debouncedDecrement() { _doCountChange(-1); }
+
+        async function toggleCategory(cat) {
+            if (!currentDetailSkillId) return;
+            if (!feedback.categories[cat]) feedback.categories[cat] = [];
+
+            const idx = feedback.categories[cat].indexOf(currentDetailSkillId);
+            const adding = idx < 0;
+            if (adding) {
+                feedback.categories[cat].push(currentDetailSkillId);
+            } else {
+                feedback.categories[cat].splice(idx, 1);
+            }
+
+            // Bidirectional link with shield state
+            if (cat === '已屏蔽') {
+                const skill = skills.find(s => s.id === currentDetailSkillId);
+                const fb = feedback.skills[currentDetailSkillId] || {};
+                const currentlyShielded = skill && (skill.shielded || fb.shielded);
+                if (adding && !currentlyShielded) {
+                    // Tag added → shield the skill
+                    await doShield(currentDetailSkillId, true);
+                    return; // doShield handles saveAndRender + re-open modal
+                } else if (!adding && currentlyShielded) {
+                    // Tag removed → unshield the skill
+                    await doShield(currentDetailSkillId, false);
+                    return;
+                }
+            }
+
+            saveAndRender();
+            openDetailModal(currentDetailSkillId);
+        }
+
+
+        function addComment() {
+            if (!currentDetailSkillId) return;
+            const input = document.getElementById('commentInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            if (!feedback.skills[currentDetailSkillId]) feedback.skills[currentDetailSkillId] = {};
+            if (!feedback.skills[currentDetailSkillId].comments) feedback.skills[currentDetailSkillId].comments = [];
+            feedback.skills[currentDetailSkillId].comments.push({
+                text,
+                timestamp: new Date().toISOString(),
+            });
+            feedback.skills[currentDetailSkillId].lastEvaluatedDate = new Date().toISOString();
+            saveFeedback();
+            openDetailModal(currentDetailSkillId);
+            renderStats();
+        }
+
+        function deleteComment(index) {
+            if (!currentDetailSkillId) return;
+            const fb = feedback.skills[currentDetailSkillId];
+            if (fb && fb.comments) {
+                fb.comments.splice(index, 1);
+                saveFeedback();
+                openDetailModal(currentDetailSkillId);
+            }
+        }
+
+        function toggleCommentResolved(index) {
+            if (!currentDetailSkillId) return;
+            const fb = feedback.skills[currentDetailSkillId];
+            if (fb && fb.comments && fb.comments[index]) {
+                fb.comments[index].resolved = !fb.comments[index].resolved;
+                saveFeedback();
+                openDetailModal(currentDetailSkillId);
+            }
+        }
+
+        // ---- AI Import/Export ----
+        function exportForAI() {
+            const lines = skills.map(s => `- **${s.id}**: ${s.name} - ${s.description.substring(0, 80)}`).join('\n');
+            const text = `请将以下 skill 按用途分类，输出格式为：\n\n## 分类名\n- skillId\n\nSkill 列表：\n${lines}`;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('已复制到剪贴板，可粘贴给 AI 进行分类');
+            }).catch(() => {
+                // Fallback
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+                showToast('已复制到剪贴板');
+            });
+        }
+
+        function openAIImportModal() {
+            document.getElementById('aiImportModal').classList.add('active');
+        }
+
+        function closeAIImportModal() {
+            document.getElementById('aiImportModal').classList.remove('active');
+        }
+
+        function applyAIImport() {
+            const text = document.getElementById('aiImportText').value.trim();
+            if (!text) { showToast('请粘贴分类结果'); return; }
+
+            // Parse Markdown format: ## Category\n- skillId
+            const mdPattern = /##\s*(.+?)\s*\n((?:\s*-\s*.+\n?)+)/g;
+            // Parse simple format: Category: skill1, skill2
+            const simplePattern = /^(.+?)[:：]\s*(.+)$/gm;
+
+            let imported = false;
+            let match;
+
+            // Try Markdown format
+            while ((match = mdPattern.exec(text)) !== null) {
+                const cat = match[1].trim();
+                const items = match[2].match(/-\s*(.+)/g) || [];
+                const ids = items.map(i => i.replace(/^-\s*/, '').trim()).filter(id => skills.some(s => s.id === id));
+
+                if (ids.length > 0) {
+                    if (!feedback.categories[cat]) feedback.categories[cat] = [];
+                    if (!feedback.categoryMeta) feedback.categoryMeta = {};
+                    if (!feedback.categoryMeta[cat]) {
+                        const nextOrder = Object.values(feedback.categoryMeta).reduce((max, m) => Math.max(max, m.order || 0), 0) + 1;
+                        feedback.categoryMeta[cat] = { order: nextOrder, icon: '📁' };
+                    }
+                    ids.forEach(id => {
+                        if (!feedback.categories[cat].includes(id)) feedback.categories[cat].push(id);
+                    });
+                    imported = true;
+                }
+            }
+
+            // Try simple format if no Markdown matches
+            if (!imported) {
+                while ((match = simplePattern.exec(text)) !== null) {
+                    const cat = match[1].trim();
+                    const ids = match[2].split(/[,，]/).map(s => s.trim()).filter(id => skills.some(s => s.id === id));
+
+                    if (ids.length > 0) {
+                        if (!feedback.categories[cat]) feedback.categories[cat] = [];
+                        if (!feedback.categoryMeta) feedback.categoryMeta = {};
+                        if (!feedback.categoryMeta[cat]) {
+                            const nextOrder = Object.values(feedback.categoryMeta).reduce((max, m) => Math.max(max, m.order || 0), 0) + 1;
+                            feedback.categoryMeta[cat] = { order: nextOrder, icon: '📁' };
+                        }
+                        ids.forEach(id => {
+                            if (!feedback.categories[cat].includes(id)) feedback.categories[cat].push(id);
+                        });
+                        imported = true;
+                    }
+                }
+            }
+
+            if (imported) {
+                saveAndRender();
+                closeAIImportModal();
+                document.getElementById('aiImportText').value = '';
+                showToast('AI 分类已应用');
+            } else {
+                showToast('未能解析分类结果，请检查格式');
+            }
+        }
+
+        // ---- Data Export/Import ----
+        function exportData() {
+            const blob = new Blob([JSON.stringify(feedback, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `skill-feedback-${new Date().toISOString().slice(0, 10)}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('数据已导出');
+        }
+
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (data.categories && data.skills) {
+                        feedback = data;
+                        saveAndRender();
+                        showToast('数据已导入');
+                    } else {
+                        showToast('文件格式不正确');
+                    }
+                } catch {
+                    showToast('文件解析失败');
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = ''; // reset
+        }
+
+        // ---- Save & Render ----
+        async function saveFeedback() {
+            // Re-fetch latest from server to avoid overwriting external changes
+            // (e.g. manual JSON edits made while the page was open)
+            try {
+                const latest = await apiGet('/feedback');
+                // Merge: use server's categoryMeta icons if they look like manual edits
+                // (custom icon on server vs default 📁 in our stale copy)
+                if (latest.categoryMeta && feedback.categoryMeta) {
+                    for (const [cat, latestMeta] of Object.entries(latest.categoryMeta)) {
+                        const ourMeta = feedback.categoryMeta[cat];
+                        if (ourMeta && latestMeta.icon && latestMeta.icon !== '📁' && ourMeta.icon === '📁') {
+                            ourMeta.icon = latestMeta.icon;
+                        }
+                    }
+                }
+            } catch (e) { /* network error — proceed with local state */ }
+            await apiPost('/feedback', feedback);
+        }
+
+        async function saveAndRender() {
+            await saveFeedback();
+            renderAll();
+        }
+
+        // ---- Utilities ----
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        function hasChinese(str) { return /[一-鿿]/.test(str); }
+
+        function getSkillDisplayText(skill) {
+            const desc = skill.description || '';
+            if (hasChinese(desc)) return { text: desc, status: 'native' };
+            const t = translations[skill.id];
+            if (!t) return { text: desc, status: 'untranslated' };
+            if (t.en !== desc) return { text: t.zh, status: 'outdated' };
+            return { text: t.zh, status: 'translated' };
+        }
+
+        function getTranslationBadge(status) {
+            if (status === 'untranslated') return '<span title="暂无中文翻译" style="font-size:10px;cursor:help">🌐</span>';
+            if (status === 'outdated') return '<span title="英文原文已更新，翻译可能过期" style="font-size:10px;cursor:help">🔄</span>';
+            return '';
+        }
+
+        function escapeAttr(str) {
+            return str.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        // ---- Keyboard ----
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeDetailModal();
+                closeAIImportModal();
+            }
+        });
+
+        // ---- Management Panel ----
+
+        function openMgmtPanel() {
+            selectedMgmtCat = null;
+            document.getElementById('mgmtPromptHint').style.display = 'none';
+            document.getElementById('mgmtOverlay').classList.add('active');
+            document.getElementById('mgmtPanel').classList.add('active');
+            renderMgmtCatList();
+            renderMgmtDirList();
+        }
+
+        function closeMgmtPanel() {
+            document.getElementById('mgmtOverlay').classList.remove('active');
+            document.getElementById('mgmtPanel').classList.remove('active');
+        }
+
+        function switchMgmtTab(tab) {
+            document.querySelectorAll('.mgmt-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.mgmt-tab-content').forEach(t => t.classList.remove('active'));
+            if (tab === 'category') {
+                document.querySelectorAll('.mgmt-tab')[0].classList.add('active');
+                document.getElementById('mgmtTabCategory').classList.add('active');
+            } else {
+                document.querySelectorAll('.mgmt-tab')[1].classList.add('active');
+                document.getElementById('mgmtTabScanDir').classList.add('active');
+            }
+        }
+
+        function mgmtAddCategory() {
+            const input = document.getElementById('mgmtNewCatInput');
+            const name = input.value.trim();
+            if (!name) return;
+            if (feedback.categories[name]) { showToast('分类已存在'); return; }
+            feedback.categories[name] = [];
+            if (!feedback.categoryMeta) feedback.categoryMeta = {};
+            const nextOrder = Object.values(feedback.categoryMeta).reduce((max, m) => Math.max(max, m.order || 0), 0) + 1;
+            feedback.categoryMeta[name] = { order: nextOrder, icon: '📁' };
+            input.value = '';
+            selectedMgmtCat = name;
+            saveAndRender();
+            renderMgmtCatList();
+            showToast(`已添加分类: ${name}`);
+            showPromptHint(name);
+        }
+
+        function showPromptHint(catName) {
+            const meta = feedback.categoryMeta || {};
+            const currentIcon = meta[catName] ? meta[catName].icon : '📁';
+            const usedIcons = Object.entries(meta).map(([k, v]) => `${k}: ${v.icon}`).join(', ');
+            const prompt = `分类"${catName}"当前图标为 ${currentIcon}。` +
+                `\n点击上方分类标签中的图标即可直接修改（支持输入任意 emoji）。` +
+                `\n\n如需 AI 推荐，复制以下内容发送给 Claude：` +
+                `\n\n请为技能看板的分类"${catName}"推荐一个合适的 emoji 图标。` +
+                `当前图标：${currentIcon}。` +
+                `要求：与分类名称语义相关，且不与已有图标重复。` +
+                `已有分类图标：${usedIcons || '无'}。` +
+                `请直接修改数据文件 ${homeDir}\\.claude\\skill-feedback-data.json ` +
+                `中 categoryMeta["${catName}"].icon 字段为推荐的 emoji。` +
+                `相关文件：skill-feedback-manager，路径 ${homeDir}\\.claude\\skills\\skill-feedback-manager`;
+            const hint = document.getElementById('mgmtPromptHint');
+            document.getElementById('promptHintText').textContent = prompt;
+            hint.style.display = 'block';
+        }
+
+        function copyPromptText() {
+            const text = document.getElementById('promptHintText').textContent;
+            navigator.clipboard.writeText(text).then(() => showToast('提示词已复制'));
+        }
+
+        // ---- Mgmt Panel: Category Move ----
+        function mgmtMoveCat(name, dir) {
+            const meta = feedback.categoryMeta || {};
+            const cats = Object.keys(feedback.categories);
+            cats.sort((a, b) => {
+                const oa = meta[a] ? meta[a].order : 9999;
+                const ob = meta[b] ? meta[b].order : 9999;
+                if (oa !== ob) return oa - ob;
+                return a.localeCompare(b, 'zh-CN');
+            });
+
+            const idx = cats.indexOf(name);
+            if (idx < 0) return;
+            const newIdx = idx + dir;
+            if (newIdx < 0 || newIdx >= cats.length) return;
+
+            cats.splice(idx, 1);
+            cats.splice(newIdx, 0, name);
+
+            cats.forEach((c, i) => {
+                if (!meta[c]) meta[c] = { order: i + 1, icon: '📁' };
+                meta[c].order = i + 1;
+            });
+            feedback.categoryMeta = meta;
+
+            saveAndRender();
+            renderMgmtCatList();
+        }
+
+        // ---- Mgmt Panel: Category Rename ----
+        function mgmtRenameCategory(oldName) {
+            const tag = document.querySelector(`.mgmt-cat-tag[data-mgmt-cat="${CSS.escape(oldName)}"]`);
+            if (!tag) return;
+            const labelEl = tag.querySelector('.cat-label');
+            if (!labelEl) return;
+
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.className = 'cat-label-input';
+            input.value = oldName;
+
+            function finishRename() {
+                const newName = input.value.trim();
+                if (newName && newName !== oldName) {
+                    if (feedback.categories[newName]) {
+                        showToast('分类名已存在');
+                    } else {
+                        feedback.categories[newName] = feedback.categories[oldName];
+                        delete feedback.categories[oldName];
+                        if (feedback.categoryMeta) {
+                            feedback.categoryMeta[newName] = feedback.categoryMeta[oldName] || { order: Object.values(feedback.categoryMeta).reduce((max, m) => Math.max(max, m.order || 0), 0) + 1, icon: '📁' };
+                            delete feedback.categoryMeta[oldName];
+                        }
+                        if (selectedCategory === oldName) selectedCategory = newName;
+                        if (selectedMgmtCat === oldName) selectedMgmtCat = newName;
+                        saveAndRender();
+                        renderMgmtCatList();
+                        showToast(`已重命名: ${oldName} → ${newName}`);
+                        return;
+                    }
+                }
+                renderMgmtCatList();
+            }
+
+            input.addEventListener('keydown', e => {
+                if (e.key === 'Enter') { e.preventDefault(); finishRename(); }
+                if (e.key === 'Escape') { e.preventDefault(); renderMgmtCatList(); }
+            });
+            input.addEventListener('blur', finishRename);
+
+            labelEl.replaceWith(input);
+            input.focus();
+            input.select();
+        }
+
+        function mgmtDeleteCategory(name) {
+            const count = (feedback.categories[name] || []).length;
+            const msg = count > 0
+                ? `确定删除分类 "${name}"？该分类下有 ${count} 个技能，删除后这些技能将不再属于此分类。`
+                : `确定删除分类 "${name}"？`;
+            if (!confirm(msg)) return;
+            delete feedback.categories[name];
+            if (feedback.categoryMeta) delete feedback.categoryMeta[name];
+            if (selectedCategory === name) selectedCategory = '__all__';
+            if (selectedMgmtCat === name) selectedMgmtCat = null;
+            document.getElementById('mgmtPromptHint').style.display = 'none';
+            saveAndRender();
+            renderMgmtCatList();
+        }
+
+        function renderMgmtCatList() {
+            const meta = feedback.categoryMeta || {};
+            const cats = Object.keys(feedback.categories);
+            cats.sort((a, b) => {
+                const oa = meta[a] ? meta[a].order : 9999;
+                const ob = meta[b] ? meta[b].order : 9999;
+                if (oa !== ob) return oa - ob;
+                return a.localeCompare(b, 'zh-CN');
+            });
+
+            const list = document.getElementById('mgmtCatList');
+            if (cats.length === 0) {
+                list.innerHTML = '<div style="color:#999;font-size:13px">暂无分类</div>';
+                updateMgmtToolbar(cats);
+                return;
+            }
+
+            list.innerHTML = cats.map((cat, idx) => {
+                const icon = (meta[cat] && meta[cat].icon) ? meta[cat].icon : '📁';
+                const count = (feedback.categories[cat] || []).length;
+                const countBadge = count > 0 ? `<span class="cat-count">${count}</span>` : '';
+                const isSelected = selectedMgmtCat === cat;
+                return `
+         <div class="mgmt-cat-tag ${isSelected ? 'selected' : ''}" data-mgmt-cat="${escapeAttr(cat)}" onclick="selectMgmtCat('${escapeAttr(cat)}')">
+            <span class="cat-icon">${icon}</span>
+            <span class="cat-label">${escapeHtml(cat)}</span>
+            ${countBadge}
+         </div>
+      `;
+            }).join('');
+            updateMgmtToolbar(cats);
+        }
+
+        function selectMgmtCat(name) {
+            selectedMgmtCat = selectedMgmtCat === name ? null : name;
+            renderMgmtCatList();
+            if (selectedMgmtCat) {
+                showPromptHint(selectedMgmtCat);
+            } else {
+                document.getElementById('mgmtPromptHint').style.display = 'none';
+            }
+        }
+
+        function updateMgmtToolbar(cats) {
+            const btnLeft = document.getElementById('mgmtBtnLeft');
+            const btnRight = document.getElementById('mgmtBtnRight');
+            const btnRename = document.getElementById('mgmtBtnRename');
+            const btnDel = document.getElementById('mgmtBtnDel');
+
+            if (!selectedMgmtCat || !cats.includes(selectedMgmtCat)) {
+                selectedMgmtCat = null;
+                btnLeft.disabled = true;
+                btnRight.disabled = true;
+                btnRename.disabled = true;
+                btnDel.disabled = true;
+                return;
+            }
+
+            const idx = cats.indexOf(selectedMgmtCat);
+            btnLeft.disabled = idx === 0;
+            btnRight.disabled = idx === cats.length - 1;
+            btnRename.disabled = false;
+            btnDel.disabled = false;
+        }
+
+        function mgmtMoveSelected(dir) {
+            if (!selectedMgmtCat) return;
+            mgmtMoveCat(selectedMgmtCat, dir);
+        }
+
+        function mgmtRenameSelected() {
+            if (!selectedMgmtCat) return;
+            mgmtRenameCategory(selectedMgmtCat);
+        }
+
+        function mgmtDeleteSelected() {
+            if (!selectedMgmtCat) return;
+            mgmtDeleteCategory(selectedMgmtCat);
+        }
+
+        async function renderMgmtDirList() {
+            const list = document.getElementById('mgmtDirList');
+            const conflictList = document.getElementById('mgmtConflictList');
+            list.innerHTML = '<div style="color:#999;font-size:13px">加载中...</div>';
+            conflictList.innerHTML = '';
+
+            try {
+                const resp = await fetch('/api/scan-dirs');
+                const data = await resp.json();
+                const defaultDir = data.defaultDir;
+
+                if (data.dirs.length === 0) {
+                    list.innerHTML = '<div style="color:#999;font-size:13px">暂无扫描目录</div>';
+                    return;
+                }
+
+                list.innerHTML = data.dirs.map((d, idx) => {
+                    const isDefault = d.path === defaultDir;
+                    const isAuto = d.auto === true;
+                    const dirName = d.path.split(/[\\/]/).filter(Boolean).pop() || d.path;
+                    // Build source label
+                    let sourceLabel = '';
+                    if (isDefault) sourceLabel = ' <span style="font-size:11px;color:var(--primary)">默认</span>';
+                    if (isAuto) sourceLabel += ' <span style="font-size:11px;color:#8e99a4">插件自动发现</span>';
+                    const skillItems = (d.skills || []).map(s => {
+                        let badge = '';
+                        const strikeName = (s.shielded || !s.active) ? 'text-decoration:line-through;opacity:0.6;' : '';
+                        const chipOpacity = (s.shielded || !s.active) ? 'opacity:0.6;' : '';
+                        if (s.shielded) badge = '<span style="color:var(--warning);font-size:10px;margin-left:4px;opacity:1">已屏蔽</span>';
+                        else if (!s.active) badge = '<span style="color:var(--error);font-size:10px;margin-left:4px;opacity:1">未启用</span>';
+                        else if (s.conflicted) badge = '<span style="color:var(--success);font-size:10px;margin-left:4px">已启用</span>';
+                        return `<span class="dir-skill-chip" style="${chipOpacity}" onclick="closeMgmtPanel();setTimeout(()=>openDetailModal('${escapeAttr(s.id)}'),200)"><span style="${strikeName}">${escapeHtml(s.name)}</span>${badge}</span>`;
+                    }).join('');
+                    const parts = [`${d.count} 技能`];
+                    parts.push(`<span style="color:var(--success)" title="看板当前生效的技能。无冲突时不显示后标，有冲突时被选中的版本会显示"已启用"后标">${d.enabled} 已启用</span>`);
+                    parts.push(`<span style="color:var(--warning)" title="已被屏蔽的技能，看板不展示，CLI不可调用">${d.shielded} 已屏蔽</span>`);
+                    parts.push(`<span style="color:var(--error)" title="同id技能存在于多个目录，当前目录的版本未被看板采纳">${d.inactive} 未启用</span>`);
+                    // Only show remove for user-added, non-default dirs (not auto-discovered)
+                    const canRemove = !isDefault && !isAuto;
+                    return `
+            <div class="mgmt-list-item ${isDefault ? 'is-default' : ''}${isAuto ? ' is-auto' : ''}">
+               <div class="item-main" onclick="this.parentElement.querySelector('.dir-skill-list').classList.toggle('collapsed')">
+                  <div class="item-name">${escapeHtml(dirName)}${sourceLabel}<span style="font-size:10px;color:var(--text-tertiary);margin-left:4px;cursor:pointer">▼</span></div>
+                  <div class="item-sub" title="${escapeHtml(d.path)}">${escapeHtml(d.path)}</div>
+               </div>
+               <span class="item-badge">${parts.join(' · ')}</span>
+               ${canRemove ? `<button class="item-remove" data-dir="${escapeHtml(d.path)}" onclick="mgmtRemoveDir(this.dataset.dir)" title="移除目录">&#10005;</button>` : ''}
+               <div class="dir-skill-list collapsed">${skillItems || '<span style="color:var(--text-tertiary);font-size:12px">无技能</span>'}</div>
+            </div>
+         `;
+                }).join('');
+
+                // Load and render conflicts
+                await renderConflicts();
+            } catch (e) {
+                list.innerHTML = '<div style="color:var(--error);font-size:13px">加载失败</div>';
+            }
+        }
+
+        async function renderConflicts() {
+            const conflictList = document.getElementById('mgmtConflictList');
+            try {
+                const resp = await fetch('/api/skill-conflicts');
+                const data = await resp.json();
+                const conflicts = data.conflicts || [];
+
+                if (conflicts.length === 0) {
+                    conflictList.innerHTML = '';
+                    return;
+                }
+
+                let html = '<div class="conflict-section">';
+                html += '<div class="conflict-title" onclick="this.nextElementSibling.classList.toggle(\'collapsed\')" style="cursor:pointer">⚠️ 技能冲突 — 选择看板采纳的版本 <span style="font-size:10px;color:var(--text-tertiary);margin-left:4px">▼</span></div>';
+                html += '<div class="conflict-body">';
+                for (const c of conflicts) {
+                    html += '<div class="conflict-card">';
+                    html += `<div class="conflict-skill-name">${escapeHtml(c.name)} <span style="color:#999;font-size:11px">(${escapeHtml(c.id)})</span></div>`;
+                    html += '<div class="conflict-options">';
+                    for (const loc of c.locations) {
+                        const dirName = loc.directory.split(/[\\/]/).filter(Boolean).slice(0, -1).pop() || loc.directory;
+                        const isSelected = loc.directory === c.preference;
+                        const ver = loc.version ? ` v${escapeHtml(loc.version)}` : '';
+                        const mod = loc.lastModified ? ` · ${new Date(loc.lastModified).toLocaleString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}` : '';
+                        html += `<div class="conflict-option ${isSelected ? 'selected' : ''}" data-skill-id="${escapeHtml(c.id)}" data-dir="${escapeHtml(loc.directory)}" onclick="setSkillPreference(this.dataset.skillId,this.dataset.dir)">`;
+                        html += `<span class="conflict-radio ${isSelected ? 'checked' : ''}"></span>`;
+                        html += `<span class="conflict-dir-name">${escapeHtml(dirName)}</span>`;
+                        html += `<span class="conflict-dir-path" title="${escapeHtml(loc.directory)}">${escapeHtml(loc.directory)}</span>`;
+                        html += `<span class="conflict-meta">${ver}${mod}</span>`;
+                        html += '</div>';
+                    }
+                    html += '</div></div>';
+                }
+                html += '</div></div>';
+                conflictList.innerHTML = html;
+            } catch (e) {
+                conflictList.innerHTML = '';
+            }
+        }
+
+        async function setSkillPreference(id, directory) {
+            try {
+                const resp = await fetch('/api/skill-preference', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id, directory }),
+                });
+                const data = await resp.json();
+                if (data.ok) {
+                    showToast('偏好已保存');
+                    await renderConflicts();
+                    await runRefreshAll();
+                } else {
+                    showToast('保存失败: ' + (data.error || '未知错误'));
+                }
+            } catch (e) {
+                showToast('保存失败: ' + e.message);
+            }
+        }
+
+        async function mgmtPreviewDir() {
+            const input = document.getElementById('mgmtNewDirInput');
+            const dirPath = input.value.trim();
+            if (!dirPath) return;
+
+            const preview = document.getElementById('mgmtScanPreview');
+            preview.innerHTML = '<div style="color:#999;font-size:13px">扫描中...</div>';
+
+            try {
+                const resp = await fetch('/api/scan-preview', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ dirPath }),
+                });
+                const data = await resp.json();
+
+                if (data.error) {
+                    preview.innerHTML = `<div style="color:var(--error);font-size:13px">${escapeHtml(data.error)}</div>`;
+                    return;
+                }
+
+                const resolved = data.resolved || dirPath;
+                const sep = resolved.includes('\\') ? '\\' : '/';
+                const hasDup = (data.dupByIdCount > 0) || (data.dupByNameCount > 0);
+                let html = `<div class="scan-preview">`;
+                html += `<div class="preview-title">扫描结果：共 ${data.total} 个技能（${data.newCount} 新增${data.dupByIdCount > 0 ? '，' + data.dupByIdCount + ' 同名重复' : ''}${data.dupByNameCount > 0 ? '，' + data.dupByNameCount + ' 同名技能' : ''}）</div>`;
+                if (data.newSkills && data.newSkills.length > 0) {
+                    html += data.newSkills.map(s => `<div class="preview-item" style="color:var(--success)">+ ${escapeHtml(s.name || s.id)}</div>`).join('');
+                }
+                // Show conflict selection for dupById
+                if (data.dupById && data.dupById.length > 0) {
+                    for (const s of data.dupById) {
+                        html += '<div class="preview-conflict">';
+                        html += `<div class="preview-conflict-name">⚠ ${escapeHtml(s.name || s.id)} — 选择采纳版本</div>`;
+                        const existingDirName = s.existingDir.split(/[\\/]/).filter(Boolean).slice(0, -1).pop() || s.existingDir;
+                        const newDirName = resolved.split(/[\\/]/).filter(Boolean).pop() || resolved;
+                        html += `<div class="conflict-option selected" data-conflict-id="${escapeHtml(s.id)}" data-conflict-dir="${escapeHtml(s.existingDir)}" onclick="previewSelectConflict(this)">`;
+                        html += `<span class="conflict-radio checked"></span>`;
+                        html += `<span class="conflict-dir-name">${escapeHtml(existingDirName)}</span>`;
+                        html += `<span class="conflict-dir-path">${escapeHtml(s.existingDir)}</span>`;
+                        html += `<span class="conflict-meta">已有</span>`;
+                        html += '</div>';
+                        html += `<div class="conflict-option" data-conflict-id="${escapeHtml(s.id)}" data-conflict-dir="${escapeHtml(resolved + sep + s.id)}" onclick="previewSelectConflict(this)">`;
+                        html += `<span class="conflict-radio"></span>`;
+                        html += `<span class="conflict-dir-name">${escapeHtml(newDirName)}</span>`;
+                        html += `<span class="conflict-dir-path">${escapeHtml(resolved + sep + s.id)}</span>`;
+                        html += `<span class="conflict-meta">新扫描</span>`;
+                        html += '</div>';
+                        html += '</div>';
+                    }
+                }
+                if (data.dupByName && data.dupByName.length > 0) {
+                    for (const s of data.dupByName) {
+                        html += '<div class="preview-conflict">';
+                        html += `<div class="preview-conflict-name">⚠ ${escapeHtml(s.name || s.id)} — 同名技能，选择采纳版本</div>`;
+                        const existingDirName = s.existingDir.split(/[\\/]/).filter(Boolean).slice(0, -1).pop() || s.existingDir;
+                        const newDirName = resolved.split(/[\\/]/).filter(Boolean).pop() || resolved;
+                        html += `<div class="conflict-option selected" data-conflict-id="${escapeHtml(s.id)}" data-conflict-dir="${escapeHtml(s.existingDir)}" onclick="previewSelectConflict(this)">`;
+                        html += `<span class="conflict-radio checked"></span>`;
+                        html += `<span class="conflict-dir-name">${escapeHtml(existingDirName)}</span>`;
+                        html += `<span class="conflict-dir-path">${escapeHtml(s.existingDir)}</span>`;
+                        html += `<span class="conflict-meta">已有</span>`;
+                        html += '</div>';
+                        html += `<div class="conflict-option" data-conflict-id="${escapeHtml(s.id)}" data-conflict-dir="${escapeHtml(resolved + sep + s.id)}" onclick="previewSelectConflict(this)">`;
+                        html += `<span class="conflict-radio"></span>`;
+                        html += `<span class="conflict-dir-name">${escapeHtml(newDirName)}</span>`;
+                        html += `<span class="conflict-dir-path">${escapeHtml(resolved + sep + s.id)}</span>`;
+                        html += `<span class="conflict-meta">新扫描</span>`;
+                        html += '</div>';
+                        html += '</div>';
+                    }
+                }
+                if (data.newCount === 0 && !hasDup) {
+                    html += `<div class="preview-item" style="color:var(--text-light)">无技能</div>`;
+                }
+                if (data.newCount > 0 || hasDup) {
+                    html += `<div style="margin-top:10px;display:flex;gap:8px">`;
+                    html += `<button onclick="mgmtAddDir()" style="padding:6px 14px;background:var(--primary);color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:13px">添加此目录</button>`;
+                    html += `<button onclick="this.closest('.scan-preview').remove()" style="padding:6px 14px;background:#f5f5f5;color:var(--text-secondary);border:1px solid var(--border);border-radius:4px;cursor:pointer;font-size:13px">不添加</button>`;
+                    html += `</div>`;
+                }
+                html += `</div>`;
+                preview.innerHTML = html;
+            } catch (e) {
+                preview.innerHTML = '<div style="color:var(--error);font-size:13px">扫描失败</div>';
+            }
+        }
+
+        function previewSelectConflict(el) {
+            // Toggle radio selection within the same conflict group
+            const parent = el.closest('.preview-conflict');
+            parent.querySelectorAll('.conflict-option').forEach(o => {
+                o.classList.remove('selected');
+                o.querySelector('.conflict-radio').classList.remove('checked');
+            });
+            el.classList.add('selected');
+            el.querySelector('.conflict-radio').classList.add('checked');
+        }
+
+        async function mgmtAddDir() {
+            const input = document.getElementById('mgmtNewDirInput');
+            const dirPath = input.value.trim();
+            if (!dirPath) return;
+
+            try {
+                const resp = await fetch('/api/scan-dirs', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ dirPath }),
+                });
+                const data = await resp.json();
+
+                if (data.error) {
+                    showToast(data.error);
+                    return;
+                }
+
+                // Save conflict preferences from preview selections
+                const conflictOptions = document.querySelectorAll('#mgmtScanPreview .conflict-option.selected');
+                for (const opt of conflictOptions) {
+                    const id = opt.dataset.conflictId;
+                    const dir = opt.dataset.conflictDir;
+                    if (id && dir) {
+                        await fetch('/api/skill-preference', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ id, directory: dir }),
+                        });
+                    }
+                }
+
+                showToast(`已添加扫描目录，发现 ${data.newSkills} 个技能`);
+                input.value = '';
+                document.getElementById('mgmtScanPreview').innerHTML = '';
+                // Refresh everything
+                await runRefreshAll();
+                await renderMgmtDirList();
+                // Scroll to conflict section if there are conflicts
+                const conflictEl = document.getElementById('mgmtConflictList');
+                if (conflictEl && conflictEl.innerHTML.trim()) {
+                    conflictEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            } catch (e) {
+                showToast('添加失败');
+            }
+        }
+
+        async function mgmtRemoveDir(dirPath) {
+            if (!confirm('移除该扫描目录？已有技能数据不会删除。')) return;
+
+            try {
+                const resp = await fetch('/api/scan-dirs/remove', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ dirPath }),
+                });
+                const data = await resp.json();
+
+                if (data.error) {
+                    showToast(data.error);
+                    return;
+                }
+
+                showToast('已移除扫描目录');
+                await runRefreshAll();
+                renderMgmtDirList();
+            } catch (e) {
+                showToast('移除失败');
+            }
+        }
+
+        // ---- Start ----
+        init();
+    </script>
+</body>
+
+</html>

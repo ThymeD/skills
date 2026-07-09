@@ -1,0 +1,102 @@
+{
+  "a11y-debugging": {
+    "en": "Uses Chrome DevTools MCP for accessibility (a11y) debugging and auditing based on web.dev guidelines. Use when testing semantic HTML, ARIA labels, focus states, keyboard navigation, tap targets, and color contrast.",
+    "zh": "无障碍调试：基于 Chrome DevTools MCP 对网页进行可访问性审计和调试，覆盖语义 HTML、ARIA 标签、焦点状态、键盘导航、触控目标和颜色对比度"
+  },
+  "banner-design": {
+    "en": "Design banners for social media, ads, website heroes, creative assets, and print. Multiple art direction options with AI-generated visuals. Actions: design, create, generate banner. Platforms: Facebook, Twitter/X, LinkedIn, YouTube, Instagram, Google Display, website hero, print. Styles: minimalist, gradient, bold typography, photo-based, illustrated, geometric, retro, glassmorphism, 3D, neon, duotone, editorial, collage. Uses ui-ux-pro-max, frontend-design, ai-artist, ai-multimodal skills.",
+    "zh": "横幅设计：社交媒体、广告、网站主图、创意素材及印刷品横幅设计，支持 22 种风格和 AI 生成视觉"
+  },
+  "brainstorming": {
+    "en": "You MUST use this before any creative work - creating features, building components, adding functionality, or modifying behavior. Explores user intent, requirements and design before implementation.",
+    "zh": "创意构思：任何创造性工作前必须使用，包括功能开发、组件构建、行为修改等，先探索需求再动手实现"
+  },
+  "brand": {
+    "en": "Brand voice, visual identity, messaging frameworks, asset management, brand consistency. Activate for branded content, tone of voice, marketing assets, brand compliance, style guides.",
+    "zh": "品牌设计：品牌声音、视觉识别、信息框架、资产管理及品牌一致性，适用于品牌内容、营销素材和风格指南"
+  },
+  "chrome-devtools": {
+    "en": "Uses Chrome DevTools via MCP for efficient debugging, troubleshooting and browser automation. Use when debugging web pages, automating browser interactions, analyzing performance, or inspecting network requests. This skill does not apply to `--slim` mode (MCP configuration).",
+    "zh": "Chrome 开发者工具：通过 MCP 使用 Chrome DevTools 进行高效调试、问题排查和浏览器自动化"
+  },
+  "debug-optimize-lcp": {
+    "en": "Guides debugging and optimizing Largest Contentful Paint (LCP) using Chrome DevTools MCP tools. Use this skill whenever the user asks about LCP performance, slow page loads, Core Web Vitals optimization, or wants to understand why their page's main content takes too long to appear. Also use when the user mentions \"largest contentful paint\", \"page load speed\", \"CWV\", or wants to improve how fast their hero image or main content renders.",
+    "zh": "LCP 性能优化：使用 Chrome DevTools 调试和优化页面最大内容绘制（LCP）及核心 Web 指标"
+  },
+  "design": {
+    "en": "Comprehensive design skill: brand identity, design tokens, UI styling, logo generation (55 styles, Gemini AI), corporate identity program (50 deliverables, CIP mockups), HTML presentations (Chart.js), banner design (22 styles, social/ads/web/print), icon design (15 styles, SVG, Gemini 3.1 Pro), social photos (HTML→screenshot, multi-platform). Actions: design logo, create CIP, generate mockups, build slides, design banner, generate icon, create social photos, social media images, brand identity, design system. Platforms: Facebook, Twitter, LinkedIn, YouTube, Instagram, Pinterest, TikTok, Threads, Google Ads.",
+    "zh": "综合设计：品牌标识、设计令牌、UI 样式、Logo 生成（55 风格）、企业形象、HTML 演示文稿、横幅设计、图标设计、社交图片等一站式设计能力"
+  },
+  "design-system": {
+    "en": "Token architecture, component specifications, and slide generation. Three-layer tokens (primitive→semantic→component), CSS variables, spacing/typography scales, component specs, strategic slide creation. Use for design tokens, systematic design, brand-compliant presentations.",
+    "zh": "设计系统：三层令牌体系（基础→语义→组件）、CSS 变量、间距/字体规范、组件规格和策略性幻灯片生成"
+  },
+  "dispatching-parallel-agents": {
+    "en": "Use when facing 2+ independent tasks that can be worked on without shared state or sequential dependencies",
+    "zh": "并行代理调度：面对 2 个以上彼此独立、无共享状态或顺序依赖的任务时使用"
+  },
+  "executing-plans": {
+    "en": "Use when you have a written implementation plan to execute in a separate session with review checkpoints",
+    "zh": "执行计划：已有书面实施计划时，在独立会话中按审查节点逐步执行"
+  },
+  "finishing-a-development-branch": {
+    "en": "Use when implementation is complete, all tests pass, and you need to decide how to integrate the work - guides completion of development work by presenting structured options for merge, PR, or cleanup",
+    "zh": "完成开发分支：实现完成且测试通过后，提供合并、PR 或清理等结构化的收尾选项"
+  },
+  "receiving-code-review": {
+    "en": "Use when receiving code review feedback, before implementing suggestions, especially if feedback seems unclear or technically questionable - requires technical rigor and verification, not performative agreement or blind implementation",
+    "zh": "接收代码审查：收到审查反馈后，先验证再实施，强调技术严谨性而非盲从"
+  },
+  "requesting-code-review": {
+    "en": "Use when completing tasks, implementing major features, or before merging to verify work meets requirements",
+    "zh": "请求代码审查：完成任务、实现主要功能或合并前，验证工作是否符合要求"
+  },
+  "slides": {
+    "en": "Create strategic HTML presentations with Chart.js, design tokens, responsive layouts, copywriting formulas, and contextual slide strategies.",
+    "zh": "幻灯片制作：创建策略性 HTML 演示文稿，支持 Chart.js 图表、设计令牌、响应式布局和文案公式"
+  },
+  "subagent-driven-development": {
+    "en": "Use when executing implementation plans with independent tasks in the current session",
+    "zh": "子代理驱动开发：在当前会话中通过子代理并行执行实施计划中的独立任务"
+  },
+  "systematic-debugging": {
+    "en": "Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes",
+    "zh": "系统性调试：遇到任何 Bug、测试失败或异常行为时，先排查根因再修复"
+  },
+  "test-driven-development": {
+    "en": "Use when implementing any feature or bugfix, before writing implementation code",
+    "zh": "测试驱动开发：实现任何功能或修复 Bug 前，先写测试再写代码"
+  },
+  "troubleshooting": {
+    "en": "Uses Chrome DevTools MCP and documentation to troubleshoot connection and target issues. Trigger this skill when list_pages, new_page, or navigate_page fail, or when the server initialization fails.",
+    "zh": "故障排查：当 Chrome DevTools MCP 连接失败、服务器初始化异常时使用，基于文档排查问题"
+  },
+  "ui-styling": {
+    "en": "Create beautiful, accessible user interfaces with shadcn/ui components (built on Radix UI + Tailwind), Tailwind CSS utility-first styling, and canvas-based visual designs. Use when building user interfaces, implementing design systems, creating responsive layouts, adding accessible components (dialogs, dropdowns, forms, tables), customizing themes and colors, implementing dark mode, generating visual designs and posters, or establishing consistent styling patterns across applications.",
+    "zh": "UI 样式：使用 shadcn/ui 组件和 Tailwind CSS 构建美观、可访问的用户界面和响应式布局"
+  },
+  "ui-ux-pro-max": {
+    "en": "UI/UX design intelligence for web and mobile. Includes 50+ styles, 161 color palettes, 57 font pairings, 161 product types, 99 UX guidelines, and 25 chart types across 10 stacks (React, Next.js, Vue, Svelte, SwiftUI, React Native, Flutter, Tailwind, shadcn/ui, and HTML/CSS). Actions: plan, build, create, design, implement, review, fix, improve, optimize, enhance, refactor, and check UI/UX code. Projects: website, landing page, dashboard, admin panel, e-commerce, SaaS, portfolio, blog, and mobile app. Elements: button, modal, navbar, sidebar, card, table, form, and chart. Styles: glassmorphism, claymorphism, minimalism, brutalism, neumorphism, bento grid, dark mode, responsive, skeuomorphism, and flat design. Topics: color systems, accessibility, animation, layout, typography, font pairing, spacing, interaction states, shadow, and gradient. Integrations: shadcn/ui MCP for component search and examples.",
+    "zh": "UI/UX 设计智能：覆盖 50+ 风格、161 配色、57 字体搭配、99 UX 准则、25 图表类型，支持 10 种技术栈的全方位界面设计"
+  },
+  "using-git-worktrees": {
+    "en": "Use when starting feature work that needs isolation from current workspace or before executing implementation plans - ensures an isolated workspace exists via native tools or git worktree fallback",
+    "zh": "Git 工作树：开始需要隔离的功能开发或执行实施计划前，确保创建独立工作空间"
+  },
+  "using-superpowers": {
+    "en": "Use when starting any conversation - establishes how to find and use skills, requiring skill invocation before ANY response including clarifying questions",
+    "zh": "Superpowers 使用指南：每次对话开始时使用，建立技能查找和调用规则"
+  },
+  "verification-before-completion": {
+    "en": "Use when about to claim work is complete, fixed, or passing, before committing or creating PRs - requires running verification commands and confirming output before making any success claims; evidence before assertions always",
+    "zh": "完成前验证：在声称完成、修复或通过之前，必须运行验证命令并确认输出，用证据说话"
+  },
+  "writing-plans": {
+    "en": "Use when you have a spec or requirements for a multi-step task, before touching code",
+    "zh": "编写计划：有多步骤任务的需求说明时，在动手写代码之前先编写详细的实施计划"
+  },
+  "writing-skills": {
+    "en": "Use when creating new skills, editing existing skills, or verifying skills work before deployment",
+    "zh": "编写技能：创建新技能、编辑现有技能或部署前验证技能功能"
+  }
+}
